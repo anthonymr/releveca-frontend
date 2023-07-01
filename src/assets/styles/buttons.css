@@ -1,0 +1,130 @@
+.btn {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ccc;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn:active {
+  background-color: #ccc;
+}
+
+.btn:disabled {
+  background-color: #eee;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.btn.primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn.primary:active {
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+.btn.primary:disabled {
+  background-color: #cce5ff;
+  border-color: #cce5ff;
+  color: #fff;
+}
+
+.btn.secondary {
+  background-color: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
+}
+
+.btn.secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+.btn.secondary:active {
+  background-color: #545b62;
+  border-color: #4e555b;
+}
+
+.btn.secondary:disabled {
+  background-color: #e2e3e5;
+  border-color: #e2e3e5;
+  color: #fff;
+}
+
+.btn.success {
+  background-color: #28a745;
+  color: #fff;
+  border-color: #28a745;
+}
+
+.btn.success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn.success:active {
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
+
+.btn.success:disabled {
+  background-color: #c3e6cb;
+  border-color: #c3e6cb;
+  color: #fff;
+}
+
+.btn.danger {
+  background-color: #dc3545;
+  color: #fff;
+  border-color: #dc3545;
+}
+
+.btn.danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.btn.danger:active {
+  background-color: #bd2130;
+  border-color: #b21f2d;
+}
+
+.btn.danger:disabled {
+  background-color: #f5c6cb;
+  border-color: #f5c6cb;
+  color: #fff;
+}
+
+.btn.warning {
+  background-color: #ffc107;
+  color: #212529;
+  border-color: #ffc107;
+}
+
+.btn.warning:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+.btn.warning:active {
+  background-color: #d39e00;
+  border-color: #c69500;
+}
+
+.btn.warning:disabled {
+  background-color: #fff3cd;
+  border-color: #fff3cd;
+  color: #212529;
+}
