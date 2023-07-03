@@ -19,6 +19,7 @@
         <router-link to="/register">Registrarse</router-link>
       </div>
     </form>
+    <BaseAlert :errors="errors" />
   </main>  
 </template>
 
@@ -31,15 +32,30 @@
       return {
         username: '',
         password: '',
+        errors: [],
       }
     },
 
     methods: {
       ... mapActions(useSession, ['fetchSessionToken', 'fetchSessionInfo']),
+
+      checkFields() {
+        let is_valid = this.username && this.password;
+        if(!is_valid) this.errors = ['Username and password are required'];
+        return is_valid;
+      },
+
       async login() {
-        await this.fetchSessionToken(this.username, this.password);
-        await this.fetchSessionInfo();
-        this.$router.push({ name: 'Home' })     
+        this.$clearAlerts();
+        if(!this.checkFields()) return;
+
+        try {
+          await this.fetchSessionToken(this.username, this.password);
+          await this.fetchSessionInfo();
+          this.$router.push({ name: 'Home' });
+        } catch({ response }) {
+          this.errors = response.data.errors;
+        }    
       }
     }
   }
