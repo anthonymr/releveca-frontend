@@ -39,6 +39,7 @@
       async login() {
         await this.fetchSessionToken(this.username, this.password);
         await this.fetchSessionInfo();
+        this.$router.push({ name: 'Home' })     
       }
     }
   }

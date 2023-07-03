@@ -22,7 +22,6 @@ export const useSession = defineStore('session-store', {
       const response = await AuthenticationService.getSessionInfo(this.token);
       this.user = response.data.payload;
       this.fetching = false;
-      console.log(this.user)
     }
   }
 })
