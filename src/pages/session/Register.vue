@@ -29,7 +29,3 @@
     </form>
   </main>  
 </template>
-
-<style scoped>
-
-</style>

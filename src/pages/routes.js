@@ -6,15 +6,21 @@ import RegisterPage from './session/Register.vue';
 const routes = [
   {
     path: '/',
-    component: HomePage
+    component: HomePage,
+    name: 'Home',
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: '/login',
-    component: LoginPage
+    component: LoginPage,
+    name: 'Login'
   },
   {
     path: '/register',
-    component: RegisterPage
+    component: RegisterPage,
+    name: 'Register'
   }
 ]
 
