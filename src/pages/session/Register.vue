@@ -24,7 +24,7 @@
         <button type="submit" class="btn primary">Registrarse</button>
       </div>
       <div class="form-line">
-        <router-link to="/session/register">Iniciar sesión</router-link>
+        <router-link to="/login">Iniciar sesión</router-link>
       </div>
     </form>
   </main>  

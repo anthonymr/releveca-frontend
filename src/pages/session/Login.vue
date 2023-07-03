@@ -16,7 +16,7 @@
         <button type="submit" class="btn primary">Login</button>
       </div>
       <div class="form-line">
-        <router-link to="/session/register">Registrarse</router-link>
+        <router-link to="/register">Registrarse</router-link>
       </div>
     </form>
   </main>  
