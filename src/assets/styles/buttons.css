@@ -1,130 +1,130 @@
 .btn {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 5px;
-  background-color: #ccc;
+  background-color: var(--border);
   cursor: pointer;
   padding: 10px 20px;
 }
 
 .btn:hover {
-  background-color: #ddd;
+  background-color: var(--border-dark);
 }
 
 .btn:active {
-  background-color: #ccc;
+  background-color: var(--border);
 }
 
 .btn:disabled {
-  background-color: #eee;
+  background-color: var(--border-light);
   cursor: not-allowed;
 }
 
 .btn.primary {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
+  background-color: var(--primary);
+  color: var(--border-light);
+  border-color: var(--primary);
 }
 
 .btn.primary:hover {
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
 }
 
 .btn.primary:active {
-  background-color: #0062cc;
-  border-color: #005cbf;
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
 .btn.primary:disabled {
-  background-color: #cce5ff;
-  border-color: #cce5ff;
-  color: #fff;
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+  color: var(--border-light);
 }
 
 .btn.secondary {
-  background-color: #6c757d;
-  color: #fff;
-  border-color: #6c757d;
+  background-color: var(--secondary);
+  color: var(--border-light);
+  border-color: var(--secondary);
 }
 
 .btn.secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
+  background-color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
 }
 
 .btn.secondary:active {
-  background-color: #545b62;
-  border-color: #4e555b;
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 .btn.secondary:disabled {
-  background-color: #e2e3e5;
-  border-color: #e2e3e5;
-  color: #fff;
+  background-color: var(--secondary-light);
+  border-color: var(--secondary-light);
+  color: var(--border);
 }
 
 .btn.success {
-  background-color: #28a745;
-  color: #fff;
-  border-color: #28a745;
+  background-color: var(--success);
+  color: var(--border-light);
+  border-color: var(--success);
 }
 
 .btn.success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
+  background-color: var(--success-dark);
+  border-color: var(--success-dark);
 }
 
 .btn.success:active {
-  background-color: #1e7e34;
-  border-color: #1c7430;
+  background-color: var(--success);
+  border-color: var(--success);
 }
 
 .btn.success:disabled {
-  background-color: #c3e6cb;
-  border-color: #c3e6cb;
-  color: #fff;
+  background-color: var(--success-light);
+  border-color: var(--success-light);
+  color: var(--border-light);
 }
 
 .btn.danger {
-  background-color: #dc3545;
-  color: #fff;
-  border-color: #dc3545;
+  background-color: var(--danger);
+  color: var(--border-light);
+  border-color: var(--danger);
 }
 
 .btn.danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
+  background-color: var(--danger-dark);
+  border-color: var(--danger-dark);
 }
 
 .btn.danger:active {
-  background-color: #bd2130;
-  border-color: #b21f2d;
+  background-color: var(--danger);
+  border-color: var(--danger);
 }
 
 .btn.danger:disabled {
-  background-color: #f5c6cb;
-  border-color: #f5c6cb;
-  color: #fff;
+  background-color: var(--danger-light);
+  border-color: var(--danger-light);
+  color: var(--border-light);
 }
 
 .btn.warning {
-  background-color: #ffc107;
-  color: #212529;
-  border-color: #ffc107;
+  background-color: var(--waring);
+  color: var(--font-dark);
+  border-color: var(--waring);
 }
 
 .btn.warning:hover {
-  background-color: #e0a800;
-  border-color: #d39e00;
+  background-color: var(--waring-dark);
+  border-color: var(--warning-dark);
 }
 
 .btn.warning:active {
-  background-color: #d39e00;
-  border-color: #c69500;
+  background-color: var(--warning);
+  border-color: var(--warning);
 }
 
 .btn.warning:disabled {
-  background-color: #fff3cd;
-  border-color: #fff3cd;
-  color: #212529;
+  background-color: var(--border-light)3cd;
+  border-color: var(--border-light)3cd;
+  color: var(--font-dark);
 }

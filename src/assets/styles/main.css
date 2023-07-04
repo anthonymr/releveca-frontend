@@ -1,8 +1,31 @@
+:root {
+  --primary: #007bff;
+  --primary-light: #cce5ff;
+  --primary-dark: #005cbf;
+  --secondary: #6c757d;
+  --secondary-light: #e2e3e5;
+  --secondary-dark: #545b62;
+  --success: #28a745;
+  --success-light: #e2e3e5;
+  --success-dark: #1c7430;
+  --danger: #dc3545;
+  --danger-light: #f5c6cb;
+  --danger-dark: #bd2130;
+  --warning: #ffc107;
+  --warning-light: #fff3cd;
+  --warning-dark: #d39e00;
+  --font-dark: #333;
+  --border: #ccc;
+  --border-dark: #999;
+  --border-light: #eee;
+}
+
 *{
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  color: var(--font-dark);
 }
 
 *::before, *::after {
@@ -24,5 +47,5 @@ main {
 
 a {
   text-decoration: none;
-  color: #007bff;
+  color: var(--primary);
 }

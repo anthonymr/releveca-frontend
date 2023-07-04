@@ -5,7 +5,7 @@ form {
   align-items: center;
   width: 400px;
   height: auto;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 5px;
   padding: 30px 20px 10px 20px;
 }
@@ -23,7 +23,7 @@ form {
 
 .form-line input {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 5px;
 }
 
