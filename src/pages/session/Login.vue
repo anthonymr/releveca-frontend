@@ -46,7 +46,6 @@
       },
 
       async login() {
-        this.$clearAlerts();
         if(!this.checkFields()) return;
 
         try {

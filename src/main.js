@@ -18,7 +18,6 @@ import './assets/styles/transitions.css';
 import BaseAlert from './components/base/BaseAlert.vue';
 
 // Global mixins
-import { clearAlerts } from './mixins/BaseAlert.js';
 
 const store = createPinia();
 const router = createRouter(createWebHistory());
@@ -27,7 +26,6 @@ const app = createApp(App);
 app.component('BaseAlert', BaseAlert);
 app.mixin({
   methods: {
-    $clearAlerts: clearAlerts
   }
 });
 
