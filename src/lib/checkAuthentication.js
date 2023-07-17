@@ -8,6 +8,13 @@ export default function (router) {
       if (!store.token) {
         next({ name: 'Login' })
       } else {
+
+        if (to.matched.some(record => record.meta.requiresCorporation)) {
+          if (!store.corporation) {
+            next({ name: 'Corporation' })
+          }
+        }
+        
         next()
       }
     } else {

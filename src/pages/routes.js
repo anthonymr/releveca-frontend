@@ -2,6 +2,7 @@ import {createRouter} from 'vue-router'
 import HomePage from './home/Home.vue';
 import LoginPage from './session/Login.vue';
 import RegisterPage from './session/Register.vue';
+import CorporationPage from './session/Corporation.vue'; 
 
 const routes = [
   {
@@ -9,7 +10,8 @@ const routes = [
     component: HomePage,
     name: 'Home',
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      requiresCorporation: true,
     },
   },
   {
@@ -21,6 +23,11 @@ const routes = [
     path: '/register',
     component: RegisterPage,
     name: 'Register'
+  },
+  {
+    path: '/corporation',
+    component: CorporationPage,
+    name: 'Corporation'
   }
 ]
 
