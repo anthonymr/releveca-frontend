@@ -1,6 +1,6 @@
 <template>
   <section class="alerts-wrapper">
-    <TransitionGroup mode="out-in">
+    <TransitionGroup>
       <div class="alert danger" v-for="error in innerErrors" :key="error">{{ error }}</div>
       <div class="alert info" v-for="info in innerInfos" :key="info">{{ info }}</div>
       <div class="alert warning" v-for="warning in innerWarnings" :key="warning">{{ warning }}</div>

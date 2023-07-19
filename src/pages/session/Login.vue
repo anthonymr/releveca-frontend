@@ -6,11 +6,11 @@
       </div>
       <div class="form-line">
         <label for="username">Username</label>
-        <input type="text" v-model="username" />
+        <input type="text" autocomplete="username" v-model="username" />
       </div>
       <div class="form-line">
         <label for="password">Password</label>
-        <input type="password" v-model="password" />
+        <input type="password" autocomplete="current-password" v-model="password" />
       </div>
       <div class="form-line">
         <button type="submit" class="btn primary">Login</button>
@@ -40,7 +40,7 @@
       ... mapActions(useSession, ['fetchSessionToken', 'fetchSessionInfo']),
 
       checkFields() {
-        let is_valid = this.username && this.password;
+        const is_valid = this.username && this.password;
         if(!is_valid) this.errors = ['Username and password are required'];
         return is_valid;
       },
