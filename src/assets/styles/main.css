@@ -49,3 +49,11 @@ a {
   text-decoration: none;
   color: var(--primary);
 }
+
+a:hover {
+  color: var(--primary-dark)
+}
+
+ul {
+  list-style: none;
+}

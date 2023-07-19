@@ -6,12 +6,12 @@ export default function (router) {
   router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (!store.token) {
-        next({ name: 'Login' })
+        next('/login')
       } else {
 
         if (to.matched.some(record => record.meta.requiresCorporation)) {
           if (!store.corporation) {
-            next({ name: 'Corporation' })
+            next('/corporation')
           }
         }
         

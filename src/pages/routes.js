@@ -1,38 +1,17 @@
 import {createRouter} from 'vue-router'
-import HomePage from './home/Home.vue';
-import LoginPage from './session/Login.vue';
-import RegisterPage from './session/Register.vue';
-import CorporationPage from './session/Corporation.vue'; 
+
+import defaultRoute from './routes/default';
+import sessionRoutes from './routes/session';
+import itemRoutes from './routes/items';
+import clientRoutes from './routes/clients';
+import corporationRoutes from './routes/corporations';
 
 const routes = [
-  {
-    path: '/',
-    component: HomePage,
-    name: 'Home',
-    meta: {
-      requiresAuth: true,
-      requiresCorporation: true,
-    },
-  },
-  {
-    path: '/login',
-    component: LoginPage,
-    name: 'Login'
-  },
-  {
-    path: '/register',
-    component: RegisterPage,
-    name: 'Register'
-  },
-  {
-    path: '/corporation',
-    component: CorporationPage,
-    name: 'Corporation',
-    meta: {
-      requiresAuth: true,
-      requiresCorporation: false,
-    },
-  }
+  defaultRoute,
+  ...sessionRoutes,
+  ...itemRoutes,
+  ...clientRoutes,
+  ...corporationRoutes,
 ]
 
 export default function (history) {
