@@ -5,20 +5,22 @@
       <current-user class="username" />
       <current-corporation class="corporation" />
     </div>
-    
   </header>
+  <current-route />
 </template>
 
 <script>
   import CurrentUser from './../session/CurrentUser.vue';
   import CurrentCorporation from './../session/CurrentCorporation.vue';
   import RoutesTree from './RoutesTree.vue';
+  import CurrentRoute from './CurrentRoute.vue';
 
   export default {
     components: {
       CurrentUser,
       CurrentCorporation,
-      RoutesTree
+      RoutesTree,
+      CurrentRoute
     },
   }
 </script>
