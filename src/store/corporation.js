@@ -14,6 +14,6 @@ export const useCorporation = defineStore('corporation-store', {
       const response = await CorporationService.getCorporations(token);
       this.corporations = response.data.payload;
       this.fetching = false;
-    }
+    },
   }
 })

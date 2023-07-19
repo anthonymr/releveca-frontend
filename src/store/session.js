@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import AuthenticationService from '../services/AuthenticationService';
+import CorporationService from '../services/CorporationService';
 
 export const useSession = defineStore('session-store', {
-  state: () => {
+  state() {
     return {
       token: null,
       user: null,
@@ -21,6 +22,12 @@ export const useSession = defineStore('session-store', {
       this.fetching = true;
       const response = await AuthenticationService.getSessionInfo(this.token);
       this.user = response.data.payload;
+      this.fetching = false;
+    },
+    async setCorporation(token, id) {
+      this.fetching = true;
+      const response = await CorporationService.setCorporation(token, id);
+      this.corporation = response.data.payload;
       this.fetching = false;
     }
   }
