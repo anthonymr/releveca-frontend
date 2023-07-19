@@ -3,7 +3,7 @@ import {useSession} from '/src/store/session'
 export default function (router) {
   const store = useSession()
  
-  router.beforeEach((to, from, next) => {
+  router.beforeEach((to, _from, next) => {
       const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
       const requiresCorporation = to.matched.some(record => record.meta.requiresCorporation);
 
