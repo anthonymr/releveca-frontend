@@ -1,6 +1,8 @@
 <template>
   <TopNavbar />
-  <h1>Inicio</h1>
+  <section>
+    <h1>Configuración</h1>
+  </section>
 </template>
 
 <script setup>

@@ -1,6 +1,8 @@
 <template>
   <TopNavbar />
-  <h1>Inicio</h1>
+  <section>
+    <router-view />
+  </section>
 </template>
 
 <script setup>

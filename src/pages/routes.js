@@ -10,14 +10,14 @@ import corporationRoutes from './routes/corporations';
 import settingRoutes from './routes/settings';
 
 const routes = [
-  defaultRoute,
   ...sessionRoutes,
-  ...itemRoutes,
-  ...clientRoutes,
-  ...orderRoutes,
-  ...paymentRoutes,
-  ...corporationRoutes,
-  ...settingRoutes,
+  defaultRoute,
+  itemRoutes,
+  clientRoutes,
+  orderRoutes,
+  paymentRoutes,
+  corporationRoutes,
+  settingRoutes,
 ]
 
 export default function (history) {

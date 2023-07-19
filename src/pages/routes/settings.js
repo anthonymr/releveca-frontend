@@ -1,9 +1,9 @@
-import HomePage from './../home/Home.vue';
+import Settings from './../settings/Settings.vue';
 
-export default [
+export default 
   {
     path: '/settings',
-    component: HomePage,
+    component: Settings,
     name: 'Configuraciones',
     meta: {
       requiresAuth: true,
@@ -11,4 +11,3 @@ export default [
       displayOnHeader: true
     },
   }
-]

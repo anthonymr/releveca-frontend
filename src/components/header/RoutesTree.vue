@@ -1,27 +1,28 @@
 <template>
-<ul class="main-menu">
-  <li v-for="route in routes">
-    <router-link :to="route.path" class="link" :class="{active: isActiveRoute(route)}">
-      {{route.name}} 
-      <font-awesome-icon 
-        icon="chevron-right" 
-        class="icon"
-        size="xs"
-        v-if="route.children.length"
-        />
-    </router-link>
-    <div v-if="route.children.length">
-      <ul class="sub-menu">
-        <li v-for="child in route.children">
-          <router-link :to="child.path" class="link">
-            {{child.name}}
-          </router-link>
-        </li>
-      </ul>
-    </div>
-  </li>
-</ul>
-
+  <nav>
+    <ul class="main-menu">
+      <li v-for="route in routes">
+        <router-link :to="route.path" class="link" :class="{active: isActiveRoute(route)}">
+          {{route.name}} 
+          <font-awesome-icon 
+            icon="chevron-right" 
+            class="icon"
+            size="xs"
+            v-if="route.children.length"
+            />
+        </router-link>
+        <div v-if="route.children.length">
+          <ul class="sub-menu">
+            <li v-for="child in route.children">
+              <router-link :to="`${route.path}/${child.path}`" class="link">
+                {{child.name}}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
