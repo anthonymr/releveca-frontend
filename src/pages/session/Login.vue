@@ -51,7 +51,7 @@
         try {
           await this.fetchSessionToken(this.username, this.password);
           await this.fetchSessionInfo();
-          this.$router.push({ name: 'Home' });
+          this.$router.push({ name: 'Corporation' });
         } catch({ response }) {
           this.errors = response.data.errors;
         }    
