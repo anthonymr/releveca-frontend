@@ -1,21 +1,39 @@
 <template>
 <ul class="main-menu">
   <li v-for="route in routes">
-    <router-link :to="route.path">{{route.name}}</router-link>
+    <router-link :to="route.path" class="link" :class="{active: isActiveRoute(route)}">
+      {{route.name}} 
+      <font-awesome-icon 
+        icon="chevron-right" 
+        class="icon"
+        size="xs"
+        v-if="route.children.length"
+        />
+    </router-link>
     <div v-if="route.children.length">
       <ul class="sub-menu">
         <li v-for="child in route.children">
-          <router-link :to="child.path">{{child.name}}</router-link>
+          <router-link :to="child.path" class="link">
+            {{child.name}}
+          </router-link>
         </li>
       </ul>
     </div>
   </li>
 </ul>
+
 </template>
 
 <script>
   export default {
     methods: {
+      isActiveRoute(route){
+        if(route.path === '/'){
+          return this.$route.path === route.path;
+        }
+
+        return this.$route.path.startsWith(route.path);
+      },
       filterRoutes(routes){
         return routes.filter(route => route.meta.displayOnHeader).map(route => {
 
@@ -56,17 +74,26 @@
     position: relative;
   }
 
-  .main-menu > li:hover .sub-menu{
-    display: block;
+  .main-menu > li:hover .sub-menu {
+    visibility: visible;
+    height: auto;
+    opacity: 1;
+  }
+
+  .main-menu > li:hover .icon {
+    rotate: 90deg;
   }
 
   .sub-menu {
-    display: none;
+    visibility: hidden;
+    height: 0;
+    opacity: 0;
     position: absolute;
     width: max-content;
     padding: 5px;
     border: 1px solid var(--border-light);
     background-color: white;
+    transition: opacity .3s ease;
   }
 
   .sub-menu > li {
@@ -82,4 +109,22 @@
   .sub-menu > li:hover {
     background-color: var(--border-light);
   }
+
+  .link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--font-dark);
+    font-weight: 300;
+  }
+
+  .icon {
+    transition: rotate .2s ease;
+    margin-left: 5px;
+  }
+
+  .active {
+    color: var(--primary);
+  }
+
 </style>
