@@ -16,7 +16,7 @@
 <script>
 import { useCorporation } from '../../store/corporation';
 import { useSession } from '../../store/session';
-import { mapActions, mapStores } from 'pinia';
+import { mapActions } from 'pinia';
 
 export default {
   data() {
