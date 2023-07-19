@@ -27,7 +27,11 @@ const routes = [
   {
     path: '/corporation',
     component: CorporationPage,
-    name: 'Corporation'
+    name: 'Corporation',
+    meta: {
+      requiresAuth: true,
+      requiresCorporation: false,
+    },
   }
 ]
 
