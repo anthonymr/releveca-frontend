@@ -4,21 +4,11 @@ export default function (router) {
   const store = useSession()
  
   router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (!store.token) {
-        next('/login')
-      } else {
+      const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+      const requiresCorporation = to.matched.some(record => record.meta.requiresCorporation);
 
-        if (to.matched.some(record => record.meta.requiresCorporation)) {
-          if (!store.corporation) {
-            next('/corporation')
-          }
-        }
-        
-        next()
-      }
-    } else {
-      next()
-    }
+      if(requiresAuth && ! store.token) next('/login');
+      else if(requiresCorporation && !store.corporation) next('/corporation');
+      else next();
   })
 }
