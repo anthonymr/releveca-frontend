@@ -6,6 +6,13 @@ import createRouter from './pages/routes.js';
 import App from './App.vue';
 import checkAuthentication from './lib/checkAuthentication';
 
+// Font awesome
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(fas)
+
 // Global styles
 import './assets/styles/main.css';
 import './assets/styles/forms.css';
@@ -17,17 +24,12 @@ import './assets/styles/transitions.css';
 // Global components
 import BaseAlert from './components/base/BaseAlert.vue';
 
-// Global mixins
-
 const store = createPinia();
 const router = createRouter(createWebHistory());
 const app = createApp(App);
 
 app.component('BaseAlert', BaseAlert);
-app.mixin({
-  methods: {
-  }
-});
+app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(router).use(store).mount('#app');
 
