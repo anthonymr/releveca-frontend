@@ -1,7 +1,12 @@
 <template>
   <section>
     <h3>Clientes</h3>
-    <base-table :data="clientStore.clients" :display="display"></base-table>
+    <base-table 
+      :data="clientStore.clients" 
+      :display="display"
+      :generalAction="(item) => console.log(item.name)"
+      :actions="actions"
+    />
   </section>
 </template>
 
@@ -15,7 +20,17 @@
       return {
         clientStore: useClient(),
         sessionStore: useSession(),
-        display: ['id', 'name', 'staus', 'approval', 'email', 'phone']
+        display: ['id', 'name', 'staus', 'approval', 'email', 'phone'],
+        actions: [
+          {
+            name: 'ver',
+            action: (line) => console.log(line),
+          },
+          {
+            name: 'ver',
+            action: (line) => console.log(line),
+          }
+        ]
       }
     },
 
