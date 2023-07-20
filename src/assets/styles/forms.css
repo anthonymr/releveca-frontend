@@ -21,7 +21,8 @@ form {
   margin-bottom: 5px;
 }
 
-.form-line input {
+.form-line input,
+.big-search > input {
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 5px;
@@ -29,4 +30,36 @@ form {
 
 .form-line .btn {
   margin-top: 10px;
+}
+
+.big-search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 10%;
+  margin-top: 20px;
+}
+
+.big-search > input {
+  width: 100%;
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+
+.big-search > input::placeholder {
+  color: var(--border);
+  font-weight: 300;
+}
+
+.big-search > label {
+  width: 50px;
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  /* background-color: var(--border-light); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
 }

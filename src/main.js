@@ -20,6 +20,7 @@ import './assets/styles/buttons.css';
 import './assets/styles/headers.css';
 import './assets/styles/alerts.css';
 import './assets/styles/transitions.css';
+import './assets/styles/cards.css';
 
 // Global components
 import BaseAlert from './components/base/BaseAlert.vue';

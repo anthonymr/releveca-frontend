@@ -57,3 +57,21 @@ a:hover {
 ul {
   list-style: none;
 }
+
+input,
+input:active,
+input:hover,
+input:focus {
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
