@@ -1,7 +1,7 @@
 <template>
   <section>
     <h3>Clientes</h3>
-    <base-table :data="clientStore.clients"></base-table>
+    <base-table :data="clientStore.clients" :display="display"></base-table>
   </section>
 </template>
 
@@ -15,6 +15,7 @@
       return {
         clientStore: useClient(),
         sessionStore: useSession(),
+        display: ['id', 'name', 'staus', 'approval', 'email', 'phone']
       }
     },
 
