@@ -6,6 +6,11 @@
   padding: 10px 20px;
 }
 
+.btn.sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
 .btn:hover {
   background-color: var(--border-dark);
 }

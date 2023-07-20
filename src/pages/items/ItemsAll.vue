@@ -13,6 +13,8 @@
   </section>
   <section class="cards-container">
     <ItemCard :item="item" v-for="item in filteredItems" />
+    <div class="no-items" v-if="noItems">Esta corporación no cuenta con artículos activos</div>
+    <div class="no-found" v-if="noItemsFound">Ningún artículo coinside con la busqueda</div>
   </section>
 </template>
 
@@ -48,8 +50,17 @@
       filteredItems(){
         return this.itemStorage.items.filter( item => {
           return item.name.toLowerCase().includes(this.filter.toLowerCase())
-                 || item.code.toLowerCase().includes(this.filter.toLowerCase())
+                 || item.code.toLowerCase().includes(this.filter.toLowerCase());
         })
+      },
+
+      noItems(){
+        return !this.itemStorage.items.length;
+      },
+
+      noItemsFound(){
+        return this.itemStorage.items.length
+               && !this.filteredItems.length;
       }
     }
   }

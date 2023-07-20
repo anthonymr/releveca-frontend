@@ -31,4 +31,10 @@
 .card-footer {
   padding: 5px 10px;
   font-size: 12px;
+  display: flex;
+  gap: 10px
+}
+
+.card.modal {
+  position: fixed;
 }

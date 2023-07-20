@@ -75,3 +75,25 @@ input[type=number] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
+.no-items,
+.no-found {
+  margin: 20px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.no-items {
+  color:var(--warning-dark);
+  background-color: var(--warning-light);
+}
+
+.no-found {
+  color:var(--border-dark);
+  background-color: var(--border-light);
+}
+
+.main-page-separator {
+  margin-top: 70px;
+}

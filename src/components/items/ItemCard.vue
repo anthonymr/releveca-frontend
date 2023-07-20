@@ -2,8 +2,13 @@
   <article class="card">
     <div class="card-header">
       <div class="add-item">
-        <input type="number">
-        <button>+</button>
+        <input
+          type="number"
+          v-model="item.count"
+          @keyup.enter="addItem(item)"
+          @click="item.count = ''"
+        >
+        <button @click="addItem(item)">+</button>
       </div>
       <div class="middle">
         <button class="item-info">i</button>
@@ -23,8 +28,21 @@
 </template>
 
 <script>
+  import { useCart } from '../../store/cart';
+  import { mapActions } from 'pinia';
+
   export default {
-    props: ['item']
+    props: ['item'],
+
+    data(){
+      return {
+        cart: useCart(),
+      }
+    },
+
+    methods: {
+      ...mapActions(useCart, ['addItem']),
+    }
   }
 </script>
 

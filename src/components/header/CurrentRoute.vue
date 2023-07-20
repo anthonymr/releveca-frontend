@@ -26,6 +26,10 @@
 
 <style scoped>
 .current-route {
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  top: 50px;
   display: flex;
   justify-content: flex-end;
   padding: 0 20px;

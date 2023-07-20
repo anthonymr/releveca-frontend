@@ -13,7 +13,7 @@ export const useItem = defineStore('items-store', {
     async getItems(token) {
       this.fetching = true;
       const response = await ItemService.getItems(token);
-      this.items = response.data.payload;
+      this.items = response.data.payload.map(item => ({...item, count: 1}));
       this.fetching = false;
     }
   }
