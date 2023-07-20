@@ -21,15 +21,18 @@ import './assets/styles/headers.css';
 import './assets/styles/alerts.css';
 import './assets/styles/transitions.css';
 import './assets/styles/cards.css';
+import './assets/styles/tables.css';
 
 // Global components
 import BaseAlert from './components/base/BaseAlert.vue';
+import BaseTable from './components/base/BaseTable.vue';
 
 const store = createPinia();
 const router = createRouter(createWebHistory());
 const app = createApp(App);
 
 app.component('BaseAlert', BaseAlert);
+app.component('BaseTable', BaseTable);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(router).use(store).mount('#app');
