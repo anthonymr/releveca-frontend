@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ session.corporation.name }}
+    {{ session.corporation?.name }}
   </div>
 </template>
 

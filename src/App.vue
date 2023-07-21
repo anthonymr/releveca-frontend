@@ -1,14 +1,18 @@
 <template>
   <top-navbar v-if="isValid"></top-navbar>
-  <div class="main-page-separator"></div>
+  <div v-if="isValid" class="main-page-separator"></div>
   <router-view></router-view>
 </template>
 
 <script>
+  import TopNavbar from './components/header/TopNavbar.vue';
+
   export default {
+    components: { TopNavbar },
+
     data() {
       return {
-        nonHeaderRoutes: ['/', '/corporations']
+        nonHeaderRoutes: ['/', '/login', '/corporation']
       }
     },
 

@@ -1,12 +1,7 @@
 <template>
   <section>
     <base-pagination :data="clientStore.pagination" @changePage="toPage">
-      <base-table 
-        :data="clientStore.clients" 
-        :display="display"
-        :generalAction="(item) => console.log(item.name)"
-        :actions="actions"
-      />
+      <base-table :config="tableConfig" :data="clientStore.clients"/>
     </base-pagination>
   </section>
 </template>
@@ -21,17 +16,47 @@
       return {
         clientStore: useClient(),
         sessionStore: useSession(),
-        display: ['id', 'name', 'staus', 'approval', 'email', 'phone'],
-        actions: [
-          {
-            name: 'ver',
-            action: (line) => console.log(line),
-          },
-          {
-            name: 'ver',
-            action: (line) => console.log(line),
-          }
-        ],
+
+        tableConfig: {
+          display: [
+            {
+              name:'ID',
+              key:'id',
+            },
+            {
+              name:'Nombre',
+              key:'name',
+            },
+            {
+              name:'Teléfono',
+              key:'phone',
+            },
+            {
+              name:'Estado',
+              key:'status',
+            },
+            {
+              name:'Correo',
+              key:'email',
+            },
+            {
+              name:'Aprobado',
+              key:'approval',
+            },
+          ],
+          widths: [50,'*',100,100,200,100],
+          classes: ['btn primary','','','','',''],
+          actions: [
+            {
+              name: 'ver',
+              action: (line) => console.log(line),
+            },
+            {
+              name: 'ver',
+              action: (line) => console.log(line),
+            }
+          ],
+        },        
         currentPage: 1,
       }
     },

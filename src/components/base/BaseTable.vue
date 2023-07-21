@@ -1,16 +1,17 @@
 <template>
   <table>
     <tr>
-      <th v-for="head in headers">{{ head }}</th>
-      <th v-if="hasActions">-</th>
+      <th v-for="head, index in headers" :style="width(index)">{{ head }}</th>
+      <th class="actions-th"></th>
     </tr>
     <tr v-for="line in body" :class="{actionable: isActionable}">
-      <td v-for="field in Object.values(line)"
+      <td v-for="field, index in Object.values(line)"
           @click.stop="callGeneralAction(line)"
+          :class="config.classes[index]"
       >{{ field }}</td>
       <td v-if="hasActions" class="actions">
         <button class="btn sm"
-                v-for="action in actions"
+                v-for="action in config.actions"
                 @click="action.action(line)"
         >
           {{ action.name }}
@@ -22,40 +23,45 @@
 
 <script>
   export default {
-    props: ['data', 'display', 'generalAction', 'actions'],
+    props: ['config', 'data'],
 
     methods: {
       callGeneralAction(line) {
-        if(this.isActionable) this.generalAction(line);
-      }
+        if(this.isActionable) this.config.generalAction(line);
+      },
+      width(index){
+        if(this.config.widths[index] === '*') return `width: calc(100% - ${this.totalWidth + 110}px)`;
+        else return `width: ${this.config.widths[index]}px`;
+      },
     },
 
     computed: {
+      totalWidth(){
+        return this.config.widths.reduce((a,b) => {
+          return b !== '*' ? a + b : a;
+        },0);
+      },
       isActionable(){
-        return !!this.generalAction;
+        return !!this.config.generalAction;
       },
       hasActions(){
-        return !!this.actions;
+        return !!this.config.actions;
       },
       headers() {
-        if(!this.data?.length) return [];
-        if(!this.display?.length) return this.data;
+        if(!this.data?.length) return this.config.display.map(title => title.name);
+        if(!this.config.display?.length) return Object.keys(this.data[0]);
 
-        return Object.keys(this.data[0]).filter(key => {
-          return this.display.includes(key);
-        })
+        return this.config.display.map(title => title.name);
       },
 
       body(){
-        if(!this.display?.length) return this.data;
+        if(!this.config.display?.length) return this.data;
 
         return this.data.map(line => {
           let final = {};
 
-          Object.keys(line).forEach(key => {
-            if(this.display.includes(key)){
-              final[key] = line[key];
-            }
+          this.config.display.forEach(title => {
+            final[title.key] = line[title.key];
           })
 
           return final;
@@ -77,6 +83,10 @@
  .actions {
   display: flex;
   gap: 5px;
+ }
+
+ .actions-th {
+  width: 110px;
  }
 </style>
 

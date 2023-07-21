@@ -24,6 +24,7 @@
 
 <script>
   export default {
+    emits: ['changePage'],
     props: ['data'],
 
     methods: {

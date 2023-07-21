@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ session.user.user_name }}
+    {{ session.user?.user_name }}
   </div>
 </template>
 
