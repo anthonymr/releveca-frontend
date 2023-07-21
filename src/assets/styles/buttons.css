@@ -133,3 +133,9 @@
   border-color: var(--border-light)3cd;
   color: var(--font-dark);
 }
+
+.btn.text {
+  background-color: transparent;
+  border: none;
+  color: var(--font-dark);
+}

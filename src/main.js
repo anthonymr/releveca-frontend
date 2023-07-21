@@ -26,6 +26,7 @@ import './assets/styles/tables.css';
 // Global components
 import BaseAlert from './components/base/BaseAlert.vue';
 import BaseTable from './components/base/BaseTable.vue';
+import BasePagination from './components/base/BasePagination.vue';
 
 const store = createPinia();
 const router = createRouter(createWebHistory());
@@ -33,6 +34,7 @@ const app = createApp(App);
 
 app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
+app.component('BasePagination', BasePagination);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(router).use(store).mount('#app');

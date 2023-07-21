@@ -1,12 +1,18 @@
 <template>
   <section>
-    <h3>Clientes</h3>
-    <base-table 
-      :data="clientStore.clients" 
-      :display="display"
-      :generalAction="(item) => console.log(item.name)"
-      :actions="actions"
-    />
+    <base-pagination
+      v-if="clientStore.fetched"
+      :data="clientStore.clients.pagination"
+      @changePage="toPage"
+    >
+      <base-table 
+        v-if="clientStore.fetched"
+        :data="clientStore.clients.payload" 
+        :display="display"
+        :generalAction="(item) => console.log(item.name)"
+        :actions="actions"
+      />
+  </base-pagination>
   </section>
 </template>
 
@@ -30,16 +36,22 @@
             name: 'ver',
             action: (line) => console.log(line),
           }
-        ]
+        ],
+        currentPage: 1,
       }
     },
 
     mounted() {
-      this.getClients(this.sessionStore.token);
+      this.getClients(this.sessionStore.token, this.currentPage);
     },
 
     methods: {
       ...mapActions(useClient, ['getClients']),
+      
+      toPage(page) {
+        this.currentPage = page;
+        this.getClients(this.sessionStore.token, this.currentPage);
+      }
     }
   }
 </script>

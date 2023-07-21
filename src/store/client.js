@@ -5,16 +5,18 @@ export const useClient = defineStore('clients-store', {
   state() {
     return {
       clients: [],
-      fetching: false
+      fetching: false,
+      fetched: false,
     }
   },
 
   actions: {
-    async getClients(token) {
+    async getClients(token, page) {
       this.fetching = true;
-      const response = await ClientService.getClients(token);
+      const response = await ClientService.getClients(token, page);
       this.clients = response.data.payload;
       this.fetching = false;
+      this.fetched = true;
     }
   }
 });
