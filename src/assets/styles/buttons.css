@@ -4,10 +4,11 @@
   background-color: var(--border);
   cursor: pointer;
   padding: 10px 20px;
+  user-select: none;
 }
 
 .btn.sm {
-  padding: 5px 10px;
+  padding: 3px 10px;
   font-size: 12px;
 }
 
@@ -138,4 +139,12 @@
   background-color: transparent;
   border: none;
   color: var(--font-dark);
+}
+
+.btn.text:hover {
+  background-color: var(--border-light);
+}
+
+.btn.text:active {
+  background-color: var(--border);
 }
