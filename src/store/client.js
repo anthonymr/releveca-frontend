@@ -5,18 +5,26 @@ export const useClient = defineStore('clients-store', {
   state() {
     return {
       clients: [],
+      allClients: [],
+      pagination: {},
       fetching: false,
-      fetched: false,
     }
   },
 
   actions: {
-    async getClients(token, page) {
+    async getClients(token, page = null) {
       this.fetching = true;
-      const response = await ClientService.getClients(token, page);
-      this.clients = response.data.payload;
+      const { data } = await ClientService.getClients(token, page);
+
+      if(page) {
+        console.log(data.payload)
+        this.clients = data.payload.items;
+        this.pagination = data.payload.pagination;
+      } else {
+        this.allClients = data.payload;
+      }
+
       this.fetching = false;
-      this.fetched = true;
     }
   }
 });

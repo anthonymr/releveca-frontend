@@ -1,18 +1,13 @@
 <template>
   <section>
-    <base-pagination
-      v-if="clientStore.fetched"
-      :data="clientStore.clients.pagination"
-      @changePage="toPage"
-    >
+    <base-pagination :data="clientStore.pagination" @changePage="toPage">
       <base-table 
-        v-if="clientStore.fetched"
-        :data="clientStore.clients.payload" 
+        :data="clientStore.clients" 
         :display="display"
         :generalAction="(item) => console.log(item.name)"
         :actions="actions"
       />
-  </base-pagination>
+    </base-pagination>
   </section>
 </template>
 
