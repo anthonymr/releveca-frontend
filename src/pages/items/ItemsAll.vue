@@ -22,7 +22,6 @@
 
 <script>
   import { useItem } from '../../store/items';
-  import { useSession } from '../../store/session';
   import { mapActions } from 'pinia';
 
   import ItemCard from '../../components/items/ItemCard.vue';
@@ -34,24 +33,17 @@
     data() {
       return {
         itemStorage: useItem(),
-        sessionStorage: useSession(),
         liveFilter: '',
         filter: '',
-        currentPage: 1,
-        itemsCount: 12,
       }
     },
 
     mounted() {
-      this.getItems(this.sessionStorage.token, this.currentPage, this.itemsCount);
+      this.getItems();
     },
 
     methods: {
-      ...mapActions(useItem, ['getItems']),
-      toPage(page) {
-        this.currentPage = page;
-        this.getItems(this.sessionStorage.token, this.currentPage, this.itemsCount);
-      }
+      ...mapActions(useItem, ['getItems', 'toPage']),
     },
 
     computed: {
