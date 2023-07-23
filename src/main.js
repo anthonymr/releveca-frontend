@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, markRaw } from 'vue';
 import { createWebHistory } from 'vue-router';
 import { createPinia } from 'pinia';
 
@@ -28,15 +28,20 @@ import BaseAlert from './components/base/BaseAlert.vue';
 import BaseTable from './components/base/BaseTable.vue';
 import BasePagination from './components/base/BasePagination.vue';
 
-const store = createPinia();
+const pinia = createPinia();
 const router = createRouter(createWebHistory());
 const app = createApp(App);
+
+// Add router access to pinia
+pinia.use(({ store }) => {
+  store.router = markRaw(router);
+});
 
 app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
 app.component('BasePagination', BasePagination);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
-app.use(router).use(store).mount('#app');
+app.use(router).use(pinia).mount('#app');
 
 checkAuthentication(router);

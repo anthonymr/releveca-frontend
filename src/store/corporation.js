@@ -17,11 +17,12 @@ export const useCorporation = defineStore('corporation-store', {
       this.corporations = response.data.payload;
       this.fetching = false;
     },
-    async setCorporation(id) {
+    async setCorporation(corp) {
       this.fetching = true;
-      const response = await CorporationService.setCorporation(this.session.token, id);
+      const response = await CorporationService.setCorporation(this.session.token, corp.id);
       this.session.corporation = response.data.payload;
       this.fetching = false;
+      this.router.push('/');
     }
   }
 })

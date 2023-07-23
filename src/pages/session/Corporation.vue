@@ -4,8 +4,8 @@
       <div class="form-line">
         <h1>Seleccione una corporación</h1>
         <ul class="corporations">
-          <li v-for="corp in corporation.corporations" 
-              @click="goToCorporation(corp)"
+          <li v-for="corp in corporation.corporations"
+              @click="setCorporation(corp)"
               class="btn primary"
           >
             {{ corp.name }}
@@ -33,10 +33,6 @@ export default {
 
   methods: {
     ...mapActions(useCorporation, ['fetchCorporations', 'setCorporation']),
-    async goToCorporation(corp) {
-      await this.setCorporation(corp.id);
-      this.$router.push('/')
-    }
   },
 }
 </script>
