@@ -17,7 +17,6 @@ export const useClient = defineStore('clients-store', {
       const { data } = await ClientService.getClients(token, page);
 
       if(page) {
-        console.log(data.payload)
         this.clients = data.payload.items;
         this.pagination = data.payload.pagination;
       } else {

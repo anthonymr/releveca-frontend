@@ -11,11 +11,13 @@
         <font-awesome-icon icon="magnifying-glass" />
       </label>
   </section>
-  <section class="cards-container">
-    <ItemCard :item="item" v-for="item in filteredItems" />
-    <div class="no-items" v-if="noItems">Esta corporación no cuenta con artículos activos</div>
-    <div class="no-found" v-if="noItemsFound">Ningún artículo coinside con la busqueda</div>
-  </section>
+  <base-pagination :data="itemStorage.pagination" @changePage="toPage">
+    <section class="cards-container">
+      <ItemCard :item="item" v-for="item in filteredItems" />
+      <div class="no-items" v-if="noItems">Esta corporación no cuenta con artículos activos</div>
+      <div class="no-found" v-if="noItemsFound">Ningún artículo coinside con la busqueda</div>
+    </section>
+  </base-pagination>
 </template>
 
 <script>
@@ -35,15 +37,21 @@
         sessionStorage: useSession(),
         liveFilter: '',
         filter: '',
+        currentPage: 1,
+        itemsCount: 12,
       }
     },
 
     mounted() {
-      this.getItems(this.sessionStorage.token);
+      this.getItems(this.sessionStorage.token, this.currentPage, this.itemsCount);
     },
 
     methods: {
       ...mapActions(useItem, ['getItems']),
+      toPage(page) {
+        this.currentPage = page;
+        this.getItems(this.sessionStorage.token, this.currentPage, this.itemsCount);
+      }
     },
 
     computed: {
