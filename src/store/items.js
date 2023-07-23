@@ -30,9 +30,10 @@ export const useItem = defineStore('items-store', {
 
       this.fetching = false;
     },
-    async toPage(page) {
+    
+    toPage(page) {
       this.currentPage = page;
-      this.getItems(this.session.token, page, this.itemsCount);
+      this.getItems();
     }
   }
 });
