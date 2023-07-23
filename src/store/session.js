@@ -24,11 +24,5 @@ export const useSession = defineStore('session-store', {
       this.user = response.data.payload;
       this.fetching = false;
     },
-    async setCorporation(token, id) {
-      this.fetching = true;
-      const response = await CorporationService.setCorporation(token, id);
-      this.corporation = response.data.payload;
-      this.fetching = false;
-    }
   }
 })

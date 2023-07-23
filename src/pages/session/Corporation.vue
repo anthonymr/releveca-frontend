@@ -18,26 +18,23 @@
 
 <script>
 import { useCorporation } from '../../store/corporation';
-import { useSession } from '../../store/session';
 import { mapActions } from 'pinia';
 
 export default {
   data() {
     return {
-      session: useSession(),
       corporation: useCorporation(),
     }
   },
 
   mounted() {
-    this.fetchCorporations(this.session.token);
+    this.fetchCorporations();
   },
 
   methods: {
-    ...mapActions(useSession, ['setCorporation']),
-    ...mapActions(useCorporation, ['fetchCorporations']),
+    ...mapActions(useCorporation, ['fetchCorporations', 'setCorporation']),
     async goToCorporation(corp) {
-      await this.setCorporation(this.session.token, corp.id);
+      await this.setCorporation(corp.id);
       this.$router.push('/')
     }
   },
