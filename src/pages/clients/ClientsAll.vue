@@ -1,10 +1,8 @@
 <template>
-  <section>
-    <base-search @search="searchClients"/>
-    <base-pagination :data="clientStore.pagination" @changePage="toPage">
-      <base-table :config="clientStore.clientTable" :data="clientStore.clients"/>
-    </base-pagination>
-  </section>
+  <base-search @search="searchClients"/>
+  <base-pagination :data="clientStore.pagination" @changePage="toPage">
+    <base-table :config="clientStore.clientTable" :data="clientStore.clients"/>
+  </base-pagination>
 </template>
 
 <script>
@@ -32,9 +30,3 @@
     }
   }
 </script>
-
-<style scoped>
-  section {
-    padding: 30px;
-  }
-</style>

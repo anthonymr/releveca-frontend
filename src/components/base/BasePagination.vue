@@ -35,6 +35,8 @@
 
     computed: {
       pages() {
+        if(!this.data?.pages) return [];
+
         if(this.data.pages <= 7) return Array(this.data.pages).fill().map((_x,i)=>i + 1);
 
         if(this.data.current_page < 3 || (this.data.current_page > this.data.pages - 2))

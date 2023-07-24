@@ -11,7 +11,6 @@ export const useClient = defineStore('clients-store', {
       pagination: {},
       fetching: false,
       currentPage: 1,
-      itemsCount: 10,
       filter: '',
       session: useSession(),
       clientTable,
@@ -23,11 +22,12 @@ export const useClient = defineStore('clients-store', {
       this.fetching = true;
       const { data } = await ClientService.getClients(this.session.token, this.currentPage, this.filter);
 
-      if(this.currentPage) {
+      if(data.payload.items) {
         this.clients = data.payload.items;
         this.pagination = data.payload.pagination;
       } else {
-        this.allClients = data.payload;
+        this.clients = [];
+        this.pagination = {};
       }
 
       this.fetching = false;
