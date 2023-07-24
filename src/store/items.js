@@ -12,6 +12,7 @@ export const useItem = defineStore('items-store', {
       fetching: false,
       currentPage: 1,
       itemsCount: 12,
+      filter: '',
       session: useSession(),
     }
   },
@@ -19,7 +20,7 @@ export const useItem = defineStore('items-store', {
   actions: {
     async getItems() {
       this.fetching = true;
-      const { data } = await ItemService.getItems(this.session.token, this.currentPage, this.itemsCount);
+      const { data } = await ItemService.getItems(this.session.token, this.currentPage, this.itemsCount, this.filter);
 
       if(this.currentPage) {
         this.items = data.payload.items.map(item => ({...item, count: 1}));
@@ -34,6 +35,11 @@ export const useItem = defineStore('items-store', {
     toPage(page) {
       this.currentPage = page;
       this.getItems();
+    },
+
+    async searchItems(filter) {
+      this.filter = filter;
+      return await this.getItems();
     }
   }
 });
