@@ -96,3 +96,22 @@ input[type=number] {
 .main-page-separator {
   margin-top: 70px;
 }
+
+/* Vue-select */
+
+.vs__selected {
+  font-size: 12px;
+  text-overflow: clip;
+  text-wrap: nowrap;
+}
+
+.vs__search {
+  font-size: 12px;
+}
+
+.vs__search::placeholder,
+.vs__search:focus::placeholder {
+  font-size: 12px;
+  color: var(--border);
+  font-weight: 300;
+}

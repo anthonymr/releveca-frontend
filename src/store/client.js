@@ -33,6 +33,13 @@ export const useClient = defineStore('clients-store', {
       this.fetching = false;
     },
 
+    async getAllClients() {
+      this.fetching = true;
+      const { data } = await ClientService.getClients(this.session.token);
+      this.allClients = data.payload;
+      this.fetching = false;
+    },
+
     toPage(page){
       this.currentPage = page;
       this.getClients()

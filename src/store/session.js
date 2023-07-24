@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import AuthenticationService from '../services/AuthenticationService';
-import CorporationService from '../services/CorporationService';
 
 export const useSession = defineStore('session-store', {
   state() {
@@ -24,5 +23,13 @@ export const useSession = defineStore('session-store', {
       this.user = response.data.payload;
       this.fetching = false;
     },
+  },
+  getters: {
+    baseCurrency() {
+      return this.corporation?.base_currency;
+    },
+    defaultCurrency() {
+      return this.corporation?.default_currency;
+    }
   }
 })

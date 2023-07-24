@@ -6,6 +6,10 @@ import createRouter from './pages/routes.js';
 import App from './App.vue';
 import checkAuthentication from './lib/checkAuthentication';
 
+// Vue-select
+import VueSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
+
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -40,7 +44,8 @@ pinia.use(({ store }) => {
 app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
 app.component('BasePagination', BasePagination);
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.component('v-select', VueSelect );
 
 app.use(router).use(pinia).mount('#app');
 
