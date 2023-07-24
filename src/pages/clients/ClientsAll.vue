@@ -1,5 +1,6 @@
 <template>
   <section>
+    <base-search @search="searchClients"/>
     <base-pagination :data="clientStore.pagination" @changePage="toPage">
       <base-table :config="clientStore.clientTable" :data="clientStore.clients"/>
     </base-pagination>
@@ -10,7 +11,12 @@
   import { useClient } from '../../store/client';
   import { mapActions } from 'pinia';
 
+  import BaseSearch from '../../components/base/BaseSearch.vue';
+
   export default {
+    components: {
+      BaseSearch
+    },
     data() {
       return {
         clientStore: useClient(),
@@ -22,7 +28,7 @@
     },
 
     methods: {
-      ...mapActions(useClient, ['getClients', 'toPage']),
+      ...mapActions(useClient, ['getClients', 'toPage', 'searchClients']),
     }
   }
 </script>

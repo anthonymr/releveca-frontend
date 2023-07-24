@@ -1,17 +1,5 @@
 <template>
-  <!-- <section class="big-search">
-      <input
-        type="text"
-        placeholder="Buscar artículo"
-        id="search"
-        v-model="filter"
-        @keyup.enter="searchItems(filter)"
-      />
-      <label for="search">
-        <font-awesome-icon icon="magnifying-glass" />
-      </label>
-  </section> -->
-  <BaseSearch @search="searchItems"/>
+  <base-search @search="searchItems"/>
   <base-pagination :data="itemStorage.pagination" @changePage="toPage">
     <section class="cards-container">
       <ItemCard :item="item" v-for="item in itemStorage.items" />
