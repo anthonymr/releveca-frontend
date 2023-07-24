@@ -1,5 +1,5 @@
 <template>
-  <section class="big-search">
+  <!-- <section class="big-search">
       <input
         type="text"
         placeholder="Buscar artículo"
@@ -10,12 +10,12 @@
       <label for="search">
         <font-awesome-icon icon="magnifying-glass" />
       </label>
-  </section>
+  </section> -->
+  <BaseSearch @search="searchItems"/>
   <base-pagination :data="itemStorage.pagination" @changePage="toPage">
     <section class="cards-container">
       <ItemCard :item="item" v-for="item in itemStorage.items" />
-      <div class="no-items" v-if="noItems">Esta corporación no cuenta con artículos activos</div>
-      <div class="no-found" v-if="noItemsFound">Ningún artículo coinside con la busqueda</div>
+      <div class="no-found" v-if="noItems">Ningún artículo coinside con la busqueda</div>
     </section>
   </base-pagination>
 </template>
@@ -25,15 +25,16 @@
   import { mapActions } from 'pinia';
 
   import ItemCard from '../../components/items/ItemCard.vue';
+  import BaseSearch from '../../components/base/BaseSearch.vue';
 
   export default {
     components: {
       ItemCard,
+      BaseSearch,
     },
     data() {
       return {
         itemStorage: useItem(),
-        filter: '',
       }
     },
 
@@ -47,12 +48,8 @@
 
     computed: {
       noItems(){
-        return !this.itemStorage.items.length && !this.filter;
+        return !this.itemStorage.items.length
       },
-
-      noItemsFound(){
-        return !this.itemStorage.items.length && this.filter;
-      }
     }
   }
 </script>
