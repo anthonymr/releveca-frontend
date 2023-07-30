@@ -1,16 +1,22 @@
 <template>
   <base-search @search="searchItems"/>
-  <base-pagination :data="itemStorage.pagination" @changePage="toPage">
-    <section class="cards-container">
-      <ItemCard :item="item" v-for="item in itemStorage.items" />
-      <div class="no-found" v-if="noItems">Ningún artículo coinside con la busqueda</div>
-    </section>
-  </base-pagination>
+
+  <Paginator
+    :rows="10"
+    :totalRecords="pagination.total_items"
+    :rowsPerPageOptions="[10, 50, 100]"
+    @page="toPage"
+  />
+
+  <section class="cards-container">
+    <ItemCard :item="item" v-for="item in items" />
+    <div class="no-found" v-if="noItems">Ningún artículo coinside con la busqueda</div>
+  </section>
 </template>
 
 <script>
   import { useItem } from '../../store/items';
-  import { mapActions } from 'pinia';
+  import { mapActions, mapState } from 'pinia';
 
   import ItemCard from '../../components/items/ItemCard.vue';
   import BaseSearch from '../../components/base/BaseSearch.vue';
@@ -20,14 +26,9 @@
       ItemCard,
       BaseSearch,
     },
-    data() {
-      return {
-        itemStorage: useItem(),
-      }
-    },
 
     mounted() {
-      this.getItems();
+      this.getItems(0);
     },
 
     methods: {
@@ -35,9 +36,7 @@
     },
 
     computed: {
-      noItems(){
-        return !this.itemStorage.items.length
-      },
+      ...mapState(useItem, ['pagination', 'items'])
     }
   }
 </script>

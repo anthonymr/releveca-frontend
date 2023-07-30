@@ -10,32 +10,30 @@ export const useItem = defineStore('items-store', {
       allItems: [],
       pagination: {},
       fetching: false,
-      currentPage: 1,
-      itemsCount: 12,
+      currentPage: 0,
+      rowsCount: 10,
       filter: '',
       session: useSession(),
     }
   },
 
   actions: {
-    async getItems() {
-      this.fetching = true;
-      const { data } = await ItemService.getItems(this.session.token, this.currentPage, this.itemsCount, this.filter);
+    async getItems(page = null) {
+      if(page !== null) this.currentPage = page;
 
-      if(data.payload.items) {
-        this.items = data.payload.items.map(item => ({...item, count: 1}));
-        this.pagination = data.payload.pagination;
-      } else {
-        this.items = [];
-        this.pagination = {};
-      }
+      this.fetching = true;
+      const { data } = await ItemService.getItems(this.session.token, this.currentPage, this.rowsCount, this.filter);
+
+      this.items = data.payload.items.map(item => ({...item, count: 1})) || [];
+      this.pagination = data.payload.pagination || {};
 
       this.fetching = false;
     },
     
-    toPage(page) {
-      this.currentPage = page;
-      this.getItems();
+    toPage(pagination){
+      this.currentPage = pagination.page;
+      this.rowsCount = pagination.rows;
+      this.getItems()
     },
 
     async searchItems(filter) {
