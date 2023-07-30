@@ -7,6 +7,7 @@ import App from './App.vue';
 import checkAuthentication from './lib/checkAuthentication';
 
 // Primevue
+import "primevue/resources/themes/lara-light-indigo/theme.css";
 import PrimeVue from 'primevue/config';
 import Paginator from 'primevue/paginator';
 
