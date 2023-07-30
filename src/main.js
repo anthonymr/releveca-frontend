@@ -6,6 +6,10 @@ import createRouter from './pages/routes.js';
 import App from './App.vue';
 import checkAuthentication from './lib/checkAuthentication';
 
+// Primevue
+import PrimeVue from 'primevue/config';
+import Paginator from 'primevue/paginator';
+
 // Vue-select
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
@@ -36,11 +40,18 @@ const pinia = createPinia();
 const router = createRouter(createWebHistory());
 const app = createApp(App);
 
+// Add PrimeVue to app
+app.use(PrimeVue);
+
 // Add router access to pinia
 pinia.use(({ store }) => {
   store.router = markRaw(router);
 });
 
+// PrimeVue global components
+app.component('Paginator', Paginator);
+
+// Custom global components
 app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
 app.component('BasePagination', BasePagination);
