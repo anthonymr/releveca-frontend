@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { useSession } from '../store/session';
 import ClientService from '../services/ClientService';
-import clientTable from './tablesConfig/clientTable'
 
 export const useClient = defineStore('clients-store', {
   state() {
@@ -14,7 +13,6 @@ export const useClient = defineStore('clients-store', {
       rowsCount: 10,
       filter: '',
       session: useSession(),
-      clientTable,
     }
   },
 
@@ -48,6 +46,19 @@ export const useClient = defineStore('clients-store', {
       console.log(filter)
       this.filter = filter;
       return await this.getClients();
+    },
+  },
+
+  getters: {
+    clientsTable(){
+      return this.clients.map(client => ({
+        id: client.id,
+        name: client.name,
+        phone: client.phone,
+        status: client.status,
+        email: client.email,
+        approval: client.approval,
+      }));
     }
   }
 });

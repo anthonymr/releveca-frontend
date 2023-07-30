@@ -12,6 +12,8 @@ import PrimeVue from 'primevue/config';
 import Paginator from 'primevue/paginator';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 // Vue-select
 import VueSelect from 'vue-select';
@@ -32,10 +34,6 @@ import './assets/styles/headers.css';
 import './assets/styles/alerts.css';
 import './assets/styles/transitions.css';
 import './assets/styles/cards.css';
-import './assets/styles/tables.css';
-
-// Global components
-import BaseTable from './components/base/BaseTable.vue';
 
 const pinia = createPinia();
 const router = createRouter(createWebHistory());
@@ -53,9 +51,10 @@ pinia.use(({ store }) => {
 // PrimeVue global components
 app.component('Paginator', Paginator);
 app.component('Toast', Toast);
+app.component('DataTable', DataTable);
+app.component('Column', Column)
 
 // Custom global components
-app.component('BaseTable', BaseTable);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('v-select', VueSelect );
 

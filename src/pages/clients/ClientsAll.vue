@@ -6,7 +6,15 @@
     :rowsPerPageOptions="[10, 50, 100]"
     @page="toPage"
   />
-  <base-table :config="clientTable" :data="clients"/>
+
+  <DataTable :value="clientsTable" stripedRows tableStyle="min-width: 50rem">
+    <Column field="id" header="ID"></Column>
+    <Column field="name" header="Nombre"></Column>
+    <Column field="phone" header="Teléfono"></Column>
+    <Column field="status" header="Estado"></Column>
+    <Column field="email" header="Correo"></Column>
+    <Column field="approval" header="Aprovado"></Column>
+  </DataTable>
 </template>
 
 <script>
@@ -29,7 +37,7 @@
     },
 
     computed: {
-      ...mapState(useClient, ['pagination', 'clients', 'clientTable']),
+      ...mapState(useClient, ['pagination', 'clients', 'clientsTable']),
     }
   }
 </script>
