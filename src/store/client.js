@@ -10,7 +10,8 @@ export const useClient = defineStore('clients-store', {
       allClients: [],
       pagination: {},
       fetching: false,
-      currentPage: 1,
+      currentPage: 0,
+      rowsCount: 10,
       filter: '',
       session: useSession(),
       clientTable,
@@ -18,17 +19,14 @@ export const useClient = defineStore('clients-store', {
   },
 
   actions: {
-    async getClients() {
-      this.fetching = true;
-      const { data } = await ClientService.getClients(this.session.token, this.currentPage, this.filter);
+    async getClients(page = null) {
+      if(page !== null) this.currentPage = page;
 
-      if(data.payload.items) {
-        this.clients = data.payload.items;
-        this.pagination = data.payload.pagination;
-      } else {
-        this.clients = [];
-        this.pagination = {};
-      }
+      this.fetching = true;
+      const { data } = await ClientService.getClients(this.session.token, this.currentPage, this.rowsCount, this.filter);
+
+      this.clients = data.payload.items || [];
+      this.pagination = data.payload.pagination || {};
 
       this.fetching = false;
     },
@@ -40,8 +38,9 @@ export const useClient = defineStore('clients-store', {
       this.fetching = false;
     },
 
-    toPage(page){
-      this.currentPage = page;
+    toPage(pagination){
+      this.currentPage = pagination.page;
+      this.rowsCount = pagination.rows;
       this.getClients()
     },
 
