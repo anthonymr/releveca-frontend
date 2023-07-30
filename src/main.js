@@ -54,7 +54,6 @@ app.component('Paginator', Paginator);
 // Custom global components
 app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
-app.component('BasePagination', BasePagination);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('v-select', VueSelect );
 
