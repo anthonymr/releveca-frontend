@@ -35,7 +35,6 @@ import './assets/styles/tables.css';
 // Global components
 import BaseAlert from './components/base/BaseAlert.vue';
 import BaseTable from './components/base/BaseTable.vue';
-import BasePagination from './components/base/BasePagination.vue';
 
 const pinia = createPinia();
 const router = createRouter(createWebHistory());
