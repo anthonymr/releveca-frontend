@@ -19,7 +19,6 @@
         <router-link to="/register">Registrarse</router-link>
       </div>
     </form>
-    <BaseAlert :errors="errors" />
   </main>  
 </template>
 
@@ -32,7 +31,6 @@
       return {
         username: '',
         password: '',
-        errors: [],
       }
     },
 
@@ -41,7 +39,9 @@
 
       checkFields() {
         const is_valid = this.username && this.password;
-        if(!is_valid) this.errors = ['Username and password are required'];
+        if(!is_valid) {
+          this.$toast.add({severity:'error', summary: 'Faltan datos', detail:'Por favor, ingrese su usuario y contraseña', life: 3000});
+        }
         return is_valid;
       },
 
@@ -53,7 +53,7 @@
           await this.fetchSessionInfo();
           this.$router.push('/corporation');
         } catch({ response }) {
-          this.errors = response.data.errors;
+          this.$toast.add({severity:'error', summary: 'Fallido', detail:response.data.errors[0], life: 3000});
         }    
       }
     }

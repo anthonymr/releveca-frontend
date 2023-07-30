@@ -10,6 +10,8 @@ import checkAuthentication from './lib/checkAuthentication';
 import "primevue/resources/themes/lara-light-indigo/theme.css";
 import PrimeVue from 'primevue/config';
 import Paginator from 'primevue/paginator';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 // Vue-select
 import VueSelect from 'vue-select';
@@ -33,7 +35,6 @@ import './assets/styles/cards.css';
 import './assets/styles/tables.css';
 
 // Global components
-import BaseAlert from './components/base/BaseAlert.vue';
 import BaseTable from './components/base/BaseTable.vue';
 
 const pinia = createPinia();
@@ -42,6 +43,7 @@ const app = createApp(App);
 
 // Add PrimeVue to app
 app.use(PrimeVue);
+app.use(ToastService);
 
 // Add router access to pinia
 pinia.use(({ store }) => {
@@ -50,13 +52,15 @@ pinia.use(({ store }) => {
 
 // PrimeVue global components
 app.component('Paginator', Paginator);
+app.component('Toast', Toast);
 
 // Custom global components
-app.component('BaseAlert', BaseAlert);
 app.component('BaseTable', BaseTable);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.component('v-select', VueSelect );
 
-app.use(router).use(pinia).mount('#app');
+app.use(router);
+app.use(pinia);
+app.mount('#app');
 
 checkAuthentication(router);

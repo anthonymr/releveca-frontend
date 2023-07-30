@@ -10,7 +10,6 @@
 
   <section class="cards-container">
     <ItemCard :item="item" v-for="item in items" />
-    <div class="no-found" v-if="noItems">Ningún artículo coinside con la busqueda</div>
   </section>
 </template>
 

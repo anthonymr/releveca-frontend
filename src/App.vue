@@ -1,4 +1,5 @@
 <template>
+  <toast />
   <top-navbar v-if="isValid"></top-navbar>
   <div v-if="isValid" class="main-page-separator"></div>
   <router-view></router-view>
