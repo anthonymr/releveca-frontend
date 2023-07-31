@@ -1,5 +1,4 @@
 <template>
-  <TopNavbar />
   <section>
     <h1>Configuración</h1>
   </section>

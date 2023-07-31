@@ -14,6 +14,12 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Menubar from 'primevue/menubar';
+import Breadcrumb from 'primevue/breadcrumb';
+import Tag from 'primevue/tag';
+import InputText from 'primevue/inputtext';
+import Avatar from 'primevue/avatar';
+import ScrollPanel from 'primevue/scrollpanel';
 
 // Vue-select
 import VueSelect from 'vue-select';
@@ -28,12 +34,12 @@ library.add(fas)
 
 // Global styles
 import './assets/styles/main.css';
-import './assets/styles/forms.css';
-import './assets/styles/buttons.css';
-import './assets/styles/headers.css';
-import './assets/styles/alerts.css';
-import './assets/styles/transitions.css';
-import './assets/styles/cards.css';
+// import './assets/styles/forms.css';
+// import './assets/styles/buttons.css';
+// import './assets/styles/headers.css';
+// import './assets/styles/alerts.css';
+// import './assets/styles/transitions.css';
+// import './assets/styles/cards.css';
 
 const pinia = createPinia();
 const router = createRouter(createWebHistory());
@@ -52,7 +58,13 @@ pinia.use(({ store }) => {
 app.component('Paginator', Paginator);
 app.component('Toast', Toast);
 app.component('DataTable', DataTable);
-app.component('Column', Column)
+app.component('Column', Column);
+app.component('Menubar', Menubar);
+app.component('Breadcrumb', Breadcrumb);
+app.component('Tag', Tag);
+app.component('InputText', InputText);
+app.component('Avatar', Avatar);
+app.component('ScrollPanel', ScrollPanel);
 
 // Custom global components
 app.component('font-awesome-icon', FontAwesomeIcon);

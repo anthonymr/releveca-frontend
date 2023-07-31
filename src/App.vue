@@ -1,8 +1,9 @@
 <template>
   <toast />
-  <top-navbar v-if="isValid"></top-navbar>
-  <div v-if="isValid" class="main-page-separator"></div>
-  <router-view></router-view>
+  <top-navbar v-if="showHeader"></top-navbar>
+  <ScrollPanel style="width: 100%; height: calc(100vh - 150px)">
+    <router-view class="main-section"></router-view>
+  </ScrollPanel>
 </template>
 
 <script>
@@ -13,14 +14,20 @@
 
     data() {
       return {
-        nonHeaderRoutes: ['/', '/login', '/corporation']
+        nonHeaderRoutes: ['/login', '/corporation']
       }
     },
 
     computed: {
-      isValid(){
+      showHeader(){
         return !this.nonHeaderRoutes.includes(this.$route.path);
       }
     }
   }
 </script>
+
+<style scoped>
+  .main-section {
+    padding: 0 30px;
+  }
+</style>

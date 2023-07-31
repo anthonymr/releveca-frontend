@@ -1,20 +1,20 @@
 <template>
   <section class="big-search">
-    <input
-      type="text"
-      placeholder="Buscar artículo"
-      id="search"
-      v-model="filter"
-      @keyup.enter="$emit('search', filter)"
-    />
-    <label for="search">
+    <span class="p-input-icon-left full-size" >
       <font-awesome-icon icon="magnifying-glass" />
-    </label>
+      <InputText
+        v-model="filter"
+        :placeholder="placeholder || 'Buscar'"
+        @keyup.enter="$emit('search', filter)"
+        class="full-size"
+      />
+    </span>
 </section>
 </template>
 
 <script>
   export default {
+    props: ['placeholder'],
     emits: ['search'],
 
     data() {
@@ -24,3 +24,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .full-size {
+    width: 100%;
+  }
+</style>

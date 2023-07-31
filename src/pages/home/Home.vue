@@ -1,5 +1,4 @@
 <template>
-  <TopNavbar />
   <h1>Inicio</h1>
 </template>
 

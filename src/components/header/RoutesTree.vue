@@ -1,131 +1,129 @@
 <template>
   <nav>
-    <ul class="main-menu">
-      <li v-for="route in routes">
-        <router-link :to="route.path" class="link" :class="{active: isActiveRoute(route)}">
-          {{route.name}} 
-          <font-awesome-icon 
-            icon="chevron-right" 
-            class="icon"
-            size="xs"
-            v-if="route.children.length"
-            />
-        </router-link>
-        <div v-if="route.children.length">
-          <ul class="sub-menu">
-            <li v-for="child in route.children">
-              <router-link :to="`${route.path}/${child.path}`" class="link">
-                {{child.name}}
-              </router-link>
-            </li>
-          </ul>
+    <Menubar :model="routes">
+      <template #end tag="div">
+        <div class="icon cart" @click="$emit('toggle-cart')">
+          <font-awesome-icon icon="cart-shopping" />
+          <div v-if="count" class="count">{{ count }}</div>
         </div>
-      </li>
-    </ul>
+        <div class="user">
+          <current-user class="username" />
+          <current-corporation class="corporation" />
+        </div>
+        <div class="icon exit">
+          <Avatar :label="UserLetter" class="mr-2" shape="circle" />
+        </div>
+      </template>
+    </Menubar>
   </nav>
 </template>
 
 <script>
+  import { mapState } from 'pinia';
+  import CurrentUser from './../session/CurrentUser.vue';
+  import CurrentCorporation from './../session/CurrentCorporation.vue';
+  import { useSession } from '../../store/session';
+
   export default {
+    emits: ['toggle-cart'],
+
+    components: {
+      CurrentUser,
+      CurrentCorporation
+    }, 
+
     methods: {
-      isActiveRoute(route){
-        if(route.path === '/'){
-          return this.$route.path === route.path;
-        }
-
-        return this.$route.path.startsWith(route.path);
-      },
-      filterRoutes(routes){
+      menuItems(routes, root = ''){
         return routes.filter(route => route.meta.displayOnHeader).map(route => {
+          let items = [];
+          let to = root ? `${root}/${route.path}` : route.path;
 
-          let children = []
-
-          if(route.children?.length){
-            children = this.filterRoutes(route.children);
+          if(route?.children?.length) {
+            items = this.menuItems(route.children, to);
+            to = ''; 
           }
 
-          return {
-            name: route.name,
-            path: route.path,
-            children
-          }
+          return { label: route.name, to, items }
         });
       }
     },
 
     computed: {
+      ...mapState(useSession, ['user']),
       routes() {
-        return this.filterRoutes(this.$router.options.routes);
+        return this.menuItems(this.$router.options.routes);
+      },
+      UserLetter(){
+        if(!this.user?.name) return '';
+        return this.user.name[0].toUpperCase();
       }
     }
   }
 </script>
 
-<style scoped>
-  .main-menu{
-    display: flex;
-    widows: 100%;
-  }
+<style>
 
-  .main-menu > li {
-    margin: 10px 10px;
-    padding: 5px;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-  }
+.p-submenu-list {
+  z-index: 10 !important;
+}
 
-  .main-menu > li:hover .sub-menu {
-    visibility: visible;
-    height: auto;
-    opacity: 1;
-  }
+.p-menubar.p-component {
+  border: none;
+  border-radius: 0;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
 
-  .main-menu > li:hover .icon {
-    rotate: 90deg;
-  }
+.p-menubar-end {
+  display: flex;
+  flex-direction: row;
+  padding-right: 10px;
+}
 
-  .sub-menu {
-    visibility: hidden;
-    height: 0;
-    opacity: 0;
-    position: absolute;
-    width: max-content;
-    padding: 5px;
-    border: 1px solid var(--border-light);
-    background-color: white;
-    transition: opacity .3s ease;
-  }
+.user,
+.icon {
+  margin: 10px 5px;
+  padding: 5px;
+}
 
-  .sub-menu > li {
-    padding: 10px 10px;
-    border-bottom: 1px solid var(--border-light);
-    box-sizing: border-box;
-  }
+.icon {
+  cursor: pointer;
+  user-select: none;
+}
 
-  .sub-menu > li:last-child {
-    border-bottom: none;
-  }
+.user {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
 
-  .sub-menu > li:hover {
-    background-color: var(--border-light);
-  }
+.corporation {
+  color: var(--border-dark);
+  font-weight: 300;
+  font-size: 12px;
+  text-align: right;
+  line-height: 12px;
+}
 
-  .link {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--font-dark);
-    font-weight: 300;
-  }
+.username {
+  font-size: 16px;
+  line-height: 19px;
+}
 
-  .icon {
-    transition: rotate .2s ease;
-    margin-left: 5px;
-  }
+.cart {
+  position: relative;
+}
 
-  .active {
-    color: var(--primary);
-  }
-
+.count {
+  position: absolute;
+  padding: 1px 3px;
+  font-size: 10px;
+  line-height: 11px;
+  font-weight: 300;
+  right: 0;
+  bottom: 7px;
+  color: var(--border-light);
+  background-color: var(--danger);
+  border-radius: 5px;
+}
 </style>
