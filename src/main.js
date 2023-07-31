@@ -25,6 +25,7 @@ import DataView from 'primevue/dataview';
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
+import Sidebar from 'primevue/sidebar';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -70,6 +71,7 @@ app.component('DataView', DataView);
 app.component('Button', Button);
 app.component('InputNumber', InputNumber);
 app.component('Dropdown', Dropdown);
+app.component('Sidebar', Sidebar);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
