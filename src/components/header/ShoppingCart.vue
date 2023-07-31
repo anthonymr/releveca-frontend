@@ -5,10 +5,7 @@
     <div v-else class="list-container">
       <h4>Nuevo pedido</h4>
 
-      <v-select :options="clients.allClients" 
-                label="name"
-                placeholder="Cliente"
-      />
+      <Dropdown v-model="selectedClient" editable :options="clients.allClients.items" optionLabel="name" placeholder="Cliente" filter class="w-full md:w-14rem" />
 
       <div class="items">
         <div class="item">
@@ -53,7 +50,9 @@
       return {
         cart: useCart(),    
         clients: useClient(),
-        session: useSession(), 
+        session: useSession(),
+
+        selectedClient: '',
       }
     },
 

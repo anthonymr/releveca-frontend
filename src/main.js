@@ -24,10 +24,7 @@ import ScrollPanel from 'primevue/scrollpanel';
 import DataView from 'primevue/dataview';
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
-
-// Vue-select
-import VueSelect from 'vue-select';
-import 'vue-select/dist/vue-select.css';
+import Dropdown from 'primevue/dropdown';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -72,10 +69,10 @@ app.component('ScrollPanel', ScrollPanel);
 app.component('DataView', DataView);
 app.component('Button', Button);
 app.component('InputNumber', InputNumber);
+app.component('Dropdown', Dropdown);
 
-// Custom global components
+// Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
-app.component('v-select', VueSelect );
 
 app.use(router);
 app.use(pinia);
