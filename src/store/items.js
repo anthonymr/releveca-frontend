@@ -22,9 +22,9 @@ export const useItem = defineStore('items-store', {
       if(page !== null) this.currentPage = page;
 
       this.fetching = true;
+      
       const { data } = await ItemService.getItems(this.session.token, this.currentPage, this.rowsCount, this.filter);
-
-      this.items = data.payload.items.map(item => ({...item, count: 1})) || [];
+      this.items = data.payload.items?.map(item => ({...item, count: 1})) || [];
       this.pagination = data.payload.pagination || {};
 
       this.fetching = false;

@@ -43,7 +43,6 @@ export const useClient = defineStore('clients-store', {
     },
 
     async searchClients(filter) {
-      console.log(filter)
       this.filter = filter;
       return await this.getClients();
     },
