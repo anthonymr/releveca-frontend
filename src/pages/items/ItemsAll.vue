@@ -39,12 +39,10 @@
 
   import { useCart } from '../../store/cart';
 
-  import ItemCard from '../../components/items/ItemCard.vue';
   import BaseSearch from '../../components/base/BaseSearch.vue';
 
   export default {
     components: {
-      ItemCard,
       BaseSearch,
     },
 
