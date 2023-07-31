@@ -1,7 +1,12 @@
 <template>
   <header>
-    <routes-tree @toggle-cart="isCartOpen = !isCartOpen" />
-    <shopping-cart v-if="isCartOpen" @close="isCartOpen = false" />
+    <routes-tree @toggle-cart="toggleCart" />
+    <Sidebar v-model:visible="isCartOpen" :position="position">
+      <Button @click="toggleCartPosition">
+        <font-awesome-icon icon="expand" />
+      </Button>
+      <shopping-cart @close="closeCart" />
+    </Sidebar>
     <current-route />
   </header>
 </template>
@@ -23,6 +28,20 @@
     data() {
       return {
         isCartOpen: false,
+        position: 'right',
+      }
+    },
+
+    methods: {
+      toggleCartPosition(){
+        this.position = this.position === 'right' ? 'full' : 'right';
+      },
+      toggleCart() {
+        this.isCartOpen = !this.isCartOpen
+      },
+      closeCart() {
+        this.isCartOpen = false;
+        this.position = 'right';
       }
     },
 
