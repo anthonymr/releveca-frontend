@@ -8,6 +8,7 @@ import checkAuthentication from './lib/checkAuthentication';
 
 // Primevue
 import "primevue/resources/themes/lara-light-indigo/theme.css";
+import 'primeflex/primeflex.css';
 import PrimeVue from 'primevue/config';
 import Paginator from 'primevue/paginator';
 import Toast from 'primevue/toast';
@@ -20,6 +21,7 @@ import Tag from 'primevue/tag';
 import InputText from 'primevue/inputtext';
 import Avatar from 'primevue/avatar';
 import ScrollPanel from 'primevue/scrollpanel';
+import DataView from 'primevue/dataview';
 
 // Vue-select
 import VueSelect from 'vue-select';
@@ -65,6 +67,7 @@ app.component('Tag', Tag);
 app.component('InputText', InputText);
 app.component('Avatar', Avatar);
 app.component('ScrollPanel', ScrollPanel);
+app.component('DataView', DataView);
 
 // Custom global components
 app.component('font-awesome-icon', FontAwesomeIcon);
