@@ -23,6 +23,7 @@
   import CurrentUser from './../session/CurrentUser.vue';
   import CurrentCorporation from './../session/CurrentCorporation.vue';
   import { useSession } from '../../store/session';
+  import { useCart } from '../../store/cart';
 
   export default {
     emits: ['toggle-cart'],
@@ -50,6 +51,7 @@
 
     computed: {
       ...mapState(useSession, ['user']),
+      ...mapState(useCart, ['count']),
       routes() {
         return this.menuItems(this.$router.options.routes);
       },
@@ -122,8 +124,8 @@
   font-weight: 300;
   right: 0;
   bottom: 7px;
-  color: var(--border-light);
-  background-color: var(--danger);
+  color: var(--pink-50);
+  background-color: var(--pink-500);
   border-radius: 5px;
 }
 </style>

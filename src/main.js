@@ -22,6 +22,8 @@ import InputText from 'primevue/inputtext';
 import Avatar from 'primevue/avatar';
 import ScrollPanel from 'primevue/scrollpanel';
 import DataView from 'primevue/dataview';
+import Button from 'primevue/button';
+import InputNumber from 'primevue/inputnumber';
 
 // Vue-select
 import VueSelect from 'vue-select';
@@ -68,6 +70,8 @@ app.component('InputText', InputText);
 app.component('Avatar', Avatar);
 app.component('ScrollPanel', ScrollPanel);
 app.component('DataView', DataView);
+app.component('Button', Button);
+app.component('InputNumber', InputNumber);
 
 // Custom global components
 app.component('font-awesome-icon', FontAwesomeIcon);

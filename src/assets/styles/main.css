@@ -13,3 +13,8 @@
 html, body {
   width: 100%;
 }
+
+.p-tag {
+  font-size: 10px;
+  padding: 1px 3px;
+}
