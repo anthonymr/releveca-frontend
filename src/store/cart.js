@@ -20,7 +20,7 @@ export const useCart = defineStore('cart-store', {
         this.items.push({...newItem});
       }
     },
-    deleteItem(itemToDelete){
+    removeItem(itemToDelete){
       this.items = this.items.filter(item => item.id !== itemToDelete.id);
     }
   },

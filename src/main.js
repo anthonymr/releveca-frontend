@@ -26,6 +26,8 @@ import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Sidebar from 'primevue/sidebar';
+import Divider from 'primevue/divider';
+import InlineMessage from 'primevue/inlinemessage';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -36,12 +38,6 @@ library.add(fas)
 
 // Global styles
 import './assets/styles/main.css';
-// import './assets/styles/forms.css';
-// import './assets/styles/buttons.css';
-// import './assets/styles/headers.css';
-// import './assets/styles/alerts.css';
-// import './assets/styles/transitions.css';
-// import './assets/styles/cards.css';
 
 const pinia = createPinia();
 const router = createRouter(createWebHistory());
@@ -72,6 +68,8 @@ app.component('Button', Button);
 app.component('InputNumber', InputNumber);
 app.component('Dropdown', Dropdown);
 app.component('Sidebar', Sidebar);
+app.component('Divider', Divider);
+app.component('InlineMessage', InlineMessage);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);

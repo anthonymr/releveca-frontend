@@ -1,19 +1,15 @@
 <template>
-  <main>
+  <section class="flex justify-content-center p-fluid h-screen align-items-center">
     <form>
-      <div class="form-line">
-        <h1>Seleccione una corporación</h1>
-        <ul class="corporations">
-          <li v-for="corp in corporation.corporations"
-              @click="setCorporation(corp)"
-              class="btn primary"
-          >
-            {{ corp.name }}
-          </li>
-        </ul>
-      </div>
+      <h1>Seleccione una corporación</h1>
+        <Button 
+          v-for="corp in corporation.corporations"
+          @click="setCorporation(corp)"
+          :label="corp.name"
+          class="mt-2"
+        />
     </form>
-  </main>  
+  </section>  
 </template>
 
 <script>

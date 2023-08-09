@@ -1,10 +1,19 @@
 <template>
   <header>
     <routes-tree @toggle-cart="toggleCart" />
-    <Sidebar v-model:visible="isCartOpen" :position="position">
-      <Button @click="toggleCartPosition">
-        <font-awesome-icon icon="expand" />
-      </Button>
+    <Sidebar v-model:visible="isCartOpen" :position="position" class="w-full md:w-30rem lg:w-30rem">
+      <template #header>
+        <div class="flex">
+          <div>
+            <button class="p-sidebar-icon p-link mr-2" @click="toggleFullScreen" v-if="isFullScreen">
+              <font-awesome-icon icon="compress" />
+            </button>
+            <button class="p-sidebar-icon p-link mr-2" @click="toggleFullScreen" v-else>
+              <font-awesome-icon icon="expand" />
+            </button>
+          </div>
+        </div>
+      </template>
       <shopping-cart @close="closeCart" />
     </Sidebar>
     <current-route />
@@ -33,7 +42,7 @@
     },
 
     methods: {
-      toggleCartPosition(){
+      toggleFullScreen(){
         this.position = this.position === 'right' ? 'full' : 'right';
       },
       toggleCart() {
@@ -47,6 +56,9 @@
 
     computed: {
       ...mapState(useCart, ['count']),
+      isFullScreen(){
+        return this.position === 'full';
+      }
     }
   }
 </script>

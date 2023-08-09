@@ -1,25 +1,23 @@
 <template>
-  <main>
+  <section class="flex justify-content-center p-fluid h-screen align-items-center">
     <form @submit.prevent="login">
-      <div class="form-line">
+      <div class="field">
         <h1>Inicio de sesión</h1>
       </div>
-      <div class="form-line">
-        <label for="username">Username</label>
-        <input type="text" autocomplete="username" v-model="username" />
+      <div class="field">
+        <InputText id="username" v-model="username" type="text" placeholder="Nombre de usuario" autofocus />
       </div>
-      <div class="form-line">
-        <label for="password">Password</label>
-        <input type="password" autocomplete="current-password" v-model="password" />
+      <div class="field">
+        <InputText id="password" v-model="password" type="password" placeholder="Contraseña" />
       </div>
-      <div class="form-line">
-        <button type="submit" class="btn primary">Login</button>
-      </div>
-      <div class="form-line">
+      <div class="field flex justify-content-center">
         <router-link to="/register">Registrarse</router-link>
       </div>
+      <div class="field">
+        <Button type="submit" label="Acceder" class="mt-2" />
+      </div>
     </form>
-  </main>  
+  </section>  
 </template>
 
 <script>
