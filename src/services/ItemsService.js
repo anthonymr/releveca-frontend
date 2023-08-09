@@ -1,4 +1,4 @@
-import { Service, authorization } from '/src/services/Service'
+import { Service, authorization } from '/src/services/Service';
 
 const resource = 'items';
 

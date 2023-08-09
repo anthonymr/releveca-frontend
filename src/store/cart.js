@@ -31,6 +31,9 @@ export const useCart = defineStore('cart-store', {
     },
     count(){
       return this.items.reduce((a, b) => a + b.count, 0);
+    },
+    total(){
+      return this.items.reduce((a, b) => a + b.price * b.count, 0);
     }
   }
 });

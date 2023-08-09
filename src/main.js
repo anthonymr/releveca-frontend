@@ -15,6 +15,8 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Row from 'primevue/row';
+import ColumnGroup from 'primevue/columngroup';
 import Menubar from 'primevue/menubar';
 import Breadcrumb from 'primevue/breadcrumb';
 import Tag from 'primevue/tag';
@@ -28,6 +30,7 @@ import Dropdown from 'primevue/dropdown';
 import Sidebar from 'primevue/sidebar';
 import Divider from 'primevue/divider';
 import InlineMessage from 'primevue/inlinemessage';
+import Checkbox from 'primevue/checkbox';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -57,6 +60,8 @@ app.component('Paginator', Paginator);
 app.component('Toast', Toast);
 app.component('DataTable', DataTable);
 app.component('Column', Column);
+app.component('Row', Row);
+app.component('ColumnGroup', ColumnGroup);
 app.component('Menubar', Menubar);
 app.component('Breadcrumb', Breadcrumb);
 app.component('Tag', Tag);
@@ -70,6 +75,7 @@ app.component('Dropdown', Dropdown);
 app.component('Sidebar', Sidebar);
 app.component('Divider', Divider);
 app.component('InlineMessage', InlineMessage);
+app.component('Checkbox', Checkbox);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
