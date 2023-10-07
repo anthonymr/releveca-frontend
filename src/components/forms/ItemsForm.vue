@@ -76,7 +76,7 @@ export default {
   emits: ['create', 'update:code', 'update:name', 'update:model', 'update:price', 'update:stock', 'update:unit'],
   data() {
     return {
-        errors: '',
+        errors: [],
     }
   },
 
