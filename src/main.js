@@ -29,6 +29,7 @@ import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Sidebar from 'primevue/sidebar';
 import Divider from 'primevue/divider';
+import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
 import Checkbox from 'primevue/checkbox';
 
@@ -74,6 +75,7 @@ app.component('InputNumber', InputNumber);
 app.component('Dropdown', Dropdown);
 app.component('Sidebar', Sidebar);
 app.component('Divider', Divider);
+app.component('Message', Message);
 app.component('InlineMessage', InlineMessage);
 app.component('Checkbox', Checkbox);
 
