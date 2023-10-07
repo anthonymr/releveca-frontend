@@ -39,6 +39,11 @@ export const useItem = defineStore('items-store', {
     async searchItems(filter) {
       this.filter = filter;
       return await this.getItems();
+    },
+
+    async createItem(item) {
+      const { data } = await ItemService.createItem(this.session.token, item);
+      return data;
     }
   }
 });
