@@ -24,6 +24,17 @@ const ValidatorService = {
   validateItemList(list,item,prop) {
     return list.filter((el) => el[prop] === item[prop]).length !== 0;
   },
+  validatePhone(phone) {
+    if(isNaN(phone)) return false;
+    return phone.length >= 10;
+  },
+  validateAddress(address) {
+    return address.length >= 10;
+  },
+  validateRif(rif) {
+    const rifRegex = /^[V|E|J|P][0-9]{5,9}$/;
+    return rifRegex.test(rif);
+  }
 }
 
 export default ValidatorService;
