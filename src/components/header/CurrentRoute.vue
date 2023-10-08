@@ -7,11 +7,20 @@
 <script>
   export default {
     computed: {
-      currentRouteNodes(){
-        return this.$route.matched.map(node => ({
+      currentRouteNodes() {
+        const routes = this.$route.matched.map(node => ({
           label: node.name,
           to: node.path
         }));
+
+        if(this.$route.params?.id) {
+          routes.push({
+            label: this.$route.params?.id,
+            to: this.$route.path
+          });
+        }
+
+        return routes;
       }
     }
   }
