@@ -35,7 +35,7 @@ export default {
       },
     },
     {
-      path: 'show/:id',
+      path: ':id',
       component: ItemsShow,
       name: 'Ver artículo',
       meta: {
