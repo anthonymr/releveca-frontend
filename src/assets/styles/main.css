@@ -18,8 +18,17 @@ html, body {
   padding: 1px 3px;
 }
 
+.field.small {
+  margin-bottom: 0 !important;
+}
+
+.field.small > span {
+  font-weight: 300 !important;
+}
+
 .field > .p-inputtext,
-.field > .p-inputnumber > .p-inputnumber-input {
+.field > .p-inputnumber > .p-inputnumber-input,
+.p-inputnumber > input {
   width: 100% !important;
 }
 
