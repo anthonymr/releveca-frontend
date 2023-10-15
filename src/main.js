@@ -34,6 +34,8 @@ import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
 import Checkbox from 'primevue/checkbox';
 import SelectButton from 'primevue/selectbutton';
+import Card from 'primevue/card';
+import Timeline from 'primevue/timeline';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -82,6 +84,8 @@ app.component('Message', Message);
 app.component('InlineMessage', InlineMessage);
 app.component('Checkbox', Checkbox);
 app.component('SelectButton', SelectButton);
+app.component('Card', Card);
+app.component('Timeline', Timeline);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
