@@ -1,62 +1,27 @@
 <template>
-  <section>
-    <DataView :value="orders">
-      <template #list="{data}">
-          <div class="col-12">
-              <div class="flex flex-column md:flex-row md:align-items-start gap-4 p-2">
-                  <div class="flex flex-column sm:flex-row justify-content-between align-items-center md:align-items-start flex-1 gap-4 p-4">
-                      <div class="flex flex-column align-items-center sm:align-items-start">
-                          <div class="text-800 cursor-pointer"> {{data.client.name}} </div>
-                          <span class="text-md text-800">Total: {{data.total}}{{data.currency.code}}</span>
-                          <span class="text-xs text-600 mb-1">Deuda: {{data.balance}}{{data.currency.code}}</span>
-                          <span class="text-xs text-600 mb-1">{{data.payment_condition.code}}</span>
-                          <div class="row">
-                            <Tag :value="data.payment_condition.code" class="mr-1"></Tag>
-                            <Tag :value="getStatus(data)" :severity="getSeverity(data.approved)" class="mr-1"></Tag>
-                          </div>
-                      </div>
-                      <div class="flex flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                        <span class="text-md text-800">{{data.created_at}}</span>
-                        <Button 
-                          class="justify-content-center p-2" 
-                          size="small"
-                          v-if="!data.approved"
-                          @click="approveOrder(data.id)"
-                        >
-                          Aprobar
-                        </Button>
-                        <div class="row">
-                          <Button 
-                          class="justify-content-center p-2 mr-1" 
-                            severity="secondary"
-                            size="small"
-                            :disabled="!data.approved || data.status === 'creado'"
-                            @click="previousStep(data.id)"
-                          >
-                            <font-awesome-icon icon="backward" />
-                          </Button>
-                          <Button 
-                          class="justify-content-center p-2" 
-                          severity="secondary"
-                            size="small"
-                            :disabled="!data.approved || data.status === 'entregado'"
-                            @click="nextStep(data.id)"
-                          >
-                            <font-awesome-icon icon="forward" />
-                          </Button>
-                        </div>
-                      </div>
-                  </div>
-                  <base-timeline :approved="data.approved" :status="data.status" />
-              </div>
-          </div>
-      </template>
-    </DataView>
+  <base-search @search="searchOrders"/>
 
-    <div v-for="order in orders">
-      <pre>{{order}}</pre>
-    </div>
-  </section>
+  <DataTable :value="ordersTable" stripedRows tableStyle="min-width: 50rem">
+    <Column field="id" header="ID" style="width: 60px" />
+    <Column field="name" header="Nombre" />
+    <Column field="status" header="Estado" style="width: 50px">
+      <template #body="{ data }">
+        <Tag :value="getStatus(data)" :severity="getSeverity(data.status)" />
+      </template>
+    </Column>
+    <Column style="width: 50px">
+      <template  #body="{ data }">
+        <Button @click="toOrder(data)" class="px-2 py-1">Ver</Button>
+      </template>
+    </Column>
+  </DataTable>
+
+  <Paginator
+    :rows="10"
+    :totalRecords="pagination.total_items"
+    :rowsPerPageOptions="[10, 50, 100]"
+    @page="toPage"
+  />
 </template>
 
 <script>
@@ -73,7 +38,7 @@
     },
 
     methods: {
-      ...mapActions(useOrder, ['getOrders', 'approve', 'next', 'previous']),
+      ...mapActions(useOrder, ['getOrders', 'approve', 'next', 'previous', 'searchOrders']),
 
       getSeverity(value) {
         if(value === 'enabled') return 'success';
@@ -126,7 +91,7 @@
     },
 
     computed: {
-      ...mapState(useOrder, ['orders']),
+      ...mapState(useOrder, ['orders', 'pagination', 'filter', 'ordersTable']),
     },
   }
 

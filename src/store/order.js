@@ -26,16 +26,25 @@ export const useOrder = defineStore('order-store', {
   state() {
     return {
       orders: [],
+      pagination: {},
+      currentPage: 0,
+      rowsCount: 10,
+      filter: '',
       fetching: false,
       session: useSession(),
     }
   },
 
   actions: {
-    async getOrders() {
+    async getOrders(page = null) {
+      if(page !== null) this.currentPage = page;
+
       this.fetching = true;
-      const { data } = await OrderService.index(this.session.token);
-      this.orders = data.payload || [];
+      
+      const { data } = await OrderService.index(this.session.token, this.currentPage, this.rowsCount, this.filter);
+      this.orders = data.payload.items?.map(item => ({...item, count: 1})) || [];
+      this.pagination = data.payload.pagination || {};
+
       this.fetching = false;
     },
     async getOrder(id) {
@@ -68,5 +77,24 @@ export const useOrder = defineStore('order-store', {
       this.fetching = false;
       return data.payload;
     },
+
+    async searchOrder(filter) {
+      this.filter = filter;
+      return await this.getOrders();
+    },
+  },
+  getters: {
+    ordersTable(){
+      return this.orders.map(order => ({
+        id: order.id,
+        total: order.total,
+        balance: order.balance,
+        status: order.status,
+        name: order.client.name,
+        paymentCondition: order.payment_condition.name,
+        name: order.client.name,
+        code: order.client.code,
+      }));
+    }
   }
 });
