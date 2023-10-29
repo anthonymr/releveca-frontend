@@ -1,5 +1,5 @@
 <template>
-  <base-search @search="searchOrders"/>
+  <BaseSearch @search="searchOrders" placeholder="Buscar pedidos"/>
 
   <DataTable :value="ordersTable" stripedRows tableStyle="min-width: 50rem">
     <Column field="id" header="ID" style="width: 60px" />
@@ -28,17 +28,19 @@
   import { useOrder } from '../../store/order';
   import { mapState, mapActions } from 'pinia';
   import BaseTimeline from '../../components/base/BaseTimeline.vue';
+  import BaseSearch from '../../components/base/BaseSearch.vue';
 
   export default {
     components: {
       BaseTimeline,
+      BaseSearch,
     },
     mounted() {
       this.getOrders();
     },
 
     methods: {
-      ...mapActions(useOrder, ['getOrders', 'approve', 'next', 'previous', 'searchOrders']),
+      ...mapActions(useOrder, ['getOrders', 'approve', 'next', 'previous', 'searchOrders', 'toPage']),
 
       getSeverity(value) {
         if(value === 'enabled') return 'success';

@@ -1,5 +1,5 @@
 <template>
-  <section class="big-search">
+  <section class="big-search mb-3">
     <span class="p-input-icon-left full-size" >
       <font-awesome-icon icon="magnifying-glass" />
       <InputText

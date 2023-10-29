@@ -77,8 +77,12 @@ export const useOrder = defineStore('order-store', {
       this.fetching = false;
       return data.payload;
     },
-
-    async searchOrder(filter) {
+    toPage(pagination){
+      this.currentPage = pagination.page;
+      this.rowsCount = pagination.rows;
+      this.getOrders()
+    },
+    async searchOrders(filter) {
       this.filter = filter;
       return await this.getOrders();
     },

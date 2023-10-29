@@ -5,10 +5,10 @@
         <h1>Inicio de sesión</h1>
       </div>
       <div class="field">
-        <InputText id="username" v-model="username" type="text" placeholder="Nombre de usuario" autofocus />
+        <InputText id="username" v-model="username" type="text" placeholder="Nombre de usuario" autocomplete="username" autofocus />
       </div>
       <div class="field">
-        <InputText id="password" v-model="password" type="password" placeholder="Contraseña" />
+        <InputText id="password" v-model="password" type="password" placeholder="Contraseña" autocomplete="current-password" />
       </div>
       <div class="field flex justify-content-center">
         <router-link to="/register">Registrarse</router-link>
