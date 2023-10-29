@@ -1,6 +1,6 @@
 <template>
   <section>
-    <OrderList :orders="orders" @refresh="getAllOrders" v-if="orders.length" />
+    <OrderList :orders="pendingOrders" @refresh="OrderList" v-if="pendingOrders.length" />
   </section>
 </template>
 
@@ -15,15 +15,15 @@
     },
 
     created() {
-      this.getAllOrders();
+      this.getPendingOrders();
     },
 
     computed: {
-      ...mapState(useOrder, ['orders']),
+      ...mapState(useOrder, ['pendingOrders']),
     },
 
     methods: {
-      ...mapActions(useOrder, ['getAllOrders']),
+      ...mapActions(useOrder, ['getPendingOrders']),
     },
   }
 </script>

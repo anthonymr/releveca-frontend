@@ -1,6 +1,7 @@
 import Orders from './../orders/Orders.vue';
 import OrdersAll from './../orders/OrdersAll.vue';
-import OrdersNew from './../orders/OrdersNew.vue';
+import  OrdersPending from './../orders/OrdersPending.vue';
+import  OrdersDebt from './../orders/OrdersDebt.vue';
 
 export default {
   path: '/orders',
@@ -24,9 +25,19 @@ export default {
       },
     },
     {
-      path: 'new',
-      component: OrdersNew,
-      name: 'Nuevo pedido',
+      path: 'waiting',
+      component: OrdersPending,
+      name: 'Pedidos por aprobar',
+      meta: {
+        requiresAuth: true,
+        requiresCorporation: true,
+        displayOnHeader: true
+      },
+    },
+    {
+      path: 'debt',
+      component: OrdersDebt,
+      name: 'Pedidos con deuda',
       meta: {
         requiresAuth: true,
         requiresCorporation: true,

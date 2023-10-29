@@ -31,6 +31,7 @@ import Sidebar from 'primevue/sidebar';
 import Divider from 'primevue/divider';
 import InlineMessage from 'primevue/inlinemessage';
 import Checkbox from 'primevue/checkbox';
+import Menu from 'primevue/menu';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -76,6 +77,7 @@ app.component('Sidebar', Sidebar);
 app.component('Divider', Divider);
 app.component('InlineMessage', InlineMessage);
 app.component('Checkbox', Checkbox);
+app.component('Menu', Menu);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);

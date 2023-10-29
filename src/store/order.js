@@ -24,6 +24,8 @@ export const useOrder = defineStore('order-store', {
   state() {
     return {
       orders: [],
+      pendingOrders: [],
+      debtOrders: [],
       fetching: false,
       session: useSession(),
     }
@@ -37,5 +39,36 @@ export const useOrder = defineStore('order-store', {
       this.fetching = false;
       return 'success';
     },
+
+    async getAllOrders() {
+      this.fetching = true;
+      const { data } = await OrderService.getAllOrders(this.session.token);
+      this.orders = data.payload || [];
+      this.fetching = false;
+      return 'success';
+    },
+
+    async getPendingOrders() {
+      this.fetching = true;
+      const { data } = await OrderService.getPendingOrders(this.session.token);
+      this.pendingOrders = data.payload || [];
+      this.fetching = false;
+      return 'success';
+    },
+
+    async getDebtOrders() {
+      this.fetching = true;
+      const { data } = await OrderService.getDebtOrders(this.session.token);
+      this.debtOrders = data.payload || [];
+      this.fetching = false;
+      return 'success';
+    },
+
+    async approveOrder(id) {
+      this.fetching = true;
+      await OrderService.aproveOrder(this.session.token, id);
+      this.fetching = false;
+      return 'success';
+    }
   }
 });

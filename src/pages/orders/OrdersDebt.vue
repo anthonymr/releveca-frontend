@@ -1,6 +1,6 @@
 <template>
   <section>
-    <OrderList :orders="orders" @refresh="getAllOrders" v-if="orders.length" />
+    <OrderList :orders="debtOrders" @refresh="getDebtOrders"  v-if="debtOrders.length" />
   </section>
 </template>
 
@@ -15,15 +15,15 @@
     },
 
     created() {
-      this.getAllOrders();
+      this.getDebtOrders();
     },
 
     computed: {
-      ...mapState(useOrder, ['orders']),
+      ...mapState(useOrder, ['debtOrders']),
     },
 
     methods: {
-      ...mapActions(useOrder, ['getAllOrders']),
+      ...mapActions(useOrder, ['getDebtOrders']),
     },
   }
 </script>
