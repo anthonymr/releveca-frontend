@@ -95,9 +95,12 @@ export const useOrder = defineStore('order-store', {
         balance: order.balance,
         status: order.status,
         name: order.client.name,
-        paymentCondition: order.payment_condition.name,
+        paymentCondition: order.payment_condition.description,
         name: order.client.name,
         code: order.client.code,
+        date: order.created_at,
+        lastPayment: '',
+        currency: order.currency.code,
       }));
     }
   }

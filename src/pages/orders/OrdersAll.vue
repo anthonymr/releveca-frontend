@@ -4,14 +4,52 @@
   <DataTable :value="ordersTable" stripedRows tableStyle="min-width: 50rem">
     <Column field="id" header="ID" style="width: 60px" />
     <Column field="name" header="Nombre" />
-    <Column field="status" header="Estado" style="width: 50px">
+    <Column field="paymentCondition" header="Condición" style="width:150px">
+      <template #body="{ data }">
+        <Tag :value="data.paymentCondition" severity="info" />
+      </template>
+    </Column>
+    <Column field="total" header="Total"  style="width:150px">
+      <template #body="{ data }">
+        {{ data.currency }} {{ data.total }}
+      </template>
+    </Column>
+    <Column field="balance" header="Balance" style="width:150px">
+      <template #body="{ data }">
+        <span :class="{'text-red-400': data.balance > 0 }">
+          {{ data.currency }} {{ data.balance }}
+        </span>
+      </template>
+    </Column>
+    <Column header="Fechas" style="width:280px">
+      <template #body="{ data }">
+        <div class="text-xs">
+          <div>
+            <span class="mr-1 text-gray-500">Creado el:</span> {{ data.date }}
+          </div>
+          <div>
+            <span class="mr-1 text-gray-500">Último pago:</span> {{ data.lastPayment || '-' }}
+          </div>
+        </div>
+      </template>
+    </Column>
+    <Column field="status" header="Estado" style="width: 180px">
       <template #body="{ data }">
         <Tag :value="getStatus(data)" :severity="getSeverity(data.status)" />
       </template>
     </Column>
     <Column style="width: 50px">
+      <template #body>
+        <Button class="px-2 py-2" severity="secondary">
+          <font-awesome-icon icon="cash-register" />
+        </Button>
+      </template>
+    </Column>
+    <Column style="width: 50px">
       <template  #body="{ data }">
-        <Button @click="toOrder(data)" class="px-2 py-1">Ver</Button>
+        <Button @click="toOrder(data)" class="px-2 py-2" severity="info">
+          <font-awesome-icon icon="eye" />
+        </Button>
       </template>
     </Column>
   </DataTable>
@@ -22,6 +60,25 @@
     :rowsPerPageOptions="[10, 50, 100]"
     @page="toPage"
   />
+
+<!--
+        id: order.id,
+        total: order.total,
+        balance: order.balance,
+        status: order.status,
+        name: order.client.name,
+        paymentCondition: order.payment_condition.name,
+        name: order.client.name,
+        code: order.client.code,
+        date: order.created_at,
+        lastPayment: '',
+
+-->
+
+<pre>
+  {{ orders }}
+  {{ ordersTable }}
+</pre>
 </template>
 
 <script>
