@@ -65,3 +65,7 @@ a {
 .r-title {
   margin: 1rem 0;
 }
+
+.p-timeline-event-opposite {
+  display: none !important;
+}
