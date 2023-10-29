@@ -135,14 +135,14 @@
         const result = await this.createOrder({ 
           client: this.selectedClient,
           paymentCondition: this.selectedPaimentCondition,
-          subTotal: this.total,
+          subTotal: parseFloat(this.total),
           taxes: this.taxes,
-          total: this.finalTotal,
+          total: parseFloat(this.finalTotal),
           items: this.cart.items,
           currency: this.defaultCurrency
         });
 
-        if(result == 'success'){
+        if(result){
           this.cart.clear();
           this.selectedClient = '';
           this.selectedPaimentCondition = '';          

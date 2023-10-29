@@ -8,6 +8,8 @@ export const useCorporation = defineStore('corporation-store', {
       corporations: [],
       fetching: false,
       session: useSession(),
+      baseCurrency: null,
+      units: [],
     }
   },
   actions: {
@@ -23,6 +25,14 @@ export const useCorporation = defineStore('corporation-store', {
       this.session.corporation = response.data.payload;
       this.fetching = false;
       this.router.push('/');
+    },
+    async getBaseCurrency() {
+      const response = await CorporationService.getBaseCurrency(this.session.token);
+      this.baseCurrency = response.data.payload;
+    },
+    async getUnits() {
+      const response = await CorporationService.getUnits(this.session.token);
+      this.units = response.data.payload;
     }
   }
 })

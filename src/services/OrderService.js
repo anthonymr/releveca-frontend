@@ -3,25 +3,14 @@ import { Service, authorization } from '/src/services/Service';
 const resource = 'orders';
 
 const OrderService = {
-  createOrder(token, order) {  
-    return Service.post(resource, {...order}, authorization(token));
+  index: (token, page = 0, count = 10, filter = '') => {
+    return Service.get(`${resource}?page=${page}&count=${count}&filter=${filter}`, authorization(token));
   },
-
-  getAllOrders(token) {
-    return Service.get(resource, authorization(token));
-  },
-
-  getPendingOrders(token) {
-    return Service.get(`${resource}/pending`, authorization(token));
-  },
-
-  getDebtOrders(token) {
-    return Service.get(`${resource}/with_debt`, authorization(token));
-  },
-
-  aproveOrder(token, id) {
-    return Service.patch(`${resource}/${id}/approval`, { approved: true }, authorization(token));
-  }
+  show: (token, id) => Service.get(`${resource}/${id}`, authorization(token)),
+  create: (token, order) => Service.post(resource, {...order}, authorization(token)),
+  change_approval: (token, id) => Service.patch(`${resource}/${id}/approval`, {approved: true}, authorization(token)),
+  change_status_next: (token, id) => Service.patch(`${resource}/${id}/status_next`, {}, authorization(token)),
+  change_status_previous: (token, id) => Service.patch(`${resource}/${id}/status_previous`, {}, authorization(token)),
 }
 
 export default OrderService;

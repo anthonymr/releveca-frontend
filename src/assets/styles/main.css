@@ -1,4 +1,3 @@
-
 *{
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
@@ -19,9 +18,50 @@ html, body {
   padding: 1px 3px;
 }
 
+.field.small {
+  margin-bottom: 0 !important;
+}
+
+.field.small > span {
+  font-weight: 300 !important;
+}
+
+.field > .p-inputtext,
+.field > .p-inputnumber > .p-inputnumber-input,
+.p-inputnumber > input {
+  width: 100% !important;
+}
+
+.p-message-text {
+  font-size: 12px !important;
+}
+
+.p-message {
+  margin: 0.5rem 0 !important;
+}
+
+.p-message-wrapper {
+  padding: 0.5rem !important;
+}
+
 a {
   text-decoration: none;
   color: var(--primary-color);
   font-weight: 400;
   font-size: 14px;
+}
+
+.r-form-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.r-form {
+  width: 100%;
+  max-width: 500px;
+}
+
+.r-title {
+  margin: 1rem 0;
 }

@@ -21,17 +21,22 @@ import Menubar from 'primevue/menubar';
 import Breadcrumb from 'primevue/breadcrumb';
 import Tag from 'primevue/tag';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Textarea from 'primevue/textarea';
 import Avatar from 'primevue/avatar';
 import ScrollPanel from 'primevue/scrollpanel';
 import DataView from 'primevue/dataview';
 import Button from 'primevue/button';
-import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Sidebar from 'primevue/sidebar';
 import Divider from 'primevue/divider';
+import Message from 'primevue/message';
 import InlineMessage from 'primevue/inlinemessage';
 import Checkbox from 'primevue/checkbox';
 import Menu from 'primevue/menu';
+import SelectButton from 'primevue/selectbutton';
+import Card from 'primevue/card';
+import Timeline from 'primevue/timeline';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -67,17 +72,22 @@ app.component('Menubar', Menubar);
 app.component('Breadcrumb', Breadcrumb);
 app.component('Tag', Tag);
 app.component('InputText', InputText);
+app.component('InputNumber', InputNumber);
+app.component('Textarea', Textarea);
 app.component('Avatar', Avatar);
 app.component('ScrollPanel', ScrollPanel);
 app.component('DataView', DataView);
 app.component('Button', Button);
-app.component('InputNumber', InputNumber);
 app.component('Dropdown', Dropdown);
 app.component('Sidebar', Sidebar);
 app.component('Divider', Divider);
+app.component('Message', Message);
 app.component('InlineMessage', InlineMessage);
 app.component('Checkbox', Checkbox);
 app.component('Menu', Menu);
+app.component('SelectButton', SelectButton);
+app.component('Card', Card);
+app.component('Timeline', Timeline);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);

@@ -8,6 +8,12 @@ const CorporationService = {
   },
   setCorporation(token, id) {
     return Service.post(`${resource}/current`, { id }, authorization(token));
+  },
+  getBaseCurrency(token) {
+    return Service.get(`${resource}/base_currency`, authorization(token));
+  },
+  getUnits(token) {
+    return Service.get(`${resource}/units`, authorization(token));
   }
 }
 
