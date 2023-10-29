@@ -41,7 +41,7 @@ export const useOrder = defineStore('order-store', {
 
       this.fetching = true;
       
-      const { data } = await OrderService.index(this.session.token, this.currentPage, this.rowsCount, this.filter);
+      const { data } = await OrderService.index(this.session.token, this.currentPage, this.rowsCount, this.filter, this.onlyInProgress);
       this.orders = data.payload.items?.map(item => ({...item, count: 1})) || [];
       this.pagination = data.payload.pagination || {};
 
@@ -94,6 +94,7 @@ export const useOrder = defineStore('order-store', {
         total: order.total,
         balance: order.balance,
         status: order.status,
+        approved: order.approved,
         name: order.client.name,
         paymentCondition: order.payment_condition.description,
         name: order.client.name,

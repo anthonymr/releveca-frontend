@@ -38,15 +38,11 @@
         <Tag :value="getStatus(data)" :severity="getSeverity(data.status)" />
       </template>
     </Column>
-    <Column style="width: 50px">
-      <template #body>
-        <Button class="px-2 py-2" severity="secondary">
+    <Column style="width: 120px">
+      <template  #body="{ data }">
+        <Button class="px-2 py-2 mr-2" severity="secondary">
           <font-awesome-icon icon="cash-register" />
         </Button>
-      </template>
-    </Column>
-    <Column style="width: 50px">
-      <template  #body="{ data }">
         <Button @click="toOrder(data)" class="px-2 py-2" severity="info">
           <font-awesome-icon icon="eye" />
         </Button>
@@ -61,24 +57,6 @@
     @page="toPage"
   />
 
-<!--
-        id: order.id,
-        total: order.total,
-        balance: order.balance,
-        status: order.status,
-        name: order.client.name,
-        paymentCondition: order.payment_condition.name,
-        name: order.client.name,
-        code: order.client.code,
-        date: order.created_at,
-        lastPayment: '',
-
--->
-
-<pre>
-  {{ orders }}
-  {{ ordersTable }}
-</pre>
 </template>
 
 <script>
@@ -92,6 +70,7 @@
       BaseTimeline,
       BaseSearch,
     },
+
     mounted() {
       this.getOrders();
     },
@@ -99,14 +78,14 @@
     methods: {
       ...mapActions(useOrder, ['getOrders', 'approve', 'next', 'previous', 'searchOrders', 'toPage']),
 
-      getSeverity(value) {
-        if(value === 'enabled') return 'success';
-        if(value === true) return 'success';
-        return 'danger';
+      getSeverity(order) {
+        if(!order.approved) return 'danger';
+        else if(order.status === 'entregado') return 'success';
+        else return 'warning';
       },
 
-      getStatus(data) {
-        return data.approved ? 'aprobado' : 'esperando aprobación';
+      getStatus(order) {
+        return order.approved ? order.status : 'esperando aprobación';
       },
 
       async nextStep(id){
@@ -146,7 +125,11 @@
             this.$toast.add({severity:'error', summary: 'Error', detail: 'Ha ocurrido un error al aprobar la orden', life: 3000});
           }
         }
-      }
+      },
+
+      toOrder(order) {
+        this.$router.push(`${order.id}`);
+      },
     },
 
     computed: {

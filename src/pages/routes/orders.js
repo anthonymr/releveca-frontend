@@ -2,6 +2,7 @@ import Orders from './../orders/Orders.vue';
 import OrdersAll from './../orders/OrdersAll.vue';
 import  OrdersPending from './../orders/OrdersPending.vue';
 import  OrdersDebt from './../orders/OrdersDebt.vue';
+import OrderShow from './../orders/OrderShow.vue';
 
 export default {
   path: '/orders',
@@ -17,7 +18,7 @@ export default {
     {
       path: 'all',
       component: OrdersAll,
-      name: 'Todos los pedidos',
+      name: 'Pedidos',
       meta: {
         requiresAuth: true,
         requiresCorporation: true,
@@ -44,5 +45,16 @@ export default {
         displayOnHeader: true
       },
     },
-  ]
+    {
+      path: ':id',
+      component: OrderShow,
+      name: 'Pedido',
+      meta: {
+        requiresAuth: true,
+        requiresCorporation: true,
+        displayOnHeader: false
+      },
+    }
+  ],
+
 };
