@@ -8,6 +8,7 @@ import orderRoutes from './routes/orders';
 import paymentRoutes from './routes/payments';
 import corporationRoutes from './routes/corporations';
 import settingRoutes from './routes/settings';
+import warranty from './routes/warranty';
 
 const routes = [
   ...sessionRoutes,
@@ -18,6 +19,7 @@ const routes = [
   paymentRoutes,
   corporationRoutes,
   settingRoutes,
+  warranty,
 ]
 
 export default function (history) {

@@ -6,6 +6,8 @@ import createRouter from './pages/routes.js';
 import App from './App.vue';
 import checkAuthentication from './lib/checkAuthentication';
 
+import JsonExcel from "vue-json-excel3";
+
 // Primevue
 import "primevue/resources/themes/lara-light-indigo/theme.css";
 import 'primeflex/primeflex.css';
@@ -91,6 +93,7 @@ app.component('Timeline', Timeline);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
+app.component("downloadExcel", JsonExcel);
 
 app.use(router);
 app.use(pinia);
