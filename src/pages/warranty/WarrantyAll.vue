@@ -121,6 +121,8 @@ export default {
             }
             
             this.getWarranties(filters, this.complexFilters);
+
+            this.showFiltersModal = false;
         },
 
         warrantiesFilterChanged(){

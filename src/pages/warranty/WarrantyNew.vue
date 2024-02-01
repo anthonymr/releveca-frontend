@@ -101,7 +101,7 @@ export default {
             const warranty = {
                 client_id: this.client.id,
                 item_id: this.item.id,
-                qty: this.qty,
+                quantity: this.qty,
                 notes: this.notes,
                 status: this.status.name,
             }
