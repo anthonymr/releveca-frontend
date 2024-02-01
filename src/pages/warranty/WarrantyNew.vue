@@ -1,7 +1,7 @@
 <template>
     <WarrantyForm
-        :clients="clients"
-        :items="items"
+        :clients="allClients.items"
+        :items="allItems.items"
         :states="warrantyStates"
 
         v-model:client="client"
@@ -39,14 +39,14 @@ export default {
     },
 
     created(){
-        this.getClients();
-        this.getItems();
+        this.getAllClients();
+        this.getAllItems();
         this.getWarrantyStates();
     },
 
     methods: {
-        ...mapActions(useClient, ['getClients']),
-        ...mapActions(useItem, ['getItems']),
+        ...mapActions(useClient, ['getAllClients']),
+        ...mapActions(useItem, ['getAllItems']),
         ...mapActions(useWarranty, ['createWarranty', 'getWarrantyStates', 'deleteWarrantyState', 'createWarrantyState']),
 
         async createNewStatus(){
@@ -125,8 +125,8 @@ export default {
     },
 
     computed: {
-        ...mapState(useClient, ['clients']),
-        ...mapState(useItem, ['items']),
+        ...mapState(useClient, ['allClients']),
+        ...mapState(useItem, ['allItems']),
         ...mapState(useWarranty, ['warrantyStates']),
     }
 }

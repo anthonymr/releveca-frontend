@@ -4,7 +4,10 @@ const resource = 'items';
 
 const ItemService = {
   getItems(token, page = 0, count = 10, filter = '') {
-    return Service.get(`${resource}?page=${page}&count=${count}&filter=${filter}`, authorization(token));
+    let url = `${resource}?filter=${filter}`
+    if(page != null) url += `&page=${page}`
+    if(count) url += `&count=${count}`
+    return Service.get(url, authorization(token));
   },
   createItem(token, item) {
     const newItem = {

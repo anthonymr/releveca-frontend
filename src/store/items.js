@@ -29,6 +29,13 @@ export const useItem = defineStore('items-store', {
 
       this.fetching = false;
     },
+
+    async getAllItems() {
+      this.fetching = true;
+      const { data } = await ItemService.getItems(this.session.token);
+      this.allItems = data.payload;
+      this.fetching = false;
+    },
     
     toPage(pagination){
       this.currentPage = pagination.page;

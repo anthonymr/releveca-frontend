@@ -5,11 +5,9 @@ const resource = 'clients'
 const ClientService = {
   getClients(token, page, count,  filter = '') {
     let url = `${resource}?filter=${filter}`
-    if(page) url += `&page=${page}`
+    if(page != null) url += `&page=${page}`
     if(count) url += `&count=${count}`
-    console.log(url)
     return Service.get(url, authorization(token));
-    // return Service.get(`${resource}?page=${page}&count=${count}&filter=${filter}`, authorization(token));
   },
   getClient(token, id) {
     return Service.get(`${resource}/${id}`, authorization(token));

@@ -15,6 +15,7 @@
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('client')"
+                :virtualScrollerOptions="{ itemSize: 38 }"
               />
               <Message severity="error" v-if="invalidClass('client')">Escoge el cliente de la lista</Message>
             </div>
@@ -29,6 +30,7 @@
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('item')"
+                :virtualScrollerOptions="{ itemSize: 38 }"
               />
               <Message severity="error" v-if="invalidClass('item')">Escoge el artículo de la lista</Message>
             </div>
