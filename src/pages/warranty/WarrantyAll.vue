@@ -1,23 +1,33 @@
 <template>
-    <div class="mb-4 flex">
-        <Dropdown
-            v-model="filter"
-            :options="filterOptions"
-            optionLabel="label"
-            placeholder="Ver las garantías de"
-            @change="warrantiesFilterChanged"
-        />
-        <!-- export excel-->
-
-
-        <download-excel :data="excelObject">
-            <Button class="ml-4 h-full">
-                <font-awesome-icon icon="file-excel" />
+    <div class="mb-4 flex justify-content-between">
+        <div class="flex align-items-center text-gray-600 font-normal">
+            <Dropdown
+                v-model="filter"
+                :options="filterOptions"
+                optionLabel="label"
+                placeholder="Ver las garantías de"
+                :disabled="disableFilter"
+                @change="warrantiesFilterChanged"
+            />
+            <download-excel :data="excelObject">
+                <Button class="ml-4 mr-4 h-full">
+                    <font-awesome-icon icon="file-excel" />
+                </Button>
+            </download-excel>
+        
+            Mostrando <span class="text-color font-bold mx-1">{{ warranties.length }}</span> garantías
+        </div>
+        <div>
+            <Button class="ml-2 h-full" :severity="anyComplexFilters ? 'success' : 'secondary'" @click="showFiltersModal = true">
+                <font-awesome-icon icon="filter" />
             </Button>
-        </download-excel>
+            <Button class="ml-2 h-full" severity="primary" @click="toNewWarrantyPage">
+                <font-awesome-icon icon="plus" />
+            </Button>
+        </div>
     </div>
     <DataTable :value="warranties" tableStyle="min-width: 50rem" v-if="anyWarranties">
-        <column header="Ereado el">
+        <column header="Creado el">
             <template #body="{ data }">
                 <p>{{ new Date(data.created_at).toLocaleDateString() }}</p>
             </template>
@@ -43,16 +53,23 @@
     <div v-else class="w-full h-12rem flex justify-content-center align-items-center text-400">
         <p>No hay garantías registradas</p>
     </div>
+    <WarrantyFilterModal
+        :show-filters-modal="showFiltersModal"
+        @cancel="showFiltersModal = false"
+        @save="saveComplexFilters"
+    />
 </template>
 
 <script>
+import WarrantyFilterModal from '../../components/warranty/WarrantyFilterModal.vue';
+
 import { useWarranty } from '../../store/warranty';
 import { mapState, mapActions } from 'pinia';
 
 export default {
     name: 'WarrantyAll',
 
-    //Cliente (nombre), Producto (code), Descripción del producto, UND, Observación, estado, enviado, 
+    components: { WarrantyFilterModal },
     
     created(){
         useWarranty().getWarranties();
@@ -60,8 +77,16 @@ export default {
 
     data(){
         return {
-            filter: { label: 'Ver las garantías de hoy', value: 'today' },
+            showFiltersModal: false,
 
+            complexFilters: {
+                fromDate: null,
+                toDate: null,
+                selectedClients: [],
+                selectedItems: [],
+            },
+
+            filter: { label: 'Ver las garantías de hoy', value: 'today' },
             filterOptions: [
                 { label: 'Ver las garantías de hoy', value: 'today' },
                 { label: 'Ver las garantías de ayer', value: 'yesterday'},
@@ -71,15 +96,35 @@ export default {
                 { label: 'Ver las garantías del mes pasado', value: 'lastMonth' },
                 { label: 'Ver las garantías de este año', value: 'year' },
                 { label: 'Ver todas las garantías', value: 'all' },
-            ]
+            ],
+            disableFilter: false,
         }
     },
 
     methods: {
         ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty']),
 
+        toNewWarrantyPage(){
+            this.$router.push({ name: 'Nueva garantía' });
+        },
+
+        saveComplexFilters(filters){
+            this.complexFilters = filters;
+
+            if(this.complexFilters.toDate && this.complexFilters.fromDate) {
+                this.filter = { label: 'Ver todas las garantías', value: 'all' };
+                this.disableFilter = true;
+            } else {
+                this.disableFilter = false;
+                this.complexFilters.fromDate = null;
+                this.complexFilters.toDate = null;
+            }
+            
+            this.getWarranties(filters, this.complexFilters);
+        },
+
         warrantiesFilterChanged(){
-            this.getWarranties(this.filter.value);
+            this.getWarranties(this.filter.value, this.complexFilters);
         },
 
         goToWarranty(warranty){
@@ -109,6 +154,13 @@ export default {
 
     computed: {
         ...mapState(useWarranty, ['warranties']),
+
+        anyComplexFilters(){
+            return this.complexFilters.fromDate ||
+                this.complexFilters.toDate ||
+                this.complexFilters.selectedClients.length > 0 ||
+                this.complexFilters.selectedItems.length > 0;
+        },
 
         excelObject(){
             return this.warranties.map(warranty => {

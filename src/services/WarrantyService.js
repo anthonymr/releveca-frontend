@@ -3,8 +3,19 @@ import { Service, authorization } from '/src/services/Service';
 const resource = 'warranties';
 
 const WarrantyService = {
-    index: (token, filter='') => {
-        return Service.get(`${resource}?filter=${filter}`, authorization(token));
+    index: (token, filter='', complexFilter=null) => {
+        let from = complexFilter?.fromDate?.toISOString() || null;
+        let to = complexFilter?.toDate?.toISOString() || null;
+        let clientsIds = complexFilter?.selectedClients?.map(client => client.id) || null;
+        let itemsIds = complexFilter?.selectedItems?.map(item => item.id) || null;
+
+        let url = `${resource}?filter=${filter}`;
+
+        if(from && to) url += `&from=${from}&to=${to}`;
+        if(itemsIds) url += `&items=${itemsIds.join(',')}`;
+        if(clientsIds) url += `&clients=${clientsIds.join(',')}`;
+
+        return Service.get(url, authorization(token));
     },
     show: (token, id) => Service.get(`${resource}/${id}`, authorization(token)),
     create: (token, warranty) => Service.post(resource, {...warranty}, authorization(token)),

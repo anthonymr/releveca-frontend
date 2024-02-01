@@ -14,8 +14,8 @@ export const useWarranty = defineStore('warranty-store', {
   },
 
   actions: {
-    async getWarranties(filter = null) {
-        const { data } = await WarrantyService.index(this.session.token, filter);
+    async getWarranties(filter = null, complexFilter = null) {
+        const { data } = await WarrantyService.index(this.session.token, filter, complexFilter);
         this.warranties = data.payload || [];
     },
 
