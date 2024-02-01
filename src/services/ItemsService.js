@@ -3,7 +3,7 @@ import { Service, authorization } from '/src/services/Service';
 const resource = 'items';
 
 const ItemService = {
-  getItems(token, page = 0, count = 10, filter = '') {
+  getItems(token, page, count, filter = '') {
     let url = `${resource}?filter=${filter}`
     if(page != null) url += `&page=${page}`
     if(count) url += `&count=${count}`
