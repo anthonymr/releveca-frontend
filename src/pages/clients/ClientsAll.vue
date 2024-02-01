@@ -5,8 +5,8 @@
     <DataTable :value="clientsTable" stripedRows tableStyle="min-width: 50rem">
       <Column field="id" header="ID" style="width: 60px" />
       <Column field="name" header="Nombre" />
-      <Column field="phone" header="Teléfono" style="width: 120px" />
-      <Column field="email" header="Correo" style="width: 170px"/>
+      <Column field="phone" header="Teléfono" style="width: 300px" />
+      <Column field="email" header="Correo" style="width: 300px"/>
       <Column field="approval" header="Aprobado" style="width: 50px" >
         <template #body="{ data }">
           <i class="pi" :class="{ 'pi-check-circle text-green-500': data.approval, 'pi-times-circle text-red-400': !data.approval }"></i>

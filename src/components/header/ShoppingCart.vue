@@ -12,6 +12,7 @@
           optionLabel="name"
           placeholder="Cliente"
           filter
+          :virtualScrollerOptions="{ itemSize: 38 }"
           :style="{ width: '100%' }"
         />        
       </div>

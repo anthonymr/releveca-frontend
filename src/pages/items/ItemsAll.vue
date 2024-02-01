@@ -1,5 +1,5 @@
 <template>
-  <base-search @search="searchItems"/>
+  <base-search @search="searchItems" placeholder="Buscar artículo"/>
 
   <DataView :value="items">
     <template #list="{data}">
