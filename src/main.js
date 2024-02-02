@@ -105,4 +105,5 @@ app.use(router);
 app.use(pinia);
 app.mount('#app');
 
-checkAuthentication(router);
+// Router hooks
+ checkAuthentication(router);

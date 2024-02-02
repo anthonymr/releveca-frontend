@@ -23,6 +23,8 @@ export const useCorporation = defineStore('corporation-store', {
       this.fetching = true;
       const response = await CorporationService.setCorporation(this.session.token, corp.id);
       this.session.corporation = response.data.payload;
+      localStorage.setItem('corporation', JSON.stringify(response.data.payload));
+
       this.fetching = false;
       this.router.push('/');
     },

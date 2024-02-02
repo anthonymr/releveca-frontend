@@ -15,6 +15,8 @@ export const useSession = defineStore('session-store', {
       this.fetching = true;
       const response = await AuthenticationService.login(username, password);
       this.token = response.data.payload.token;
+
+      localStorage.setItem('token', this.token);
       this.fetching = false;
     },
     async fetchSessionInfo() {
