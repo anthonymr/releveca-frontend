@@ -72,7 +72,10 @@
                 <template #option="{option}">
                   <div class="w-full p-d-flex p-ai-center">
                     <span class="p-ml-2 flex justify-content-between">
-                      {{ option.name }}
+                      <div class="flex align-items-center">
+                        <div :style="'width: 10px; height: 30px; border-radius: 5px; margin-right: 10px; background-color:#' + option.color"></div>
+                        {{ option.name }}
+                      </div>
                       <Button class="p-2" severity="danger" @click="$emit('remove-status', option)">
                         <font-awesome-icon icon="fa-minus" />
                       </Button>
@@ -95,6 +98,7 @@
   
   <script>
   import ValidatorService from '../../services/ValidatorService';
+  
   export default {
     name: 'WarrantyForm',
     props: {

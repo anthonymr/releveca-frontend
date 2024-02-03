@@ -12,12 +12,18 @@
 
         @create="createNewWarranty"
         @remove-status="removeStatus"
-        @new-status="createNewStatus"
+        @new-status="displayNewStatusModal"
     ></WarrantyForm>
+    <WarrantyStatusModal
+        :showStatusModal="showStatusModal"
+        @cancel="showStatusModal = false"
+        @create="createNewStatus"
+    />
 </template>
 
 <script>
 import WarrantyForm from '../../components/forms/WarrantyForm.vue';
+import WarrantyStatusModal from '../../components/warranty/WarrantyStatusModal.vue';
 import { useClient } from '../../store/client';
 import { useItem } from '../../store/items';
 import { useWarranty } from '../../store/warranty';
@@ -26,7 +32,10 @@ import { mapActions, mapState } from 'pinia';
 export default {
     name: 'WarrantyNew',
 
-    components: { WarrantyForm },
+    components: { 
+        WarrantyForm,
+        WarrantyStatusModal
+    },
 
     data(){
         return {
@@ -35,6 +44,7 @@ export default {
             qty: 0,
             notes: '',
             status: null,
+            showStatusModal: false,
         }
     },
 
@@ -49,17 +59,22 @@ export default {
         ...mapActions(useItem, ['getAllItems']),
         ...mapActions(useWarranty, ['createWarranty', 'getWarrantyStates', 'deleteWarrantyState', 'createWarrantyState']),
 
-        async createNewStatus(){
-            let newStatusName = prompt('Ingrese el nombre del nuevo estado');
+        displayNewStatusModal(){
+            this.showStatusModal = true;
+        },
 
-            if(!newStatusName) {
+        async createNewStatus({ name, color }){
+            console.log(name, color);
+            
+            if(!name || !color) {
+                this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar el nombre y el color del estado', life: 3000 });
                 return;
             }
-            
+
             let newStatus = null;
 
             try {
-                newStatus = await this.createWarrantyState({ name: newStatusName });
+                newStatus = await this.createWarrantyState({ name, color });
             } catch (error) {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo crear el estado', life: 3000 });
                 return;
@@ -71,6 +86,8 @@ export default {
             } else {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo crear el estado', life: 3000 });
             }
+
+            this.showStatusModal = false;
         },
 
         async removeStatus(status){
