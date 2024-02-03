@@ -114,6 +114,10 @@
       notes: { type: String, default: '' },
       status: { type: Object, default: null },
     },
+
+    created(){
+      console.log({ clients: this.clients, items: this.items, states: this.states, client: this.client, item: this.item, qty: this.qty, notes: this.notes, status: this.status })
+    },
     
     emits: ['create', 'update:client', 'update:item', 'update:qty', 'update:notes', 'update:status', 'remove-status', 'new-status'],
     

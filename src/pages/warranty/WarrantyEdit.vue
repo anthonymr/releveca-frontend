@@ -1,7 +1,7 @@
 <template>
     <WarrantyForm
-        :clients="clients"
-        :items="items"
+        :clients="allClients.items"
+        :items="allItems.items"
         :states="warrantyStates"
 
         v-model:client="client"
@@ -44,29 +44,43 @@ export default {
     },
 
     async created(){
-        await this.getClients();
-        await this.getItems();
-        await this.getWarrantyStates();
-        this.warranty = (await this.getWarranty(this.warrantyId)).payload;
+        try {
+            this.$toast.add({ severity: 'info', summary: 'Cargando', detail: 'Cargando información de la garantía' });
+            await Promise.all([
+                this.getAllClients(),
+                this.getAllItems(),
+                this.getWarrantyStates(),
+            ]);
+            this.$toast.removeAllGroups();
+            this.warranty = (await this.getWarranty(this.warrantyId)).payload;
+        } catch (error) {
+            console.error(error);
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar la garantía', life: 3000 });
+            return;
+        }
         this.fillFields();
     },
 
     methods: {
-        ...mapActions(useClient, ['getClients']),
-        ...mapActions(useItem, ['getItems']),
+        ...mapActions(useClient, ['getAllClients']),
+        ...mapActions(useItem, ['getAllItems']),
         ...mapActions(useWarranty, ['getWarranty', 'getWarrantyStates', 'deleteWarrantyState', 'createWarrantyState', 'updateWarranty']),
 
         fillFields(){
-            this.client = this.clients.find(client => client.id === this.warranty.client_id);
-
-            this.item = this.items.find(item => item.id === this.warranty.item_id);
+            this.client = this.allClients.items.find(client => client.id === this.warranty.client_id);
+            this.item = this.allItems.items.find(item => item.id === this.warranty.item_id);
             this.status = this.warrantyStates.find(state => state.name === this.warranty.status);
-            this.qty = this.warranty.quantity;
+            this.qty = parseFloat(this.warranty.quantity);
             this.notes = this.warranty.notes;
         },
 
         async editWarranty(errors){
             if(errors.length > 0) {
+                this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos', life: 3000 });
+                return;
+            }
+
+            if(!this.client.id || ! this.item.id || ! this.qty || !this.status.name) {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos', life: 3000 });
                 return;
             }
@@ -142,8 +156,8 @@ export default {
     },
 
     computed: {
-        ...mapState(useClient, ['clients']),
-        ...mapState(useItem, ['items']),
+        ...mapState(useClient, ['allClients']),
+        ...mapState(useItem, ['allItems']),
         ...mapState(useWarranty, ['warrantyStates']),
     },
 }
