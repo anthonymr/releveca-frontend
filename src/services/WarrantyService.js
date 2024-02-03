@@ -3,7 +3,7 @@ import { Service, authorization } from '/src/services/Service';
 const resource = 'warranties';
 
 const WarrantyService = {
-    index: (token, filter='', complexFilter=null) => {
+    index: (token, filter='', complexFilter=null, globalFilter=null, globalFilterField=null) => {
         let from = complexFilter?.fromDate?.toISOString() || null;
         let to = complexFilter?.toDate?.toISOString() || null;
         let clientsIds = complexFilter?.selectedClients?.map(client => client.id) || null;
@@ -14,6 +14,10 @@ const WarrantyService = {
         if(from && to) url += `&from=${from}&to=${to}`;
         if(itemsIds) url += `&items=${itemsIds.join(',')}`;
         if(clientsIds) url += `&clients=${clientsIds.join(',')}`;
+        if(globalFilter && globalFilterField) {
+            url += `&global_filter=${globalFilter}`;
+            url += `&global_filter_field=${globalFilterField}`;
+        }
 
         return Service.get(url, authorization(token));
     },

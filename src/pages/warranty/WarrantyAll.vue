@@ -1,7 +1,36 @@
 <template>
     <div class="mb-4 flex justify-content-between">
-        <div class="flex align-items-center text-gray-600 font-normal">
+        <div class="flex">
+            <span class="p-input-icon-left">
+                <font-awesome-icon icon="search" />
+                <InputText
+                    v-model="globalFilter"
+                    placeholder="Buscar garantía (enter)"
+                    class="grouped-left w-28rem"
+                    @keyup.enter="getWarranties(filter.value, complexFilters, globalFilter, globalFilterField)"
+                />
+            </span>
+            
             <Dropdown
+                :options="columnsToSearch"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Buscar por"
+                class="mr-2 grouped-right surface-100"
+                v-model="globalFilterField"
+                @change="globalFilterFieldChanged"
+            />
+        </div>
+        <div class="flex align-items-center text-gray-600 font-normal">
+            <span class="mr-2 text-sm font-light">
+                Mostrando <span class="text-color font-bold mx-1">{{ warranties.length }}</span> garantías
+            </span>
+
+            <Button class="ml-2 h-full grouped-left" :severity="anyComplexFilters ? 'success' : 'secondary'" @click="showFiltersModal = true">
+                <font-awesome-icon icon="filter" />
+            </Button>
+            <Dropdown
+                class="grouped-right"
                 v-model="filter"
                 :options="filterOptions"
                 optionLabel="label"
@@ -9,36 +38,31 @@
                 :disabled="disableFilter"
                 @change="warrantiesFilterChanged"
             />
-            <download-excel :data="excelObject">
-                <Button class="ml-4 mr-4 h-full">
+
+            <download-excel :data="excelObject" class="h-full">
+                <Button class="ml-2 h-full" severity="secondary">
                     <font-awesome-icon icon="file-excel" />
                 </Button>
             </download-excel>
-        
-            Mostrando <span class="text-color font-bold mx-1">{{ warranties.length }}</span> garantías
-        </div>
-        <div>
-            <Button class="ml-2 h-full" :severity="anyComplexFilters ? 'success' : 'secondary'" @click="showFiltersModal = true">
-                <font-awesome-icon icon="filter" />
-            </Button>
             <Button class="ml-2 h-full" severity="primary" @click="toNewWarrantyPage">
                 <font-awesome-icon icon="plus" />
             </Button>
         </div>
     </div>
-    <DataTable :value="warranties" tableStyle="min-width: 50rem" v-if="anyWarranties">
-        <column header="Creado el">
+    <DataTable :value="warranties" tableStyle="min-width: 50rem" v-if="anyWarranties" sortMode="multiple">
+        <column header="Creado el" sortable>
+            <template #header>
+            </template>
             <template #body="{ data }">
                 <p>{{ new Date(data.created_at).toLocaleDateString() }}</p>
             </template>
         </column>
-        <column field="client.name" header="Cliente"></column>
-        <column field="item.code" header="Código de producto"></column>
-        <column field="item.name" header="Descripción del producto"></column>
-        <column field="quantity" header="UND"></column>
-        <column field="notes" header="Observación"></column>
-        <column field="status" header="Estado"></column>
-
+        <column field="client.name" header="Cliente" sortable />
+        <column field="item.code" header="Código de producto" sortable />
+        <column field="item.name" header="Descripción del producto" sortable />
+        <column field="quantity" header="UND" sortable />
+        <column field="notes" header="Observación" sortable />
+        <column field="status" header="Estado" sortable />
         <Column>
           <template #body="{ data }">
             <Button class="px-2 py-2 mr-2" severity="info" @click="goToWarranty(data)">
@@ -72,11 +96,22 @@ export default {
     components: { WarrantyFilterModal },
     
     created(){
-        useWarranty().getWarranties();
+        this.getWarranties(this.filter.value, this.complexFilters,  this.globalFilter, this.globalFilterField);
     },
 
     data(){
         return {
+            sortingDirection: 'asc',
+            globalFilter: '',
+            globalFilterField: 'client_name',
+            columnsToSearch: [
+                { label: 'Buscando por: Cliente', value: 'client_name' },
+                { label: 'Buscando por: Código de producto', value: 'item_code' },
+                { label: 'Buscando por: Descripción del producto', value: 'item_name' },
+                { label: 'Buscando por: Observación', value: 'notes' },
+                { label: 'Buscando por: Estado', value: 'status' },
+            ],
+
             showFiltersModal: false,
 
             complexFilters: {
@@ -104,6 +139,12 @@ export default {
     methods: {
         ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty']),
 
+        globalFilterFieldChanged(){
+            if(this.globalFilter === '') return;
+
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
+        },
+
         toNewWarrantyPage(){
             this.$router.push({ name: 'Nueva garantía' });
         },
@@ -120,13 +161,13 @@ export default {
                 this.complexFilters.toDate = null;
             }
             
-            this.getWarranties(filters, this.complexFilters);
+            this.getWarranties(filters, this.complexFilters, this.globalFilter, this.globalFilterField);
 
             this.showFiltersModal = false;
         },
 
         warrantiesFilterChanged(){
-            this.getWarranties(this.filter.value, this.complexFilters);
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
         },
 
         goToWarranty(warranty){
@@ -147,7 +188,7 @@ export default {
 
          if(result.message === 'Warranty deleted') {
              this.$toast.add({ severity: 'success', summary: 'Éxito', detail: 'Garantía eliminada correctamente', life: 3000 });
-             this.getWarranties(this.filter.value);
+             this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
          } else {
              this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar la garantía', life: 3000 });
          }
@@ -184,3 +225,16 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.grouped-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+:deep(.grouped-right.p-dropdown) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 0 !important;
+}
+</style>
