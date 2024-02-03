@@ -62,7 +62,13 @@
         <column field="item.name" header="Descripción del producto" sortable />
         <column field="quantity" header="UND" sortable />
         <column field="notes" header="Observación" sortable />
-        <column field="status" header="Estado" sortable />
+        <column header="Estado" sortable>
+            <template #body="{ data }">
+                <span class="tag" :style="{ 'background-color': getStatusColor(data.status) }">
+                    {{ data.status }}
+                </span>
+            </template>
+        </column>
         <Column>
           <template #body="{ data }">
             <Button class="px-2 py-2 mr-2" severity="info" @click="goToWarranty(data)">
@@ -97,6 +103,7 @@ export default {
     
     created(){
         this.getWarranties(this.filter.value, this.complexFilters,  this.globalFilter, this.globalFilterField);
+        this.getWarrantyStates();
     },
 
     data(){
@@ -137,7 +144,11 @@ export default {
     },
 
     methods: {
-        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty']),
+        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates']),
+
+        getStatusColor(status){
+            return '#' + this.warrantyStates.find(state => state.name === status)?.color;
+        },
 
         globalFilterFieldChanged(){
             if(this.globalFilter === '') return;
@@ -196,7 +207,7 @@ export default {
     },
 
     computed: {
-        ...mapState(useWarranty, ['warranties']),
+        ...mapState(useWarranty, ['warranties', 'warrantyStates']),
 
         anyComplexFilters(){
             return this.complexFilters.fromDate ||
@@ -236,5 +247,16 @@ export default {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
     border-left: 0 !important;
+}
+
+.tag {
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    color: black;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 0.5rem 0;
 }
 </style>
