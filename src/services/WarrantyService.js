@@ -22,7 +22,15 @@ const WarrantyService = {
         return Service.get(url, authorization(token));
     },
     show: (token, id) => Service.get(`${resource}/${id}`, authorization(token)),
-    create: (token, warranty) => Service.post(resource, {...warranty}, authorization(token)),
+
+    
+    create: (token, warranty) => {
+        return Service.post(resource, warranty, authorization(token), {
+            'Content-Type': 'multipart/form-data',
+        });
+    },
+
+
     destroy: (token, id) => Service.delete(`${resource}/${id}`, authorization(token)),
     update: (token, id, warranty) => Service.put(`${resource}/${id}`, {...warranty}, authorization(token)),
     groupedByItem: (token) => Service.get(`${resource}/grouped_by_item`, authorization(token)),

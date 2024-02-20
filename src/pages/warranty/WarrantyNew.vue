@@ -3,17 +3,24 @@
         :clients="allClients.items"
         :items="allItems.items"
         :states="warrantyStates"
+        :suppliers="allSuppliers.items"
+        :sellers="allSellers.items"
 
         v-model:client="client"
         v-model:item="item"
         v-model:qty="qty"
         v-model:notes="notes"
+        v-model:notes2="notes2"
         v-model:status="status"
+        v-model:supplier="supplier"
+        v-model:seller="seller"
+        v-model:files="files"
 
         @create="createNewWarranty"
         @remove-status="removeStatus"
         @new-status="displayNewStatusModal"
     ></WarrantyForm>
+
     <WarrantyStatusModal
         :showStatusModal="showStatusModal"
         @cancel="showStatusModal = false"
@@ -26,7 +33,9 @@ import WarrantyForm from '../../components/forms/WarrantyForm.vue';
 import WarrantyStatusModal from '../../components/warranty/WarrantyStatusModal.vue';
 import { useClient } from '../../store/client';
 import { useItem } from '../../store/items';
+import { useSupplier } from '../../store/suppliers';
 import { useWarranty } from '../../store/warranty';
+import { useSeller } from '../../store/sellers';
 import { mapActions, mapState } from 'pinia';
 
 export default {
@@ -40,11 +49,15 @@ export default {
     data(){
         return {
             client: null,
+            supplier: null,
+            seller: null,
             item: null,
             qty: 0,
             notes: '',
+            notes2: '',
             status: null,
             showStatusModal: false,
+            files: []
         }
     },
 
@@ -52,11 +65,15 @@ export default {
         this.getAllClients();
         this.getAllItems();
         this.getWarrantyStates();
+        this.getAllSuppliers();
+        this.getAllSellers();
     },
 
     methods: {
         ...mapActions(useClient, ['getAllClients']),
         ...mapActions(useItem, ['getAllItems']),
+        ...mapActions(useSupplier, ['getAllSuppliers']),
+        ...mapActions(useSeller, ['getAllSellers']),
         ...mapActions(useWarranty, ['createWarranty', 'getWarrantyStates', 'deleteWarrantyState', 'createWarrantyState']),
 
         displayNewStatusModal(){
@@ -64,8 +81,6 @@ export default {
         },
 
         async createNewStatus({ name, color }){
-            console.log(name, color);
-            
             if(!name || !color) {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar el nombre y el color del estado', life: 3000 });
                 return;
@@ -115,13 +130,21 @@ export default {
                 return;
             }
 
-            const warranty = {
-                client_id: this.client.id,
-                item_id: this.item.id,
-                quantity: this.qty,
-                notes: this.notes,
-                status: this.status.name,
-            }
+            const warranty = new FormData();
+
+            warranty.append('warranty[client_id]', this.client.id);
+            warranty.append('warranty[item_id]', this.item.id);
+            warranty.append('warranty[supplier_id]', this.supplier.id);
+            warranty.append('warranty[seller_id]', this.seller.id);
+            warranty.append('warranty[quantity]', this.qty);
+            warranty.append('warranty[notes]', this.notes);
+            warranty.append('warranty[notes2]', this.notes2);
+            warranty.append('warranty[status]', this.status.name);
+
+            this.files.forEach(file => {
+                warranty.append('warranty[files][]', file);
+            });
+
 
             let newWarranty = null;
 
@@ -144,6 +167,8 @@ export default {
     computed: {
         ...mapState(useClient, ['allClients']),
         ...mapState(useItem, ['allItems']),
+        ...mapState(useSupplier, ['allSuppliers']),
+        ...mapState(useSeller, ['allSellers']),
         ...mapState(useWarranty, ['warrantyStates']),
     }
 }

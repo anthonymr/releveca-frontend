@@ -3,12 +3,16 @@
         :clients="allClients.items"
         :items="allItems.items"
         :states="warrantyStates"
+        :suppliers="allSuppliers.items"
+        :sellers="allSellers.items"
 
         v-model:client="client"
         v-model:item="item"
         v-model:qty="qty"
         v-model:notes="notes"
         v-model:status="status"
+        v-model:supplier="supplier"
+        v-model:seller="seller"
 
         :editing="true"
 
@@ -22,7 +26,9 @@
 import WarrantyForm from '../../components/forms/WarrantyForm.vue';
 import { useClient } from '../../store/client';
 import { useItem } from '../../store/items';
+import { useSupplier } from '../../store/suppliers';
 import { useWarranty } from '../../store/warranty';
+import { useSeller } from '../../store/sellers';
 import { mapActions, mapState } from 'pinia';
 
 export default {
@@ -34,6 +40,8 @@ export default {
         return {
             client: null,
             item: null,
+            supplier: null,
+            seller: null,
             qty: 0,
             notes: '',
             status: null,
@@ -50,6 +58,8 @@ export default {
                 this.getAllClients(),
                 this.getAllItems(),
                 this.getWarrantyStates(),
+                this.getAllSuppliers(),
+                this.getAllSellers(),
             ]);
             this.$toast.removeAllGroups();
             this.warranty = (await this.getWarranty(this.warrantyId)).payload;
@@ -64,12 +74,16 @@ export default {
     methods: {
         ...mapActions(useClient, ['getAllClients']),
         ...mapActions(useItem, ['getAllItems']),
+        ...mapActions(useSupplier, ['getAllSuppliers']),
+        ...mapActions(useSeller, ['getAllSellers']),
         ...mapActions(useWarranty, ['getWarranty', 'getWarrantyStates', 'deleteWarrantyState', 'createWarrantyState', 'updateWarranty']),
 
         fillFields(){
             this.client = this.allClients.items.find(client => client.id === this.warranty.client_id);
             this.item = this.allItems.items.find(item => item.id === this.warranty.item_id);
             this.status = this.warrantyStates.find(state => state.name === this.warranty.status);
+            this.supplier = this.allSuppliers.items.find(supplier => supplier.id === this.warranty.supplier_id);
+            this.seller = this.allSellers.items.find(seller => seller.id === this.warranty.seller_id);
             this.qty = parseFloat(this.warranty.quantity);
             this.notes = this.warranty.notes;
         },
@@ -93,6 +107,8 @@ export default {
                 {
                     client_id: this.client.id,
                     item_id: this.item.id,
+                    supplier_id: this.supplier.id,
+                    seller_id: this.seller.id,
                     quantity: this.qty,
                     notes: this.notes,
                     status: this.status.name,
@@ -159,6 +175,8 @@ export default {
         ...mapState(useClient, ['allClients']),
         ...mapState(useItem, ['allItems']),
         ...mapState(useWarranty, ['warrantyStates']),
+        ...mapState(useSupplier, ['allSuppliers']),
+        ...mapState(useSeller, ['allSellers']),
     },
 }
 

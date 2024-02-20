@@ -58,10 +58,14 @@
             </template>
         </column>
         <column field="client.name" header="Cliente" sortable />
+        <column field="client.email" header="Correo" sortable />
         <column field="item.code" header="Código de producto" sortable />
         <column field="item.name" header="Descripción del producto" sortable />
+        <column field="supplier.name" header="Proveedor" sortable />
+        <column field="seller.name" header="Vendedor" sortable />
         <column field="quantity" header="UND" sortable />
         <column field="notes" header="Observación" sortable />
+        <column field="notes2" header="Observación 2" sortable />
         <column header="Estado" sortable>
             <template #body="{ data }">
                 <span class="tag" :style="{ 'background-color': getStatusColor(data.status) }">
@@ -71,17 +75,36 @@
         </column>
         <Column>
           <template #body="{ data }">
-            <Button class="px-2 py-2 mr-2" severity="info" @click="goToWarranty(data)">
+            <Button
+                class="px-2 py-2 mr-2 small-btn"
+                severity="secondary"
+                v-if="data.files_count > 0"
+                @click="toggleAttachmentsMenu($event, data)"
+                aria-haspopup="true"
+                :aria-controls="`attachments-menu-${data.id}`"
+            >
+                <font-awesome-icon icon="paperclip" />
+            </Button>
+            <Menu :ref="`menu-${data.id}`" :id="`attachments-menu-${data.id}`" :model="attachmentsMenuItems" :popup="true" class="w-max">
+                <template #item="{ item }">
+                    <div class="flex gap-2 p-2 align-items-center cursor-pointer select-none">
+                        <font-awesome-icon :icon="item.icon" />
+                        <span class="ml-2">{{ item.label }}</span>
+                    </div>
+                </template>
+            </Menu>
+
+            <Button class="px-2 py-2 mr-2 small-btn" :class="{'no-files': data.files_count == 0}" severity="info" @click="goToWarranty(data)">
                 <font-awesome-icon icon="edit" />
             </Button>
-            <Button class="px-2 py-2" severity="danger" @click="removeWarranty(data)">
+            <Button class="px-2 py-2 small-btn" severity="danger" @click="removeWarranty(data)">
                 <font-awesome-icon icon="trash" />
             </Button>
           </template>
         </Column>
     </DataTable>
     <div v-else class="w-full h-12rem flex justify-content-center align-items-center text-400">
-        <p>No hay garantías registradas</p>
+        <p>No hay garantías que cumplan con los parámetros de búsqueda</p>
     </div>
     <WarrantyFilterModal
         :show-filters-modal="showFiltersModal"
@@ -92,6 +115,7 @@
 
 <script>
 import WarrantyFilterModal from '../../components/warranty/WarrantyFilterModal.vue';
+import { backEndURL } from '../../services/Service'
 
 import { useWarranty } from '../../store/warranty';
 import { mapState, mapActions } from 'pinia';
@@ -116,7 +140,10 @@ export default {
                 { label: 'Buscando por: Código de producto', value: 'item_code' },
                 { label: 'Buscando por: Descripción del producto', value: 'item_name' },
                 { label: 'Buscando por: Observación', value: 'notes' },
+                { label: 'Buscando por: Observación 2', value: 'notes2' },
                 { label: 'Buscando por: Estado', value: 'status' },
+                { label: 'Buscando por: Proveedor', value: 'supplier_name'},
+                { label: 'Buscando por: Vendedor', value: 'seller_name'}
             ],
 
             showFiltersModal: false,
@@ -140,14 +167,52 @@ export default {
                 { label: 'Ver todas las garantías', value: 'all' },
             ],
             disableFilter: false,
+
+            attachmentsMenuItems: [],
         }
     },
 
     methods: {
         ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates']),
 
+        toggleAttachmentsMenu(event, warranty){
+            this.attachmentsMenuItems = warranty.files_urls.map(file => {
+                const fileName = decodeURI(file.split('/').pop());
+
+                return {
+                    icon: this.fileIcon(fileName.split('.').pop()),
+                    label: fileName,
+                    command: () => window.open(backEndURL + file, '_blank')
+                }
+            });
+            this.$refs[`menu-${warranty.id}`].toggle(event);
+        },
+
         getStatusColor(status){
             return '#' + this.warrantyStates.find(state => state.name === status)?.color;
+        },
+
+        fileIcon(extension){
+            switch(extension){
+                case 'pdf':
+                    return 'fa-file-pdf';
+                case 'doc':
+                case 'docx':
+                    return 'fa-file-word';
+                case 'xls':
+                case 'xlsx':
+                    return 'fa-file-excel';
+                case 'ppt':
+                case 'pptx':
+                    return 'fa-file-powerpoint';
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                    return 'fa-file-image';
+                default:
+                    return 'fa-file';
+            }
         },
 
         globalFilterFieldChanged(){
@@ -221,6 +286,8 @@ export default {
                 return {
                     'Creado el': new Date(warranty.created_at).toLocaleDateString(),
                     'Cliente': warranty.client.name,
+                    'Proveedor': warranty.supplier.name,
+                    'Vendedor': warranty.seller.name,
                     'Código de producto': warranty.item.code,
                     'Descripción del producto': warranty.item.name,
                     'UND': warranty.quantity,
@@ -232,7 +299,8 @@ export default {
 
         anyWarranties(){
             return this.warranties.length > 0;
-        }
+        },
+
     }
 }
 </script>
@@ -258,5 +326,47 @@ export default {
     text-transform: uppercase;
     display: inline-block;
     margin: 0.5rem 0;
+}
+
+:deep(.p-datatable-thead),
+:deep(.p-datatable-tbody){
+    font-size: 13px !important;
+}
+
+:deep(.p-datatable-table){
+    border-left: 1px solid #e0e0e0 !important;
+    border-top: 1px solid #e0e0e0 !important;
+}
+
+:deep(.p-datatable-thead th),
+:deep(.p-datatable-tbody td){
+    padding: 0 5px !important;
+    /* wrapp text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 1px solid #e0e0e0 !important;
+}
+
+:deep(.p-datatable-thead th){
+    padding: 15px 5px !important;
+}
+
+:deep(.tag){
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+}
+
+:deep(.p-button.small-btn) {
+    font-size: 13px !important;
+    padding: 3px !important
+}
+
+.btn-space {
+    width: 32px;
+}
+
+.no-files {
+    margin-left: 27px
 }
 </style>
