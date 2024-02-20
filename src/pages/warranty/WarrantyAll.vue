@@ -125,9 +125,13 @@ export default {
 
     components: { WarrantyFilterModal },
     
-    created(){
-        this.getWarranties(this.filter.value, this.complexFilters,  this.globalFilter, this.globalFilterField);
-        this.getWarrantyStates();
+    async created(){
+        this.$toast.add({ severity: 'info', summary: 'Cargando', detail: 'Cargando garantías' });
+        await Promise.all([
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField),
+            this.getWarrantyStates()
+        ]);
+        this.$toast.removeAllGroups();
     },
 
     data(){

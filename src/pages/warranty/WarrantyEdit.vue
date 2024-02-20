@@ -10,9 +10,11 @@
         v-model:item="item"
         v-model:qty="qty"
         v-model:notes="notes"
+        v-model:notes2="notes2"
         v-model:status="status"
         v-model:supplier="supplier"
         v-model:seller="seller"
+        v-model:files="files"
 
         :editing="true"
 
@@ -44,7 +46,9 @@ export default {
             seller: null,
             qty: 0,
             notes: '',
+            notes2: '',
             status: null,
+            files: [],
 
             warrantyId: this.$route.params.id,
             warranty: null,
@@ -102,17 +106,27 @@ export default {
             let result = null;
 
             try {
+
+                const warranty = new FormData();
+
+                warranty.append('warranty[client_id]', this.client.id);
+                warranty.append('warranty[item_id]', this.item.id);
+                warranty.append('warranty[supplier_id]', this.supplier.id);
+                warranty.append('warranty[seller_id]', this.seller.id);
+                warranty.append('warranty[quantity]', this.qty);
+                warranty.append('warranty[notes]', this.notes);
+                warranty.append('warranty[notes2]', this.notes2);
+                warranty.append('warranty[status]', this.status.name);
+
+                this.files.forEach(file => {
+                    warranty.append('warranty[files][]', file);
+                });
+
+
                 result = await this.updateWarranty(
                     this.warrantyId,
-                {
-                    client_id: this.client.id,
-                    item_id: this.item.id,
-                    supplier_id: this.supplier.id,
-                    seller_id: this.seller.id,
-                    quantity: this.qty,
-                    notes: this.notes,
-                    status: this.status.name,
-                });
+                    warranty
+                );
             } catch (error) {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo editar la garantía', life: 3000 });
                 return;
