@@ -11,11 +11,12 @@
                 @change="$emit('update:client', $event.value)"
                 :modelValue="client"
                 :options="clients"
-                optionLabel="name"
+                :optionLabel="client => client.code + ' - ' + client.name"
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('client')"
                 :virtualScrollerOptions="{ itemSize: 38 }"
+                :filterFields="['name', 'code', 'rif', 'email']"
               />
               <Message severity="error" v-if="invalidClass('client')">Escoge el cliente de la lista</Message>
             </div>
@@ -26,11 +27,12 @@
                 @change="$emit('update:item', $event.value)"
                 :modelValue="item"
                 :options="items"
-                optionLabel="name"
+                :optionLabel="item => item.code + ' - ' + item.name"
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('item')"
                 :virtualScrollerOptions="{ itemSize: 38 }"
+                :filterFields="['name', 'code']"
               />
               <Message severity="error" v-if="invalidClass('item')">Escoge el artículo de la lista</Message>
             </div>
@@ -41,11 +43,12 @@
                 @change="$emit('update:supplier', $event.value)"
                 :modelValue="supplier"
                 :options="suppliers"
-                optionLabel="name"
+                :optionLabel="supplier => supplier.code + ' - ' + supplier.name"
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('supplier')"
                 :virtualScrollerOptions="{ itemSize: 38 }"
+                :filterFields="['name', 'code', 'rif', 'email']"
               />
               <Message severity="error" v-if="invalidClass('client')">Escoge el proveedor de la lista</Message>
             </div>
@@ -56,11 +59,12 @@
                 @change="$emit('update:seller', $event.value)"
                 :modelValue="seller"
                 :options="sellers"
-                optionLabel="name"
+                :optionLabel="seller => seller.code + ' - ' + seller.name"
                 filter
                 :style="{ width: '100%' }"
                 :class="invalidClass('seller')"
                 :virtualScrollerOptions="{ itemSize: 38 }"
+                :filterFields="['name', 'code', 'rif']"
               />
               <Message severity="error" v-if="invalidClass('client')">Escoge el proveedor de la lista</Message>
             </div>
