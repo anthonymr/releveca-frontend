@@ -282,6 +282,20 @@
           this.files = value;
         },
         deep: true,
+      },
+
+      client(value){
+        if(value.seller_code){
+          let seller = this.sellers.find(seller => seller.code === value.seller_code);
+          if(seller) this.$emit('update:seller', seller);
+        }
+      },
+
+      item(value){
+        if(value.supplier_code){
+          let supplier = this.suppliers.find(supplier => supplier.code === value.supplier_code);
+          if(supplier) this.$emit('update:supplier', supplier);
+        }
       }
     }
   }
