@@ -7,7 +7,7 @@
                     v-model="globalFilter"
                     placeholder="Buscar garantía (enter)"
                     class="grouped-left w-28rem"
-                    @keyup.enter="getWarranties(filter.value, complexFilters, globalFilter, globalFilterField)"
+                    @keyup.enter="getWarranties(filter.value, complexFilters, globalFilter, globalFilterField, includeUpdatedAt)"
                 />
             </span>
             
@@ -25,6 +25,12 @@
             <span class="mr-2 text-sm font-light">
                 Mostrando <span class="text-color font-bold mx-1">{{ warranties.length }}</span> garantías
             </span>
+
+            <div class="flex justify-content-end align-items-center mx-4">
+                <label for="switch1" class="text-gray-600 line-height-1 text-right mr-2">Incluir último<br> cambio</label>
+                <InputSwitch v-model="includeUpdatedAt" inputId="switch1" />
+            </div>
+            
 
             <Button class="ml-2 h-full grouped-left" :severity="anyComplexFilters ? 'success' : 'secondary'" @click="showFiltersModal = true">
                 <font-awesome-icon icon="filter" />
@@ -55,6 +61,13 @@
             </template>
             <template #body="{ data }">
                 <p>{{ new Date(data.created_at).toLocaleDateString() }}</p>
+            </template>
+        </column>
+        <column header="Último cambio" sortable>
+            <template #header>
+            </template>
+            <template #body="{ data }">
+                <p>{{ new Date(data.updated_at).toLocaleDateString() }}</p>
             </template>
         </column>
         <column field="client.name" header="Cliente" sortable />
@@ -128,7 +141,7 @@ export default {
     async created(){
         this.$toast.add({ severity: 'info', summary: 'Cargando', detail: 'Cargando garantías' });
         await Promise.all([
-            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField),
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField, this.includeUpdatedAt),
             this.getWarrantyStates()
         ]);
         this.$toast.removeAllGroups();
@@ -151,6 +164,7 @@ export default {
             ],
 
             showFiltersModal: false,
+            includeUpdatedAt: false,
 
             complexFilters: {
                 fromDate: null,
@@ -222,7 +236,7 @@ export default {
         globalFilterFieldChanged(){
             if(this.globalFilter === '') return;
 
-            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField, this.includeUpdatedAt);
         },
 
         toNewWarrantyPage(){
@@ -241,13 +255,13 @@ export default {
                 this.complexFilters.toDate = null;
             }
             
-            this.getWarranties(filters, this.complexFilters, this.globalFilter, this.globalFilterField);
+            this.getWarranties(filters, this.complexFilters, this.globalFilter, this.globalFilterField, this.includeUpdatedAt);
 
             this.showFiltersModal = false;
         },
 
         warrantiesFilterChanged(){
-            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField, this.includeUpdatedAt);
         },
 
         goToWarranty(warranty){
@@ -268,7 +282,7 @@ export default {
 
          if(result.message === 'Warranty deleted') {
              this.$toast.add({ severity: 'success', summary: 'Éxito', detail: 'Garantía eliminada correctamente', life: 3000 });
-             this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField);
+             this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField, this.includeUpdatedAt);
          } else {
              this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar la garantía', life: 3000 });
          }
@@ -276,7 +290,7 @@ export default {
     },
 
     computed: {
-        ...mapState(useWarranty, ['warranties', 'warrantyStates']),
+        ...mapState(useWarranty, ['warranties', 'warrantyStates', 'fetchingWarranties']),
 
         anyComplexFilters(){
             return this.complexFilters.fromDate ||
@@ -289,6 +303,7 @@ export default {
             return this.warranties.map(warranty => {
                 return {
                     'Creado el': new Date(warranty.created_at).toLocaleDateString(),
+                    'Actualizado el': new Date(warranty.updated_at).toLocaleDateString(),
                     'Cliente': warranty.client.name,
                     'Proveedor': warranty.supplier.name,
                     'Vendedor': warranty.seller.name,
@@ -305,6 +320,17 @@ export default {
             return this.warranties.length > 0;
         },
 
+    },
+
+    watch: {
+        fetchingWarranties(value){
+            if(value) this.$toast.add({ severity: 'info', summary: 'Cargando', detail: 'Cargando garantías' });
+            else this.$toast.removeAllGroups();
+        },
+        
+        includeUpdatedAt(value){
+            this.getWarranties(this.filter.value, this.complexFilters, this.globalFilter, this.globalFilterField, value);
+        }
     }
 }
 </script>

@@ -43,6 +43,7 @@ import Dialog from 'primevue/dialog';
 import MultiSelect from 'primevue/multiselect';
 import Calendar from 'primevue/calendar';
 import ColorPicker from 'primevue/colorpicker';
+import InputSwitch from 'primevue/inputswitch';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -98,6 +99,7 @@ app.component('Dialog', Dialog);
 app.component('MultiSelect', MultiSelect);
 app.component('Calendar', Calendar);
 app.component('ColorPicker', ColorPicker);
+app.component('InputSwitch', InputSwitch);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);

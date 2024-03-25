@@ -9,14 +9,18 @@ export const useWarranty = defineStore('warranty-store', {
       warranties: [],
       warrantyStates: [],
 
+      fetchingWarranties: false,
+
       session: useSession(),
     }
   },
 
   actions: {
-    async getWarranties(filter = null, complexFilter = null, globalFilter = null, globalFilterField = false) {
-        const { data } = await WarrantyService.index(this.session.token, filter, complexFilter, globalFilter, globalFilterField);
+    async getWarranties(filter = null, complexFilter = null, globalFilter = null, globalFilterField = false, includeUpdatedAt = false) {
+        this.fetchingWarranties = true;
+        const { data } = await WarrantyService.index(this.session.token, filter, complexFilter, globalFilter, globalFilterField, includeUpdatedAt);
         this.warranties = data.payload || [];
+        this.fetchingWarranties = false;
     },
 
     async getWarranty(id) {
