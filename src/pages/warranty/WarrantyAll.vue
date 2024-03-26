@@ -55,67 +55,80 @@
             </Button>
         </div>
     </div>
-    <DataTable :value="warranties" tableStyle="min-width: 50rem" v-if="anyWarranties" sortMode="multiple">
-        <column header="Creado el" sortable>
-            <template #header>
-            </template>
-            <template #body="{ data }">
-                <p>{{ new Date(data.created_at).toLocaleDateString() }}</p>
-            </template>
-        </column>
-        <column header="Último cambio" sortable>
-            <template #header>
-            </template>
-            <template #body="{ data }">
-                <p>{{ new Date(data.updated_at).toLocaleDateString() }}</p>
-            </template>
-        </column>
-        <column field="client.name" header="Cliente" sortable />
-        <column field="client.email" header="Correo" sortable />
-        <column field="item.code" header="Código de producto" sortable />
-        <column field="item.name" header="Descripción del producto" sortable />
-        <column field="supplier.name" header="Proveedor" sortable />
-        <column field="seller.name" header="Vendedor" sortable />
-        <column field="quantity" header="UND" sortable />
-        <column field="notes" header="Observación" sortable />
-        <column field="notes2" header="Observación 2" sortable />
-        <column header="Estado" sortable>
-            <template #body="{ data }">
-                <span class="tag" :style="{ 'background-color': getStatusColor(data.status) }">
-                    {{ data.status }}
-                </span>
-            </template>
-        </column>
-        <Column>
-          <template #body="{ data }">
-            <Button
-                class="px-2 py-2 mr-2 small-btn"
-                severity="secondary"
-                v-if="data.files.length > 0"
-                @click="toggleAttachmentsMenu($event, data)"
-                aria-haspopup="true"
-                :aria-controls="`attachments-menu-${data.id}`"
-            >
-                <font-awesome-icon icon="paperclip" />
-            </Button>
-            <Menu :ref="`menu-${data.id}`" :id="`attachments-menu-${data.id}`" :model="attachmentsMenuItems" :popup="true" class="w-max">
-                <template #item="{ item }">
-                    <div class="flex gap-2 p-2 align-items-center cursor-pointer select-none">
-                        <font-awesome-icon :icon="item.icon" />
-                        <span class="ml-2">{{ item.label }}</span>
-                    </div>
+    <div v-if="anyWarranties" sortMode="multiple" class="table-container">
+        <DataTable
+            :value="warranties"
+            tableStyle="min-width: 50rem"
+            tableClass="the-table"
+            scrollable
+            scrollHeight="flex"
+            resizableColumns
+            paginator
+            reorderableColumns
+            :rows="25"
+            columnResizeMode="expand"
+        >
+            <column header="Creado" sortable headerClass="created-at-column">
+                <template #header>
                 </template>
-            </Menu>
+                <template #body="{ data }">
+                    <p>{{ new Date(data.created_at).toLocaleDateString() }}</p>
+                </template>
+            </column>
+            <column header="Actualizado" sortable headerClass="created-at-column">
+                <template #header>
+                </template>
+                <template #body="{ data }">
+                    <p>{{ new Date(data.updated_at).toLocaleDateString() }}</p>
+                </template>
+            </column>
+            <column field="client.name" header="Cliente" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="client.email" header="Correo" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="item.code" header="Código de producto" sortable headerClass="large-column" bodyClass="large-column"/>
+            <column field="item.name" header="Descripción del producto" sortable headerClass="x-large-column" bodyClass="x-large-column"/>
+            <column field="supplier.name" header="Proveedor" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="seller.name" header="Vendedor" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="quantity" header="UND" sortable />
+            <column field="notes" header="Observación" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="notes2" header="Observación 2" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column header="Estado" sortable>
+                <template #body="{ data }">
+                    <span class="tag" :style="{ 'background-color': getStatusColor(data.status) }">
+                        {{ data.status }}
+                    </span>
+                </template>
+            </column>
+            <Column>
+            <template #body="{ data }">
+                <Button
+                    class="px-2 py-2 mr-2 small-btn"
+                    severity="secondary"
+                    v-if="data.files.length > 0"
+                    @click="toggleAttachmentsMenu($event, data)"
+                    aria-haspopup="true"
+                    :aria-controls="`attachments-menu-${data.id}`"
+                >
+                    <font-awesome-icon icon="paperclip" />
+                </Button>
+                <Menu :ref="`menu-${data.id}`" :id="`attachments-menu-${data.id}`" :model="attachmentsMenuItems" :popup="true" class="w-max">
+                    <template #item="{ item }">
+                        <div class="flex gap-2 p-2 align-items-center cursor-pointer select-none">
+                            <font-awesome-icon :icon="item.icon" />
+                            <span class="ml-2">{{ item.label }}</span>
+                        </div>
+                    </template>
+                </Menu>
 
-            <Button class="px-2 py-2 mr-2 small-btn" :class="{'no-files': data.files_count == 0}" severity="info" @click="goToWarranty(data)">
-                <font-awesome-icon icon="edit" />
-            </Button>
-            <Button class="px-2 py-2 small-btn" severity="danger" @click="removeWarranty(data)">
-                <font-awesome-icon icon="trash" />
-            </Button>
-          </template>
-        </Column>
-    </DataTable>
+                <Button class="px-2 py-2 mr-2 small-btn" :class="{'no-files': data.files_count == 0}" severity="info" @click="goToWarranty(data)">
+                    <font-awesome-icon icon="edit" />
+                </Button>
+                <Button class="px-2 py-2 small-btn" severity="danger" @click="removeWarranty(data)">
+                    <font-awesome-icon icon="trash" />
+                </Button>
+            </template>
+            </Column>
+        </DataTable>
+    </div>
     <div v-else class="w-full h-12rem flex justify-content-center align-items-center text-400">
         <p>No hay garantías que cumplan con los parámetros de búsqueda</p>
     </div>
@@ -334,6 +347,33 @@ export default {
 }
 </script>
 
+<style>
+.created-at-column {
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+}
+
+.medium-column {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+
+}
+
+.large-column {
+    width: 180px !important;
+    min-width: 180px !important;
+    max-width: 180px !important;
+}
+
+.x-large-column {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+}
+</style>
+
 <style scoped>
 .grouped-left {
     border-top-right-radius: 0;
@@ -397,5 +437,9 @@ export default {
 
 .no-files {
     margin-left: 27px
+}
+
+.table-container {
+    height: calc(100vh - 250px);
 }
 </style>
