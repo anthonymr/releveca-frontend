@@ -18,7 +18,6 @@ const WarrantyService = {
             url += `&global_filter=${globalFilter}`;
             url += `&global_filter_field=${globalFilterField}`;
         }
-        console.log(includeUpdatedAt)
         if(includeUpdatedAt) url += '&include_updated_at=true';
 
         return Service.get(url, authorization(token));

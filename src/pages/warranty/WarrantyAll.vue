@@ -91,7 +91,7 @@
             <Button
                 class="px-2 py-2 mr-2 small-btn"
                 severity="secondary"
-                v-if="data.files_count > 0"
+                v-if="data.files.length > 0"
                 @click="toggleAttachmentsMenu($event, data)"
                 aria-haspopup="true"
                 :aria-controls="`attachments-menu-${data.id}`"
@@ -191,43 +191,42 @@ export default {
     },
 
     methods: {
-        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates']),
+        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates', 'getWarranty']),
 
         toggleAttachmentsMenu(event, warranty){
-            this.attachmentsMenuItems = warranty.files_urls.map(file => {
-                const fileName = decodeURI(file.split('/').pop());
-
+            this.attachmentsMenuItems = warranty.files.map(file => {
                 return {
-                    icon: this.fileIcon(fileName.split('.').pop()),
-                    label: fileName,
-                    command: () => window.open(backEndURL + file, '_blank')
+                    icon: this.fileIcon(file.blob.content_type),
+                    label: file.blob.filename,
+                    command: () => this.goToFile(warranty, file)
                 }
             });
             this.$refs[`menu-${warranty.id}`].toggle(event);
+        },
+
+        async goToFile(warranty, file){
+            const result = await this.getWarranty(warranty.id);
+            const url = result.payload.files_urls.find(f => f.endsWith(file.blob.filename));
+            window.open(backEndURL + url, '_blank');
         },
 
         getStatusColor(status){
             return '#' + this.warrantyStates.find(state => state.name === status)?.color;
         },
 
-        fileIcon(extension){
-            switch(extension){
-                case 'pdf':
-                    return 'fa-file-pdf';
-                case 'doc':
-                case 'docx':
-                    return 'fa-file-word';
-                case 'xls':
-                case 'xlsx':
-                    return 'fa-file-excel';
-                case 'ppt':
-                case 'pptx':
-                    return 'fa-file-powerpoint';
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                case 'gif':
+        fileIcon(contenType){
+            switch(contenType){
+                case 'image/png':
+                case 'image/jpeg':
                     return 'fa-file-image';
+                case 'application/pdf':
+                    return 'fa-file-pdf';
+                case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                    return 'fa-file-word';
+                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                    return 'fa-file-excel';
+                case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                    return 'fa-file-powerpoint';
                 default:
                     return 'fa-file';
             }
