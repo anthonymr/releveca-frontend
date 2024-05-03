@@ -90,6 +90,7 @@ export default {
             this.seller = this.allSellers.items.find(seller => seller.id === this.warranty.seller_id);
             this.qty = parseFloat(this.warranty.quantity);
             this.notes = this.warranty.notes;
+            this.notes2 = this.warranty.notes2;
         },
 
         async editWarranty(errors){
