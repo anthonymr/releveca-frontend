@@ -6,12 +6,24 @@ import WarrantyStateService from '../services/WarrantyStateService';
 export const useWarranty = defineStore('warranty-store', {
   state() {
     return {
-      warranties: [],
-      warrantyStates: [],
+        warranties: [],
+        warrantyStates: [],
 
-      fetchingWarranties: false,
+        fetchingWarranties: false,
 
-      session: useSession(),
+        session: useSession(),
+
+        sortingDirection: 'asc',
+        globalFilter: '',
+        globalFilterField: 'client_name',
+        includeUpdatedAt: false,
+        complexFilters: {
+            fromDate: null,
+            toDate: null,
+            selectedClients: [],
+            selectedItems: [],
+        },
+        filter: { label: 'Ver las garantías de hoy', value: 'today' },
     }
   },
 

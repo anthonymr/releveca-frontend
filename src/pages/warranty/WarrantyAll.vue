@@ -144,7 +144,7 @@ import WarrantyFilterModal from '../../components/warranty/WarrantyFilterModal.v
 import { backEndURL } from '../../services/Service'
 
 import { useWarranty } from '../../store/warranty';
-import { mapState, mapActions } from 'pinia';
+import { mapState, mapActions, mapWritableState  } from 'pinia';
 
 export default {
     name: 'WarrantyAll',
@@ -162,9 +162,9 @@ export default {
 
     data(){
         return {
-            sortingDirection: 'asc',
-            globalFilter: '',
-            globalFilterField: 'client_name',
+            // sortingDirection: 'asc',
+            // globalFilter: '',
+            // globalFilterField: 'client_name',
             columnsToSearch: [
                 { label: 'Buscando por: Cliente', value: 'client_name' },
                 { label: 'Buscando por: Código de producto', value: 'item_code' },
@@ -177,16 +177,16 @@ export default {
             ],
 
             showFiltersModal: false,
-            includeUpdatedAt: false,
+            // includeUpdatedAt: false,
 
-            complexFilters: {
-                fromDate: null,
-                toDate: null,
-                selectedClients: [],
-                selectedItems: [],
-            },
+            // complexFilters: {
+            //     fromDate: null,
+            //     toDate: null,
+            //     selectedClients: [],
+            //     selectedItems: [],
+            // },
 
-            filter: { label: 'Ver las garantías de hoy', value: 'today' },
+            // filter: { label: 'Ver las garantías de hoy', value: 'today' },
             filterOptions: [
                 { label: 'Ver las garantías de hoy', value: 'today' },
                 { label: 'Ver las garantías de ayer', value: 'yesterday'},
@@ -303,6 +303,7 @@ export default {
 
     computed: {
         ...mapState(useWarranty, ['warranties', 'warrantyStates', 'fetchingWarranties']),
+        ...mapWritableState(useWarranty, ['sortingDirection', 'globalFilter', 'globalFilterField', 'includeUpdatedAt', 'complexFilters', 'filter']),
 
         anyComplexFilters(){
             return this.complexFilters.fromDate ||
