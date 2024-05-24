@@ -245,7 +245,7 @@ export default {
             this.pdfTextLeft(doc, `Teléfono:   ${client.phone}`, 50);
             this.pdfTextLeft(doc, `Dirección de retiro:`, 55);
 
-            let splitedAddress = doc.splitTextToSize(client.address, 265);
+            let splitedAddress = doc.splitTextToSize(client.address, 255);
             this.pdfTextLeft(doc, splitedAddress, 60);
 
             this.pdfTextRight(doc, `Canidad`, 77);
