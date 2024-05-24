@@ -98,7 +98,6 @@
             <column field="quantity" header="UND" sortable />
             <column field="notes" header="Observación" sortable headerClass="medium-column" bodyClass="medium-column"/>
             <column field="notes2" header="Observación 2" sortable headerClass="medium-column" bodyClass="medium-column"/>
-            <column field="categories" header="Categoría" sortable headerClass="medium-column" bodyClass="medium-column"/>
             <column header="Categoría" sortable>
                 <template #body="{ data }">
                     <span class="tag" :style="{ 'background-color': '#ddd' }">
