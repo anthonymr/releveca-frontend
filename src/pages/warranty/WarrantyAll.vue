@@ -248,6 +248,7 @@ export default {
             let splitedAddress = doc.splitTextToSize(client.address, 255);
             this.pdfTextLeft(doc, splitedAddress, 60);
 
+            doc.setFontSize(10);
             this.pdfTextRight(doc, `Canidad`, 77);
             let y = 85;
             doc.line(15, 80, 265, 80);
@@ -262,8 +263,8 @@ export default {
             total = total.toFixed(1);
             this.pdfTextRight(doc, `Total: ${total}`, y);
 
+            doc.setFontSize(12);
             const docMaxVertical = doc.internal.pageSize.getHeight();
-
             this.pdfTextLeft(doc, 'FIRMA Y SELLO DEL CLIENTE:', docMaxVertical - 50);
             doc.line(85, docMaxVertical - 30, 200, docMaxVertical - 30);
 
