@@ -98,6 +98,14 @@
             <column field="quantity" header="UND" sortable />
             <column field="notes" header="Observación" sortable headerClass="medium-column" bodyClass="medium-column"/>
             <column field="notes2" header="Observación 2" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column field="categories" header="Categoría" sortable headerClass="medium-column" bodyClass="medium-column"/>
+            <column header="Categoría" sortable>
+                <template #body="{ data }">
+                    <span class="tag" :style="{ 'background-color': '#ddd' }">
+                        {{ data.categories }}
+                    </span>
+                </template>
+            </column>
             <column header="Estado" sortable>
                 <template #body="{ data }">
                     <span class="tag" :style="{ 'background-color': getStatusColor(data.status) }">
@@ -185,7 +193,8 @@ export default {
                 { label: 'Buscando por: Observación 2', value: 'notes2' },
                 { label: 'Buscando por: Estado', value: 'status' },
                 { label: 'Buscando por: Proveedor', value: 'supplier_name'},
-                { label: 'Buscando por: Vendedor', value: 'seller_name'}
+                { label: 'Buscando por: Vendedor', value: 'seller_name'},
+                { label: 'Buscando por: Categoría', value: 'categories'},
             ],
 
             showFiltersModal: false,

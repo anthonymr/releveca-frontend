@@ -15,6 +15,7 @@
         v-model:supplier="supplier"
         v-model:seller="seller"
         v-model:files="files"
+        v-model:category="category"
 
         @create="createNewWarranty"
         @remove-status="removeStatus"
@@ -57,7 +58,8 @@ export default {
             notes2: '',
             status: null,
             showStatusModal: false,
-            files: []
+            files: [],
+            category: '',
         }
     },
 
@@ -140,11 +142,12 @@ export default {
             warranty.append('warranty[notes]', this.notes);
             warranty.append('warranty[notes2]', this.notes2);
             warranty.append('warranty[status]', this.status.name);
+            warranty.append('warranty[categories]', this.category);
+
 
             this.files.forEach(file => {
                 warranty.append('warranty[files][]', file);
             });
-
 
             let newWarranty = null;
 

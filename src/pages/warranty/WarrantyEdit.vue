@@ -15,6 +15,7 @@
         v-model:supplier="supplier"
         v-model:seller="seller"
         v-model:files="files"
+        v-model:category="category"
 
         :editing="true"
 
@@ -49,6 +50,7 @@ export default {
             notes2: '',
             status: null,
             files: [],
+            category: '',
 
             warrantyId: this.$route.params.id,
             warranty: null,
@@ -91,6 +93,7 @@ export default {
             this.qty = parseFloat(this.warranty.quantity);
             this.notes = this.warranty.notes;
             this.notes2 = this.warranty.notes2;
+            this.category = this.warranty.categories;
         },
 
         async editWarranty(errors){
@@ -118,6 +121,7 @@ export default {
                 warranty.append('warranty[notes]', this.notes);
                 warranty.append('warranty[notes2]', this.notes2);
                 warranty.append('warranty[status]', this.status.name);
+                warranty.append('warranty[categories]', this.category);
 
                 this.files.forEach(file => {
                     warranty.append('warranty[files][]', file);

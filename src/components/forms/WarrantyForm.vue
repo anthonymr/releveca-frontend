@@ -97,6 +97,19 @@
             </div>
 
             <div class="field">
+              <label for="notes2">Categoría</label>
+              <Dropdown id="category"
+                @change="$emit('update:category', $event.value)"
+                :modelValue="category"
+                :options="['garantía', 'devolución', 'daños por flete']"
+                :style="{ width: '100%' }"
+                :class="invalidClass('category')"
+                filter
+              />
+              <Message severity="error" v-if="invalidClass('category')">Escoge la categoría de la lista</Message>
+            </div>
+
+            <div class="field">
               <label for="status">Estado</label>
               <Dropdown id="status"
                 @change="$emit('update:status', $event.value)"
@@ -189,6 +202,7 @@
       supplier: { type: Object, default: null },
       seller: { type: Object, default: null },
       files: { type: Array, default: () => [] },
+      category: { type: String, default: '' },
     },
 
     emits: [
@@ -259,6 +273,7 @@
         if(!this.seller) this.errors.push('seller');
         if(!this.validateQty) this.errors.push('qty');
         if(!this.status) this.errors.push('status');
+        if(!this.category) this.errors.push('category');
   
         this.$emit(action, this.errors);
       },
