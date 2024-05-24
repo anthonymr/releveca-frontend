@@ -50,6 +50,11 @@
                     <font-awesome-icon icon="file-excel" />
                 </Button>
             </download-excel>
+
+            <Button class="ml-2 h-full" severity="secondary" v-if="canDownloadPDFReport" @click="generatePdf">
+                <font-awesome-icon icon="file-pdf" />
+            </Button>
+
             <Button class="ml-2 h-full" severity="primary" @click="toNewWarrantyPage">
                 <font-awesome-icon icon="plus" />
             </Button>
@@ -57,6 +62,7 @@
     </div>
     <div v-if="anyWarranties" sortMode="multiple" class="table-container">
         <DataTable
+            v-model:selection="selectedWarranties"
             :value="warranties"
             tableStyle="min-width: 50rem"
             tableClass="the-table"
@@ -68,6 +74,7 @@
             :rows="25"
             columnResizeMode="expand"
         >
+            <Column selectionMode="multiple" headerStyle="width: 2rem"></Column>
             <column header="Creado" sortable headerClass="created-at-column">
                 <template #header>
                 </template>
@@ -146,6 +153,10 @@ import { backEndURL } from '../../services/Service'
 import { useWarranty } from '../../store/warranty';
 import { mapState, mapActions, mapWritableState  } from 'pinia';
 
+import { jsPDF } from "jspdf";
+
+import logo from '../../assets/lyc_small.png';
+
 export default {
     name: 'WarrantyAll',
 
@@ -162,6 +173,7 @@ export default {
 
     data(){
         return {
+            selectedWarranties: [],
             // sortingDirection: 'asc',
             // globalFilter: '',
             // globalFilterField: 'client_name',
@@ -205,6 +217,78 @@ export default {
 
     methods: {
         ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates', 'getWarranty']),
+
+        generatePdf(){
+            const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'letter',
+            });
+
+            const img = new Image();
+            img.src = logo;
+            const imgWidth = img.width;
+            const imgHeight = img.heigh;
+
+            doc.addImage(img, 'PNG', 5, 5, imgWidth / 3, imgHeight / 3);
+
+            doc.setFontSize(11);
+            const today = new Date().toLocaleDateString().split('/').reverse().join('-');
+            this.pdfTextRight(doc, today, 15);
+
+            doc.setFontSize(18);
+            this.pdfTextCenter(doc, 'ORDEN DE RETIRO', 30);
+
+            const client = this.selectedWarranties[0].client;
+            doc.setFontSize(12);
+            this.pdfTextLeft(doc, `Cliente:   ${client.name}`, 45);
+            this.pdfTextLeft(doc, `Teléfono:   ${client.phone}`, 50);
+            this.pdfTextLeft(doc, `Dirección de retiro:   ${client.address}`, 55);
+
+            this.pdfTextRight(doc, `Canidad`, 77);
+            let y = 85;
+            doc.line(15, 80, 265, 80);
+            this.selectedWarranties.forEach(warranty => {
+                this.pdfTextLeft(doc, `${warranty.item.code} ${warranty.item.name}`, y);
+                this.pdfTextRight(doc, `${warranty.quantity}`, y);
+                doc.line(15, y + 2, 265, y + 2);
+                y += 7;
+            });
+
+            let total = this.selectedWarranties.reduce((acc, warranty) => acc + parseFloat(warranty.quantity), 0);
+            total = total.toFixed(1);
+            this.pdfTextRight(doc, `Total: ${total}`, y);
+
+            const docMaxVertical = doc.internal.pageSize.getHeight();
+
+            this.pdfTextLeft(doc, 'FIRMA Y SELLO DEL CLIENTE:', docMaxVertical - 50);
+            doc.line(85, docMaxVertical - 30, 200, docMaxVertical - 30);
+
+            doc.setFontSize(10);
+            this.pdfTextCenter(doc, 'Calle 07 Local Nro 07-07 Urb El Danto, Sector el Danto', docMaxVertical - 20);
+            this.pdfTextCenter(doc, 'Teléfonos: 0424-6465902/0414-6557902', docMaxVertical - 15);
+            this.pdfTextCenter(doc, 'E-mail: lyc.ca.ventas@gmail.com', docMaxVertical - 10);
+
+            doc.save("a4.pdf");
+        },
+
+        pdfTextRight(doc, text, y){
+            const textX = doc.internal.pageSize.getWidth() - 15;
+
+            doc.text(text, textX, y, { align: 'right' });
+        },
+
+        pdfTextCenter(doc, text, y){
+            const textX = doc.internal.pageSize.getWidth() / 2;
+
+            doc.text(text, textX, y, { align: 'center' });
+        },
+
+        pdfTextLeft(doc, text, y){
+            const textX = 15;
+
+            doc.text(text, textX, y, { align: 'left' })
+        },
 
         toggleAttachmentsMenu(event, warranty){
             this.attachmentsMenuItems = warranty.files.map(file => {
@@ -304,6 +388,15 @@ export default {
     computed: {
         ...mapState(useWarranty, ['warranties', 'warrantyStates', 'fetchingWarranties']),
         ...mapWritableState(useWarranty, ['sortingDirection', 'globalFilter', 'globalFilterField', 'includeUpdatedAt', 'complexFilters', 'filter']),
+
+        canDownloadPDFReport(){
+            // check if all selected warranties are from the same client
+            if(this.selectedWarranties.length === 0) return false;
+
+            const client = this.selectedWarranties[0].client;
+
+            return this.selectedWarranties.every(warranty => warranty.client.id === client.id);
+        },
 
         anyComplexFilters(){
             return this.complexFilters.fromDate ||
