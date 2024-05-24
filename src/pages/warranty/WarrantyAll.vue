@@ -243,7 +243,10 @@ export default {
             doc.setFontSize(12);
             this.pdfTextLeft(doc, `Cliente:   ${client.name}`, 45);
             this.pdfTextLeft(doc, `Teléfono:   ${client.phone}`, 50);
-            this.pdfTextLeft(doc, `Dirección de retiro:   ${client.address}`, 55);
+            this.pdfTextLeft(doc, `Dirección de retiro:`, 55);
+
+            let splitedAddress = doc.splitTextToSize(client.address, 265);
+            this.pdfTextLeft(doc, splitedAddress, 60);
 
             this.pdfTextRight(doc, `Canidad`, 77);
             let y = 85;
