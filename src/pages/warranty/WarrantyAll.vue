@@ -241,27 +241,31 @@ export default {
             doc.addImage(img, 'PNG', 5, 5, imgWidth / 3, imgHeight / 3);
 
             doc.setFontSize(11);
-            const today = new Date().toLocaleDateString().split('/').reverse().join('-');
+            const today = new Date().toLocaleDateString('en-GB');
             this.pdfTextRight(doc, today, 15);
 
-            doc.setFontSize(18);
-            this.pdfTextCenter(doc, 'ORDEN DE RETIRO', 30);
+            doc.setFontSize(16);
+            this.pdfTextCenter(doc, 'ORDEN DE RETIRO', 40);
 
             const client = this.selectedWarranties[0].client;
-            doc.setFontSize(12);
-            this.pdfTextLeft(doc, `Cliente:   ${client.name}`, 45);
-            this.pdfTextLeft(doc, `Teléfono:   ${client.phone}`, 50);
-            this.pdfTextLeft(doc, `Dirección de retiro:`, 55);
+            doc.setFontSize(11);
+            this.pdfTextLeft(doc, `CLIENTE:   ${client.name}`, 50);
+            this.pdfTextLeft(doc, `TELÉFONO:   ${client.phone}`, 57);
 
-            let splitedAddress = doc.splitTextToSize(client.address, 255);
-            this.pdfTextLeft(doc, splitedAddress, 60);
+            const address = `DIRECCIÓN DE RETIRO:   ${client.address}`
+            let splitedAddress = doc.splitTextToSize(address, 255);
+            this.pdfTextLeft(doc, splitedAddress, 64);
 
             doc.setFontSize(10);
-            this.pdfTextRight(doc, `Canidad`, 77);
+            this.pdfTextLeft(doc, 'CÓDIGO', 77);
+                doc.text('PRODUCTO', 50, 77, { align: 'left' })
+            this.pdfTextRight(doc, `CANTIDAD`, 77);
+
             let y = 85;
             doc.line(15, 80, 265, 80);
             this.selectedWarranties.forEach(warranty => {
-                this.pdfTextLeft(doc, `${warranty.item.code} ${warranty.item.name}`, y);
+                this.pdfTextLeft(doc, warranty.item.code, y);
+                doc.text(warranty.item.name, 50, y, { align: 'left' })
                 this.pdfTextRight(doc, `${warranty.quantity}`, y);
                 doc.line(15, y + 2, 265, y + 2);
                 y += 7;
@@ -273,7 +277,9 @@ export default {
 
             doc.setFontSize(12);
             const docMaxVertical = doc.internal.pageSize.getHeight();
-            this.pdfTextLeft(doc, 'FIRMA Y SELLO DEL CLIENTE:', docMaxVertical - 50);
+            doc.setFont(undefined, 'bold');
+            this.pdfTextLeft(doc, 'FIRMA Y SELLO DEL CLIENTE:', docMaxVertical - 60);
+            doc.setFont(undefined, 'normal');
             doc.line(85, docMaxVertical - 30, 200, docMaxVertical - 30);
 
             doc.setFontSize(10);
