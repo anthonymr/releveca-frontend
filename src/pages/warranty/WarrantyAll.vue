@@ -243,10 +243,10 @@ export default {
 
             const client = this.selectedWarranties[0].client;
             doc.setFontSize(11);
-            this.pdfTextLeft(doc, `CLIENTE:   ${client.name}`, 50);
+            this.pdfTextLeft(doc, `CLIENTE:   ${capitalize(client.name)}`, 50);
             this.pdfTextLeft(doc, `TELÉFONO:   ${client.phone}`, 57);
 
-            const address = `DIRECCIÓN DE RETIRO:   ${client.address}`
+            const address = `DIRECCIÓN DE RETIRO:   ${capitalize(client.address)}`
             let splitedAddress = doc.splitTextToSize(address, 255);
             this.pdfTextLeft(doc, splitedAddress, 64);
 
@@ -282,6 +282,10 @@ export default {
             this.pdfTextCenter(doc, 'E-mail: lyc.ca.ventas@gmail.com', docMaxVertical - 10);
 
             doc.save("a4.pdf");
+        },
+
+        capitalize(string) {
+            return string.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
         },
 
         pdfTextRight(doc, text, y){
