@@ -112,6 +112,11 @@
                     </span>
                 </template>
             </column>
+            <column header="Reportado"  >
+                <template #body="{ data }">
+                    <Checkbox v-model="data.reported" class="ml-2" :binary="true" readonly />
+                </template>
+            </column>
             <Column>
             <template #body="{ data }">
                 <Button
@@ -181,9 +186,7 @@ export default {
     data(){
         return {
             selectedWarranties: [],
-            // sortingDirection: 'asc',
-            // globalFilter: '',
-            // globalFilterField: 'client_name',
+
             columnsToSearch: [
                 { label: 'Buscando por: Cliente', value: 'client_name' },
                 { label: 'Buscando por: Código de producto', value: 'item_code' },
@@ -197,16 +200,7 @@ export default {
             ],
 
             showFiltersModal: false,
-            // includeUpdatedAt: false,
 
-            // complexFilters: {
-            //     fromDate: null,
-            //     toDate: null,
-            //     selectedClients: [],
-            //     selectedItems: [],
-            // },
-
-            // filter: { label: 'Ver las garantías de hoy', value: 'today' },
             filterOptions: [
                 { label: 'Ver las garantías de hoy', value: 'today' },
                 { label: 'Ver las garantías de ayer', value: 'yesterday'},

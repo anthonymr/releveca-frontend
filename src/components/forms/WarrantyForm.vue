@@ -5,6 +5,14 @@
         <h2 class="r-title" v-else>Nueva garantía</h2>
         <div>
           <div class="card">
+            <div class="field flex align-items-start">
+              <label for="client">Reportado al cliente</label>
+              <InputSwitch
+                class="ml-4"
+                @input="$emit('update:reported', $event)"
+                :modelValue="reported"              
+              />
+            </div>
             <div class="field">
               <label for="client">Clientes</label>
               <Dropdown
@@ -203,6 +211,7 @@
       seller: { type: Object, default: null },
       files: { type: Array, default: () => [] },
       category: { type: String, default: '' },
+      reported: { type: Boolean, default: false },
     },
 
     emits: [
