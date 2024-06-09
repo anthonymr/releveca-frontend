@@ -114,7 +114,7 @@
             </column>
             <column header="Reportado"  >
                 <template #body="{ data }">
-                    <Checkbox v-model="data.reported" class="ml-2" :binary="true" readonly />
+                    <Checkbox class="ml-2" :binary="true" :modelValue="data.reported" @change="changeReportedStatus(data)" />
                 </template>
             </column>
             <Column>
@@ -218,7 +218,23 @@ export default {
     },
 
     methods: {
-        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates', 'getWarranty']),
+        ...mapActions(useWarranty, ['getWarranties', 'deleteWarranty', 'getWarrantyStates', 'getWarranty', 'updateWarranty']),
+
+        async changeReportedStatus(data){
+            if(!confirm('¿Está seguro de cambiar el estado de reportado de esta garantía?')){ 
+                return
+            }
+            
+            const result = await this.updateWarranty(data.id, { ...data, reported: !data.reported });
+
+            if(result.message === 'Warranty updated'){
+                this.$toast.add({ severity: 'success', summary: 'Éxito', detail: 'Estado de reportado cambiado correctamente', life: 3000 });
+
+                data.reported = !data.reported;
+            } else {
+                this.$toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cambiar el estado de reportado', life: 3000 });
+            }
+        },
 
         generatePdf(){
             const doc = new jsPDF({
