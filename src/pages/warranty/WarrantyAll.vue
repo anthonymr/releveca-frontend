@@ -449,7 +449,10 @@ export default {
                     'Descripción del producto': warranty.item.name,
                     'UND': warranty.quantity,
                     'Observación': warranty.notes,
+                    'Observación 2': warranty.notes2,
+                    'Categoría': warranty.categories,
                     'Estado': warranty.status,
+                    'Reportado': warranty.reported ? 'Sí' : 'No',
                 }
             })
         },
