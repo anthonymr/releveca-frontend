@@ -51,6 +51,16 @@ export const useItem = defineStore('items-store', {
     async createItem(item) {
       const { data } = await ItemService.createItem(this.session.token, item);
       return data;
-    }
+    },
+
+    async getItem(id) {
+      const { data } = await ItemService.getItem(this.session.token, id);
+      return data.payload;
+    },
+
+    async updateItem(id, item) {
+      const { data } = await ItemService.update(this.session.token, id, item);
+      return data;
+  },
   }
 });

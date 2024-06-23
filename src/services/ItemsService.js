@@ -9,6 +9,11 @@ const ItemService = {
     if(count) url += `&count=${count}`
     return Service.get(url, authorization(token));
   },
+
+  getItem(token, id) {
+    return Service.get(`${resource}/${id}`, authorization(token));
+  },
+
   createItem(token, item) {
     const newItem = {
       ... item,
@@ -18,7 +23,11 @@ const ItemService = {
       unit_id: item.unit.id,
     }
     return Service.post(`${resource}`, newItem, authorization(token));
-  }
+  },
+
+  update: (token, id, item) => Service.put(`${resource}/${id}`, item, authorization(token), {
+    'Content-Type': 'multipart/form-data',
+}),
 }
 
 export default ItemService;

@@ -44,6 +44,7 @@ import MultiSelect from 'primevue/multiselect';
 import Calendar from 'primevue/calendar';
 import ColorPicker from 'primevue/colorpicker';
 import InputSwitch from 'primevue/inputswitch';
+import ToggleButton from 'primevue/togglebutton';
 
 // Font awesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -100,6 +101,7 @@ app.component('MultiSelect', MultiSelect);
 app.component('Calendar', Calendar);
 app.component('ColorPicker', ColorPicker);
 app.component('InputSwitch', InputSwitch);
+app.component('ToggleButton', ToggleButton);
 
 // Global components
 app.component('font-awesome-icon', FontAwesomeIcon);
