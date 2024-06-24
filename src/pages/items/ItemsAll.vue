@@ -5,7 +5,12 @@
     <template #list="{data}">
         <div class="col-12">
             <div class="flex flex-column md:flex-row md:align-items-start gap-4 p-2">
-                <img @click="goToItem(data.id)" class="w-full sm:w-20rem md:w-9rem block md:block mx-auto cursor-pointer" src="../../assets/image-placeholder.svg" :alt="data.name" />
+                <img
+                  @click="goToItem(data.id)"
+                  class="w-full sm:w-20rem md:w-9rem block md:block mx-auto cursor-pointer"
+                  :src="itemImage(data)"
+                  :alt="data.name"
+                />
                 <div class="flex flex-column sm:flex-row justify-content-between align-items-center md:align-items-start flex-1 gap-4 p-4">
                     <div class="flex flex-column align-items-center sm:align-items-start">
                         <div class="text-800 cursor-pointer" @click="goToItem(data.id)">{{ data.name }}</div>
@@ -41,6 +46,9 @@
 
   import BaseSearch from '../../components/base/BaseSearch.vue';
 
+  import { backEndURL } from '../../services/Service'
+  import imagePlaceHolder from '../../assets/image-placeholder.svg';
+
   export default {
     components: {
       BaseSearch,
@@ -52,6 +60,12 @@
     },
 
     methods: {
+      itemImage(data) {
+        if(data?.files_urls?.length){
+          return backEndURL + data.files_urls[0].url;
+        }
+        return imagePlaceHolder;
+      },
       changePage(event) {
         this.toPage(event);
       },

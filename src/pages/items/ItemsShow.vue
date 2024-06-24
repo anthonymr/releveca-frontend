@@ -202,6 +202,9 @@ export default {
           this.item = await this.getItem(this.itemId);
 
           if(this.item.show_in_web_home_tags == 'null') this.item.show_in_web_home_tags = '';
+
+          this.files = [];
+          this.imagesToRemove = [];
         }
       }
 
