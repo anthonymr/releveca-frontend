@@ -323,14 +323,18 @@ export default {
         },
 
         toggleAttachmentsMenu(event, warranty){
-            console.log({attachmentsMenuItems: this.attachmentsMenuItems})
             this.attachmentsMenuItems = warranty.files.map(file => {
                 return {
                     icon: this.fileIcon(file.blob.content_type),
                     label: file.blob.filename,
-                    command: () => this.goToFile(warranty, file)
+                    command: () => this.goToFile(warranty, file),
+                    warranty: warranty,
+                    file: file
                 }
             });
+
+            console.log({attachmentsMenuItems: this.attachmentsMenuItems})
+
             this.$refs[`menu-${warranty.id}`].toggle(event);
         },
 
