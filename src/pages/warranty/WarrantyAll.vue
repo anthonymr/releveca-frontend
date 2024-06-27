@@ -342,6 +342,8 @@ export default {
             const result = await this.getWarranty(warranty.id);
             console.log({result})
             const fileName = file.blob.filename.replace(' ', '%20')
+            console.log({fileName})
+            console.log({files_urls: result.payload.files_urls})
             const url = result.payload.files_urls.find(f => f.endsWith(fileName));
             console.log({url})
             window.open(backEndURL + url, '_blank');
