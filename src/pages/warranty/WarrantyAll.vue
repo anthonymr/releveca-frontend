@@ -328,24 +328,16 @@ export default {
                     icon: this.fileIcon(file.blob.content_type),
                     label: file.blob.filename,
                     command: () => this.goToFile(warranty, file),
-                    warranty: warranty,
-                    file: file
                 }
             });
-
-            console.log({attachmentsMenuItems: this.attachmentsMenuItems})
 
             this.$refs[`menu-${warranty.id}`].toggle(event);
         },
 
         async goToFile(warranty, file){
             const result = await this.getWarranty(warranty.id);
-            console.log({result})
-            const fileName = file.blob.filename.replace(' ', '%20')
-            console.log({fileName})
-            console.log({files_urls: result.payload.files_urls})
+            const fileName = file.blob.filename.replaceAll(' ', '%20')
             const url = result.payload.files_urls.find(f => f.endsWith(fileName));
-            console.log({url})
             window.open(backEndURL + url, '_blank');
         },
 
